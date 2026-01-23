@@ -80,14 +80,10 @@ export default function DevicesPage() {
       <header className="border-b border-border bg-background/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-3">
-              <Link href="/" className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
-                  <Swords className="w-6 h-6 text-primary-foreground" />
-                </div>
-                <span className="text-xl font-bold">Bird Wars</span>
-              </Link>
-            </div>
+            <Link href="/" className="flex items-center gap-3 no-underline">
+              <img src="/birb001.png" alt="Bird Wars" className="w-10 h-10 rounded-lg object-cover -mt-2" />
+              <span className="text-xl font-bold">Bird Wars Roost</span>
+            </Link>
             <nav className="flex items-center gap-4">
               <Link 
                 href="/dashboard" 
