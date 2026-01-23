@@ -81,40 +81,51 @@ The server is a **lightweight state tracker**, not a full game engine. The Playd
 
 ### State Management
 
-#### Two Types of Blocked Tiles
+The Battle document now has a structured `currentState` field:
 
-**1. Static Blockers (`blockedTiles`)** - from mapData, never change:
+```typescript
+battle.currentState = {
+  units: [
+    { unitId: "p1_u0", type: "BIRD1", x: 2, y: 3, hp: 10, owner: "player1DeviceId" },
+    { unitId: "p1_u1", type: "BIRD4", x: 4, y: 5, hp: 8, owner: "player1DeviceId" },
+    { unitId: "p2_u0", type: "BIRD6", x: 10, y: 3, hp: 10, owner: "player2DeviceId" }
+  ],
+  blockedTiles: [
+    { x: 5, y: 5, itemType: "garbageCan" },
+    { x: 8, y: 2, itemType: "parkBench" }
+  ]
+}
+```
+
+#### Two Components
+
+**1. `currentState.blockedTiles`** - static, from mapData:
 - Items with `canMoveOn = false` (trash cans, benches)
-- Loaded once when battle starts
-- Stored in Battle document
+- Loaded once when battle starts (player 2 joins)
+- Never changes during battle
 
-**2. Dynamic Blockers (`occupiedTiles`)** - updated per turn:
-- Current unit positions: `{unitId, x, y, owner, hp, unitType}`
-- Updated after each valid turn
+**2. `currentState.units`** - dynamic, updated per turn:
+- All living units: `{unitId, type, x, y, hp, owner}`
+- Updated after each valid turn based on client's gameState
 
 #### State Update Flow
-When processing a move action:
+When a turn is submitted:
 ```
-1. Validate destination not in blockedTiles (static items)
-2. Validate destination not in occupiedTiles (other units)
-3. Remove unit from old position in occupiedTiles
-4. Add unit to new position in occupiedTiles
-```
-
-When unit dies (HP <= 0):
-```
-1. Remove unit from occupiedTiles entirely
+1. Client submits actions + gameState.units
+2. Server accepts client's reported unit positions/HP
+3. Server updates battle.currentState.units
+4. Dead units (hp <= 0) are filtered out
 ```
 
 ### What the Server Tracks
-- **blockedTiles**: Static impassable tiles from mapData (items with canMoveOn=false)
-- **occupiedTiles**: Current unit positions `{unitId, x, y, owner, hp, unitType}`
+- **currentState.blockedTiles**: Static impassable tiles from mapData
+- **currentState.units**: Current unit positions and HP
 - **Turn order**: Which player's turn, turn number
 - **Battle state**: pending → active → completed
 
 ### What Comes from mapData
-- Initial unit placements (per player) → seeds `occupiedTiles`
-- Item positions where `canMoveOn=false` → seeds `blockedTiles`
+- Initial unit placements (per player) → seeds `currentState.units`
+- Item positions where `canMoveOn=false` → seeds `currentState.blockedTiles`
 - Terrain layout (for reference, not validated)
 - Building/nest positions
 - Grid dimensions
@@ -199,7 +210,11 @@ Submit turn actions (requires auth).
     { "type": "attack", "unitId": "u1", "targetId": "enemy1" },
     { "type": "end_turn" }
   ],
-  "gameState": { "occupiedTiles": [...], "unitStates": {...} }
+  "gameState": {
+    "units": [
+      { "unitId": "u1", "type": "BIRD1", "x": 3, "y": 2, "hp": 10, "owner": "device1..." }
+    ]
+  }
 }
 ```
 

@@ -1,10 +1,75 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
-import { Battle } from '@/models/Battle';
+import { Battle, IUnit, IBattleDocument } from '@/models/Battle';
 import { Turn } from '@/models/Turn';
 import { authenticateDevice, unauthorizedResponse } from '@/lib/authMiddleware';
 import { generateSecureToken } from '@/lib/auth';
 import { z } from 'zod';
+
+interface ActionData {
+  type: string;
+  unitId?: string;
+  from?: { x: number; y: number };
+  to?: { x: number; y: number };
+  targetId?: string;
+  data?: Record<string, unknown>;
+}
+
+interface GameStateData {
+  units?: Array<{
+    unitId: string;
+    type: string;
+    x: number;
+    y: number;
+    hp: number;
+    owner: string;
+  }>;
+  winner?: string;
+  [key: string]: unknown;
+}
+
+function updateCurrentStateFromActions(
+  battle: IBattleDocument,
+  actions: ActionData[],
+  gameState: GameStateData | undefined
+): void {
+  if (gameState?.units && Array.isArray(gameState.units)) {
+    battle.currentState.units = gameState.units.map(u => ({
+      unitId: u.unitId,
+      type: u.type,
+      x: u.x,
+      y: u.y,
+      hp: u.hp,
+      owner: u.owner
+    }));
+  } else {
+    for (const action of actions) {
+      if (action.type === 'move' && action.unitId && action.to) {
+        const unit = battle.currentState.units.find(u => u.unitId === action.unitId);
+        if (unit) {
+          unit.x = action.to.x;
+          unit.y = action.to.y;
+        }
+      }
+      
+      if (action.type === 'build' && action.data) {
+        const buildData = action.data as { unitId?: string; unitType?: string; x?: number; y?: number; owner?: string };
+        if (buildData.unitId && buildData.unitType && buildData.x !== undefined && buildData.y !== undefined && buildData.owner) {
+          battle.currentState.units.push({
+            unitId: buildData.unitId,
+            type: buildData.unitType,
+            x: buildData.x,
+            y: buildData.y,
+            hp: 10,
+            owner: buildData.owner
+          });
+        }
+      }
+    }
+  }
+
+  battle.currentState.units = battle.currentState.units.filter(u => u.hp > 0);
+}
 
 const MAX_ACTIONS_PER_TURN = 100;
 const MAX_GAME_STATE_SIZE = 50000;
@@ -144,6 +209,12 @@ export async function POST(request: NextRequest) {
       battle.currentPlayerIndex = (battle.currentPlayerIndex + 1) % 2;
       battle.updatedAt = new Date();
 
+      updateCurrentStateFromActions(
+        battle,
+        actions as ActionData[],
+        gameState as GameStateData | undefined
+      );
+
       if (gameState?.winner) {
         battle.status = 'completed';
         battle.winnerId = String(gameState.winner);
@@ -165,6 +236,7 @@ export async function POST(request: NextRequest) {
         currentTurn: battle.currentTurn,
         currentPlayerIndex: battle.currentPlayerIndex,
         status: battle.status,
+        currentState: battle.currentState,
       },
       message: isValid ? 'Turn submitted successfully' : 'Turn submitted but contains validation errors',
     }, { status: 201 });
