@@ -1,18 +1,22 @@
 'use client';
 
 import Link from 'next/link';
-import { Swords, Users, Gamepad2, Shield, Zap, Target } from 'lucide-react';
+import Image from 'next/image';
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
+    <div className="min-h-screen bg-background">
       <header className="border-b border-border/50 bg-background/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
-                <Swords className="w-6 h-6 text-primary-foreground" />
-              </div>
+              <Image 
+                src="/birb001.png" 
+                alt="Bird Wars" 
+                width={40} 
+                height={40} 
+                className="rounded-lg"
+              />
               <span className="text-xl font-bold">Bird Wars</span>
             </div>
             <nav className="flex items-center gap-4">
@@ -43,75 +47,15 @@ export default function HomePage() {
       </header>
 
       <main>
-        <section className="py-20 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
-              <Zap className="w-4 h-4" />
-              Async Multiplayer for Playdate
-            </div>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
-              Turn-Based Tactics,
-              <br />
-              <span className="text-primary">Anytime, Anywhere</span>
-            </h1>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-10">
-              Bird Wars brings asynchronous multiplayer battles to your Playdate. 
-              Register your device, challenge friends, and submit turns at your own pace.
-            </p>
-            <div className="flex flex-wrap items-center justify-center gap-4">
-              <Link 
-                href="/dashboard"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-md bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition-colors"
-                data-testid="button-get-started"
-              >
-                <Gamepad2 className="w-5 h-5" />
-                Get Started
-              </Link>
-              <Link 
-                href="/battles"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-md border border-border bg-background font-medium hover:bg-secondary transition-colors"
-                data-testid="button-view-battles"
-              >
-                <Target className="w-5 h-5" />
-                View Battles
-              </Link>
-            </div>
-          </div>
-        </section>
-
-        <section className="py-16 px-4 sm:px-6 lg:px-8 bg-card/50">
-          <div className="max-w-7xl mx-auto">
-            <h2 className="text-2xl font-bold text-center mb-12">How It Works</h2>
-            <div className="grid md:grid-cols-3 gap-8">
-              <div className="flex flex-col items-center text-center p-6 rounded-xl bg-background border border-border">
-                <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                  <Shield className="w-7 h-7 text-primary" />
-                </div>
-                <h3 className="text-lg font-semibold mb-2">1. Register Device</h3>
-                <p className="text-muted-foreground text-sm">
-                  Your Playdate gets a unique server-issued secret token for secure authentication.
-                </p>
-              </div>
-              <div className="flex flex-col items-center text-center p-6 rounded-xl bg-background border border-border">
-                <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                  <Swords className="w-7 h-7 text-primary" />
-                </div>
-                <h3 className="text-lg font-semibold mb-2">2. Create Battle</h3>
-                <p className="text-muted-foreground text-sm">
-                  Start a new battle or join an existing one. Challenge friends to async tactical combat.
-                </p>
-              </div>
-              <div className="flex flex-col items-center text-center p-6 rounded-xl bg-background border border-border">
-                <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                  <Users className="w-7 h-7 text-primary" />
-                </div>
-                <h3 className="text-lg font-semibold mb-2">3. Submit Turns</h3>
-                <p className="text-muted-foreground text-sm">
-                  Play at your own pace. Turns are validated server-side to prevent cheating.
-                </p>
-              </div>
-            </div>
-          </div>
+        <section className="relative flex items-center justify-center py-20 px-4 sm:px-6 lg:px-8">
+          <Image 
+            src="/bg2.png" 
+            alt="Bird Wars Background" 
+            width={800}
+            height={600}
+            className="max-w-full h-auto"
+            priority
+          />
         </section>
 
         <section className="py-16 px-4 sm:px-6 lg:px-8">
