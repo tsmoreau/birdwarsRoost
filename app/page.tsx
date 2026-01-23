@@ -51,8 +51,8 @@ export default function HomePage() {
             <h2 className="text-2xl font-bold text-center mb-12">How It Works</h2>
             <div className="grid md:grid-cols-3 gap-8">
               <div className="flex flex-col items-center text-center p-6 rounded-xl bg-background border border-border">
-                <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                  <Shield className="w-7 h-7 text-primary" />
+                <div className="w-14 h-14 rounded-full bg-muted flex items-center justify-center mb-4">
+                  <Shield className="w-7 h-7 text-muted-foreground" />
                 </div>
                 <h3 className="text-lg font-semibold mb-2">1. Register Device</h3>
                 <p className="text-muted-foreground text-sm">
@@ -60,8 +60,8 @@ export default function HomePage() {
                 </p>
               </div>
               <div className="flex flex-col items-center text-center p-6 rounded-xl bg-background border border-border">
-                <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                  <Swords className="w-7 h-7 text-primary" />
+                <div className="w-14 h-14 rounded-full bg-muted flex items-center justify-center mb-4">
+                  <Swords className="w-7 h-7 text-muted-foreground" />
                 </div>
                 <h3 className="text-lg font-semibold mb-2">2. Create Battle</h3>
                 <p className="text-muted-foreground text-sm">
@@ -69,8 +69,8 @@ export default function HomePage() {
                 </p>
               </div>
               <div className="flex flex-col items-center text-center p-6 rounded-xl bg-background border border-border">
-                <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                  <Users className="w-7 h-7 text-primary" />
+                <div className="w-14 h-14 rounded-full bg-muted flex items-center justify-center mb-4">
+                  <Users className="w-7 h-7 text-muted-foreground" />
                 </div>
                 <h3 className="text-lg font-semibold mb-2">3. Submit Turns</h3>
                 <p className="text-muted-foreground text-sm">

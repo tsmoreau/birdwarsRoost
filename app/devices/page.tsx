@@ -103,7 +103,7 @@ export default function DevicesPage() {
         {newDevice && (
           <Card className="mb-6 border-primary">
             <CardHeader className="pb-2">
-              <CardTitle className="flex items-center gap-2 text-primary">
+              <CardTitle className="flex items-center gap-2">
                 <Shield className="w-5 h-5" />
                 Device Registered Successfully
               </CardTitle>
@@ -132,7 +132,7 @@ export default function DevicesPage() {
                       data-testid="button-copy-token"
                     >
                       {copied ? (
-                        <Check className="w-4 h-4 text-green-500" />
+                        <Check className="w-4 h-4 text-muted-foreground" />
                       ) : (
                         <Copy className="w-4 h-4" />
                       )}
@@ -155,7 +155,7 @@ export default function DevicesPage() {
 
         {loading ? (
           <div className="flex items-center justify-center py-20">
-            <Loader2 className="w-8 h-8 animate-spin text-primary" data-testid="loading-spinner" />
+            <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" data-testid="loading-spinner" />
           </div>
         ) : devices.length === 0 ? (
           <Card>
@@ -177,10 +177,10 @@ export default function DevicesPage() {
               <Card key={device.deviceId} data-testid={`device-card-${device.deviceId}`}>
                 <CardContent className="p-6">
                   <div className="flex items-start justify-between mb-4">
-                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
-                      <Gamepad2 className="w-6 h-6 text-primary" />
+                    <div className="w-12 h-12 rounded-xl bg-muted flex items-center justify-center">
+                      <Gamepad2 className="w-6 h-6 text-muted-foreground" />
                     </div>
-                    <Badge variant="success">Active</Badge>
+                    <Badge variant="outline">Active</Badge>
                   </div>
                   <h3 className="font-semibold mb-1">{device.displayName}</h3>
                   <p className="text-xs text-muted-foreground font-mono mb-4">
