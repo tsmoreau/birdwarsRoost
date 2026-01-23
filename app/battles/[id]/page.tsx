@@ -18,6 +18,7 @@ import {
   ChevronRight
 } from 'lucide-react';
 import { formatRelativeTime, formatDate } from '@/lib/utils';
+import Nav from '@/components/Nav';
 
 interface Battle {
   battleId: string;
@@ -130,20 +131,7 @@ export default function BattleDetailPage() {
   if (error || !battle) {
     return (
       <div className="min-h-screen bg-background">
-        <header className="border-b border-border bg-background/80 backdrop-blur-sm sticky top-0 z-50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center gap-4 h-16">
-              <Link href="/" className="flex items-center gap-3 no-underline">
-                <img src="/birb001.png" alt="Bird Wars" className="w-10 h-10 rounded-lg object-cover -mt-2" />
-                <span className="text-xl font-bold">Bird Wars Roost</span>
-              </Link>
-              <Link href="/battles" className="flex items-center gap-2 text-muted-foreground hover:text-foreground text-sm">
-                <ArrowLeft className="w-4 h-4" />
-                Back to Battles
-              </Link>
-            </div>
-          </div>
-        </header>
+        <Nav />
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <Card>
             <CardContent className="flex flex-col items-center justify-center py-16">
@@ -162,36 +150,7 @@ export default function BattleDetailPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b border-border bg-background/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-4">
-              <Link href="/" className="flex items-center gap-3 no-underline">
-                <img src="/birb001.png" alt="Bird Wars" className="w-10 h-10 rounded-lg object-cover -mt-2" />
-                <span className="text-xl font-bold">Bird Wars Roost</span>
-              </Link>
-              <Link href="/battles" className="flex items-center gap-2 text-muted-foreground hover:text-foreground text-sm" data-testid="link-back-battles">
-                <ArrowLeft className="w-4 h-4" />
-                Back to Battles
-              </Link>
-            </div>
-            <nav className="flex items-center gap-4">
-              <Link 
-                href="/dashboard" 
-                className="px-4 py-2 rounded-md text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Dashboard
-              </Link>
-              <Link 
-                href="/battles" 
-                className="px-4 py-2 rounded-md text-sm font-medium bg-secondary text-foreground"
-              >
-                Battles
-              </Link>
-            </nav>
-          </div>
-        </div>
-      </header>
+      <Nav />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">

@@ -2,43 +2,12 @@
 
 import Link from 'next/link';
 import { Swords, Users, Gamepad2, Shield, Zap, Target } from 'lucide-react';
+import Nav from '@/components/Nav';
 
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
-      <header className="border-b border-border/50 bg-background/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <Link href="/" className="flex items-center gap-3 no-underline">
-              <img src="/birb001.png" alt="Bird Wars" className="w-10 h-10 rounded-lg object-cover -mt-2" />
-              <span className="text-xl font-bold">Bird Wars Roost</span>
-            </Link>
-            <nav className="flex items-center gap-4">
-              <Link 
-                href="/dashboard" 
-                className="px-4 py-2 rounded-md text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-                data-testid="link-dashboard"
-              >
-                Dashboard
-              </Link>
-              <Link 
-                href="/battles" 
-                className="px-4 py-2 rounded-md text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-                data-testid="link-battles"
-              >
-                Battles
-              </Link>
-              <Link 
-                href="/devices" 
-                className="px-4 py-2 rounded-md text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-                data-testid="link-devices"
-              >
-                Devices
-              </Link>
-            </nav>
-          </div>
-        </div>
-      </header>
+      <Nav />
 
       <main>
         <section className="hidden py-20 px-4 sm:px-6 lg:px-8">
