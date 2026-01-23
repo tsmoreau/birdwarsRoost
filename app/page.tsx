@@ -141,6 +141,13 @@ export default function HomePage() {
                 </div>
                 <p className="text-sm text-muted-foreground">Get turn history for a battle</p>
               </Link>
+              <Link href="/schema#get-stats" className="block p-4 rounded-lg border border-border bg-card hover:border-primary/50 transition-colors cursor-pointer no-underline" data-testid="endpoint-link-get-stats">
+                <div className="flex items-center gap-3 mb-2">
+                  <span className="px-2 py-1 rounded text-xs font-mono font-bold bg-chart-2/10 text-chart-2">GET</span>
+                  <code className="text-sm font-mono">/api/stats</code>
+                </div>
+                <p className="text-sm text-muted-foreground">Get player statistics (wins, losses, battles, turns)</p>
+              </Link>
             </div>
           </div>
         </section>
