@@ -129,6 +129,7 @@ export async function PATCH(
     battle.player2DeviceId = auth.deviceId;
     battle.status = 'active';
     battle.updatedAt = new Date();
+    battle.lastTurnAt = new Date();
 
     const initialState = initializeCurrentStateFromMapData(
       battle.mapData,

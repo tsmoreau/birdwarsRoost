@@ -329,14 +329,41 @@ Get all battles where the authenticated device is a participant (includes privat
 
 **Authentication:** Required
 
+**Query Parameters:**
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| status | string | Filter by status: `pending`, `active`, `completed`, `abandoned` |
+
+**Auto-Forfeit Behavior:**
+When this endpoint is called, the server checks all active battles. If the opponent (current turn holder) hasn't submitted a turn in **7 days**, they automatically forfeit:
+- Battle status → `completed`
+- Winner → the waiting player
+- endReason → `forfeit`
+
 **Success Response (200):**
 ```json
 {
   "success": true,
-  "battles": [...],
+  "battles": [
+    {
+      "battleId": "abc123...",
+      "status": "active",
+      "winnerId": null,
+      "endReason": null,
+      "lastTurnAt": "2025-01-20T10:30:00.000Z",
+      ...
+    }
+  ],
   "count": 5
 }
 ```
+
+**Battle End Fields:**
+| Field | Type | Description |
+|-------|------|-------------|
+| winnerId | string/null | Device ID of winner (null if ongoing) |
+| endReason | string/null | How battle ended: `victory`, `forfeit`, `draw` |
+| lastTurnAt | string/null | ISO timestamp of last turn submission |
 
 ---
 
@@ -566,6 +593,8 @@ Get player statistics for the authenticated device.
   createdAt: Date;
   updatedAt: Date;
   winnerId: string | null;       // Winner's device ID
+  endReason: 'victory' | 'forfeit' | 'draw' | null;  // How battle ended
+  lastTurnAt: Date | null;       // Timestamp of last turn submission
   mapData: object;               // Custom map configuration
   isPrivate: boolean;            // If true, hidden from public listings
 }

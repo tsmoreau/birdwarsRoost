@@ -170,19 +170,28 @@ const endpoints: EndpointSection[] = [
     id: 'get-mybattles',
     method: 'GET',
     path: '/api/mybattles',
-    description: 'List all battles for the authenticated device (includes private battles where you are a participant).',
+    description: 'List all battles for the authenticated device. Auto-forfeits opponents who haven\'t moved in 7 days. Supports ?status= filter.',
     auth: true,
+    requestBody: {
+      fields: [
+        { name: 'status', type: 'string', required: false, description: 'Query param filter: pending, active, completed, abandoned' },
+      ],
+      example: { status: 'active' },
+    },
     responseBody: {
       fields: [
         { name: 'success', type: 'boolean', description: 'Whether the request was successful' },
         { name: 'battles', type: 'Battle[]', description: 'Array of battles where device is player1 or player2' },
+        { name: 'battles[].winnerId', type: 'string|null', description: 'Winner device ID (null if ongoing)' },
+        { name: 'battles[].endReason', type: 'string|null', description: 'How ended: victory, forfeit, draw' },
+        { name: 'battles[].lastTurnAt', type: 'string|null', description: 'ISO timestamp of last turn' },
         { name: 'count', type: 'number', description: 'Total number of battles returned' },
       ],
       example: {
         success: true,
         battles: [
-          { battleId: 'e0a5b571c0ddc493', status: 'active', isPrivate: false },
-          { battleId: 'a99958640027f6bc', status: 'pending', isPrivate: true },
+          { battleId: 'e0a5b571c0ddc493', status: 'active', winnerId: null, endReason: null, lastTurnAt: '2025-01-20T10:30:00.000Z' },
+          { battleId: 'a99958640027f6bc', status: 'completed', winnerId: 'abc123...', endReason: 'forfeit' },
         ],
         count: 2,
       },

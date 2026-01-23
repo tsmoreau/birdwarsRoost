@@ -208,6 +208,7 @@ export async function POST(request: NextRequest) {
       battle.currentTurn = expectedTurnNumber;
       battle.currentPlayerIndex = (battle.currentPlayerIndex + 1) % 2;
       battle.updatedAt = new Date();
+      battle.lastTurnAt = new Date();
 
       updateCurrentStateFromActions(
         battle,
@@ -218,6 +219,7 @@ export async function POST(request: NextRequest) {
       if (gameState?.winner) {
         battle.status = 'completed';
         battle.winnerId = String(gameState.winner);
+        battle.endReason = 'victory';
       }
 
       await battle.save();
