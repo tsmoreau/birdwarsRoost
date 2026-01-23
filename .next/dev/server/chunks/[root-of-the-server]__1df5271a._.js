@@ -91,6 +91,66 @@ __turbopack_context__.s([
 ]);
 var __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$external$5d$__$28$mongoose$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f$mongoose$29$__ = __turbopack_context__.i("[externals]/mongoose [external] (mongoose, cjs, [project]/node_modules/mongoose)");
 ;
+const UnitSchema = new __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$external$5d$__$28$mongoose$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f$mongoose$29$__["Schema"]({
+    unitId: {
+        type: String,
+        required: true
+    },
+    type: {
+        type: String,
+        required: true
+    },
+    x: {
+        type: Number,
+        required: true
+    },
+    y: {
+        type: Number,
+        required: true
+    },
+    hp: {
+        type: Number,
+        required: true
+    },
+    owner: {
+        type: String,
+        required: true
+    }
+}, {
+    _id: false
+});
+const BlockedTileSchema = new __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$external$5d$__$28$mongoose$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f$mongoose$29$__["Schema"]({
+    x: {
+        type: Number,
+        required: true
+    },
+    y: {
+        type: Number,
+        required: true
+    },
+    itemType: {
+        type: String,
+        required: true
+    }
+}, {
+    _id: false
+});
+const CurrentStateSchema = new __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$external$5d$__$28$mongoose$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f$mongoose$29$__["Schema"]({
+    units: {
+        type: [
+            UnitSchema
+        ],
+        default: []
+    },
+    blockedTiles: {
+        type: [
+            BlockedTileSchema
+        ],
+        default: []
+    }
+}, {
+    _id: false
+});
 const BattleSchema = new __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$external$5d$__$28$mongoose$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f$mongoose$29$__["Schema"]({
     battleId: {
         type: String,
@@ -145,6 +205,13 @@ const BattleSchema = new __TURBOPACK__imported__module__$5b$externals$5d2f$mongo
     isPrivate: {
         type: Boolean,
         default: false
+    },
+    currentState: {
+        type: CurrentStateSchema,
+        default: ()=>({
+                units: [],
+                blockedTiles: []
+            })
     }
 });
 const Battle = __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$external$5d$__$28$mongoose$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f$mongoose$29$__["default"].models.Battle || __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$external$5d$__$28$mongoose$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f$mongoose$29$__["default"].model('Battle', BattleSchema);
@@ -154,10 +221,26 @@ const Battle = __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$e
 
 __turbopack_context__.s([
     "Device",
-    ()=>Device
+    ()=>Device,
+    "VALID_AVATARS",
+    ()=>VALID_AVATARS
 ]);
 var __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$external$5d$__$28$mongoose$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f$mongoose$29$__ = __turbopack_context__.i("[externals]/mongoose [external] (mongoose, cjs, [project]/node_modules/mongoose)");
 ;
+const VALID_AVATARS = [
+    'BIRD1',
+    'BIRD2',
+    'BIRD3',
+    'BIRD4',
+    'BIRD5',
+    'BIRD6',
+    'BIRD7',
+    'BIRD8',
+    'BIRD9',
+    'BIRD10',
+    'BIRD11',
+    'BIRD12'
+];
 const DeviceSchema = new __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$external$5d$__$28$mongoose$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f$mongoose$29$__["Schema"]({
     deviceId: {
         type: String,
@@ -172,6 +255,24 @@ const DeviceSchema = new __TURBOPACK__imported__module__$5b$externals$5d2f$mongo
     displayName: {
         type: String,
         default: 'Unnamed Device'
+    },
+    avatar: {
+        type: String,
+        enum: [
+            'BIRD1',
+            'BIRD2',
+            'BIRD3',
+            'BIRD4',
+            'BIRD5',
+            'BIRD6',
+            'BIRD7',
+            'BIRD8',
+            'BIRD9',
+            'BIRD10',
+            'BIRD11',
+            'BIRD12'
+        ],
+        default: 'BIRD1'
     },
     registeredAt: {
         type: Date,

@@ -87,10 +87,26 @@ async function connectToDatabase() {
 
 __turbopack_context__.s([
     "Device",
-    ()=>Device
+    ()=>Device,
+    "VALID_AVATARS",
+    ()=>VALID_AVATARS
 ]);
 var __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$external$5d$__$28$mongoose$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f$mongoose$29$__ = __turbopack_context__.i("[externals]/mongoose [external] (mongoose, cjs, [project]/node_modules/mongoose)");
 ;
+const VALID_AVATARS = [
+    'BIRD1',
+    'BIRD2',
+    'BIRD3',
+    'BIRD4',
+    'BIRD5',
+    'BIRD6',
+    'BIRD7',
+    'BIRD8',
+    'BIRD9',
+    'BIRD10',
+    'BIRD11',
+    'BIRD12'
+];
 const DeviceSchema = new __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$external$5d$__$28$mongoose$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f$mongoose$29$__["Schema"]({
     deviceId: {
         type: String,
@@ -105,6 +121,24 @@ const DeviceSchema = new __TURBOPACK__imported__module__$5b$externals$5d2f$mongo
     displayName: {
         type: String,
         default: 'Unnamed Device'
+    },
+    avatar: {
+        type: String,
+        enum: [
+            'BIRD1',
+            'BIRD2',
+            'BIRD3',
+            'BIRD4',
+            'BIRD5',
+            'BIRD6',
+            'BIRD7',
+            'BIRD8',
+            'BIRD9',
+            'BIRD10',
+            'BIRD11',
+            'BIRD12'
+        ],
+        default: 'BIRD1'
     },
     registeredAt: {
         type: Date,
@@ -202,7 +236,8 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2
 ;
 ;
 const registerSchema = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["z"].object({
-    displayName: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["z"].string().min(1).max(100).optional()
+    displayName: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["z"].string().min(1).max(100).optional(),
+    avatar: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["z"].enum(__TURBOPACK__imported__module__$5b$project$5d2f$models$2f$Device$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["VALID_AVATARS"]).optional()
 });
 async function getRateLimitData(ip) {
     await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$mongodb$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["connectToDatabase"])();
@@ -227,18 +262,29 @@ function getClientIp(request) {
     }
     return 'unknown';
 }
+async function findDeviceByToken(request) {
+    const authHeader = request.headers.get('authorization');
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return null;
+    }
+    const token = authHeader.substring(7);
+    if (!token) {
+        return null;
+    }
+    await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$mongodb$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["connectToDatabase"])();
+    try {
+        const tokenHash = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$auth$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["hashToken"])(token);
+        const device = await __TURBOPACK__imported__module__$5b$project$5d2f$models$2f$Device$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Device"].findOne({
+            tokenHash: tokenHash,
+            isActive: true
+        });
+        return device;
+    } catch  {
+        return null;
+    }
+}
 async function POST(request) {
     try {
-        const ip = getClientIp(request);
-        const rateLimitData = await getRateLimitData(ip);
-        if (!rateLimitData.canProceed) {
-            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
-                success: false,
-                error: 'Rate limit exceeded. Try again later.'
-            }, {
-                status: 429
-            });
-        }
         const body = await request.json().catch(()=>({}));
         const parsed = registerSchema.safeParse(body);
         if (!parsed.success) {
@@ -250,7 +296,42 @@ async function POST(request) {
                 status: 400
             });
         }
-        const { displayName } = parsed.data;
+        const { displayName, avatar } = parsed.data;
+        const existingDevice = await findDeviceByToken(request);
+        if (existingDevice) {
+            let updated = false;
+            if (displayName && displayName !== existingDevice.displayName) {
+                existingDevice.displayName = displayName;
+                updated = true;
+            }
+            if (avatar && avatar !== existingDevice.avatar) {
+                existingDevice.avatar = avatar;
+                updated = true;
+            }
+            existingDevice.lastSeen = new Date();
+            await existingDevice.save();
+            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                success: true,
+                registered: true,
+                deviceId: existingDevice.deviceId,
+                displayName: existingDevice.displayName,
+                avatar: existingDevice.avatar,
+                registeredAt: existingDevice.registeredAt,
+                message: updated ? 'Device verified and profile updated.' : 'Device already registered.'
+            }, {
+                status: 200
+            });
+        }
+        const ip = getClientIp(request);
+        const rateLimitData = await getRateLimitData(ip);
+        if (!rateLimitData.canProceed) {
+            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                success: false,
+                error: 'Rate limit exceeded. Try again later.'
+            }, {
+                status: 429
+            });
+        }
         const deviceId = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$auth$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["generateSecureToken"])();
         const secretToken = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$auth$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["generateDeviceSecret"])();
         let tokenHash;
@@ -269,6 +350,7 @@ async function POST(request) {
             deviceId,
             tokenHash,
             displayName: displayName || 'Playdate Device',
+            avatar: avatar || 'BIRD1',
             registeredAt: new Date(),
             lastSeen: new Date(),
             isActive: true
@@ -276,8 +358,11 @@ async function POST(request) {
         await device.save();
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
             success: true,
+            registered: false,
             deviceId,
             secretToken,
+            displayName: device.displayName,
+            avatar: device.avatar,
             message: 'Device registered successfully. Store this token securely - it cannot be retrieved again.'
         }, {
             status: 201
