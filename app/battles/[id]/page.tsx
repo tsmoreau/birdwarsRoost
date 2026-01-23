@@ -89,13 +89,13 @@ export default function BattleDetailPage() {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'active':
-        return <Badge variant="outline">Active</Badge>;
+        return <Badge variant="success">Active</Badge>;
       case 'pending':
-        return <Badge variant="outline">Waiting for Opponent</Badge>;
+        return <Badge variant="warning">Waiting for Opponent</Badge>;
       case 'completed':
         return <Badge variant="secondary">Completed</Badge>;
       case 'abandoned':
-        return <Badge variant="secondary">Abandoned</Badge>;
+        return <Badge variant="destructive">Abandoned</Badge>;
       default:
         return <Badge variant="outline">{status}</Badge>;
     }
@@ -232,10 +232,10 @@ export default function BattleDetailPage() {
                   </div>
                 </div>
                 {battle.status === 'active' && battle.currentPlayerIndex === 0 && (
-                  <Badge variant="outline">Current Turn</Badge>
+                  <Badge variant="default">Current Turn</Badge>
                 )}
                 {battle.winnerId === battle.player1DeviceId && (
-                  <Badge variant="secondary">Winner</Badge>
+                  <Badge variant="success">Winner</Badge>
                 )}
               </div>
 
@@ -253,10 +253,10 @@ export default function BattleDetailPage() {
                     </div>
                   </div>
                   {battle.status === 'active' && battle.currentPlayerIndex === 1 && (
-                    <Badge variant="outline">Current Turn</Badge>
+                    <Badge variant="default">Current Turn</Badge>
                   )}
                   {battle.winnerId === battle.player2DeviceId && (
-                    <Badge variant="secondary">Winner</Badge>
+                    <Badge variant="success">Winner</Badge>
                   )}
                 </div>
               ) : (

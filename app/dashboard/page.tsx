@@ -71,9 +71,9 @@ export default function DashboardPage() {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'active':
-        return <Badge variant="outline" data-testid="badge-status-active">Active</Badge>;
+        return <Badge variant="success" data-testid="badge-status-active">Active</Badge>;
       case 'pending':
-        return <Badge variant="outline" data-testid="badge-status-pending">Waiting</Badge>;
+        return <Badge variant="warning" data-testid="badge-status-pending">Waiting</Badge>;
       case 'completed':
         return <Badge variant="secondary" data-testid="badge-status-completed">Completed</Badge>;
       default:

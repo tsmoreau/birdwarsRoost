@@ -56,13 +56,13 @@ export default function BattlesPage() {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'active':
-        return <Badge variant="outline" data-testid="badge-status-active">Active</Badge>;
+        return <Badge variant="success" data-testid="badge-status-active">Active</Badge>;
       case 'pending':
-        return <Badge variant="outline" data-testid="badge-status-pending">Waiting</Badge>;
+        return <Badge variant="warning" data-testid="badge-status-pending">Waiting</Badge>;
       case 'completed':
         return <Badge variant="secondary" data-testid="badge-status-completed">Completed</Badge>;
       case 'abandoned':
-        return <Badge variant="secondary" data-testid="badge-status-abandoned">Abandoned</Badge>;
+        return <Badge variant="destructive" data-testid="badge-status-abandoned">Abandoned</Badge>;
       default:
         return <Badge variant="outline">{status}</Badge>;
     }

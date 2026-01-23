@@ -180,7 +180,7 @@ export default function DevicesPage() {
                     <div className="w-12 h-12 rounded-xl bg-muted flex items-center justify-center">
                       <Gamepad2 className="w-6 h-6 text-muted-foreground" />
                     </div>
-                    <Badge variant="outline">Active</Badge>
+                    <Badge variant="success">Active</Badge>
                   </div>
                   <h3 className="font-semibold mb-1">{device.displayName}</h3>
                   <p className="text-xs text-muted-foreground font-mono mb-4">
