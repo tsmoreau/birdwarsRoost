@@ -10,9 +10,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
-                <Swords className="w-6 h-6 text-primary-foreground" />
-              </div>
+              <img src="/birb001.png" alt="Bird Wars" className="w-10 h-10 rounded-lg object-cover" />
               <span className="text-xl font-bold">Bird Wars</span>
             </div>
             <nav className="flex items-center gap-4">
@@ -43,7 +41,7 @@ export default function HomePage() {
       </header>
 
       <main>
-        <section className="py-20 px-4 sm:px-6 lg:px-8">
+        <section className="hidden py-20 px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto text-center">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
               <Zap className="w-4 h-4" />
@@ -79,7 +77,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="py-16 px-4 sm:px-6 lg:px-8 bg-card/50">
+        <section className="hidden py-16 px-4 sm:px-6 lg:px-8 bg-card/50">
           <div className="max-w-7xl mx-auto">
             <h2 className="text-2xl font-bold text-center mb-12">How It Works</h2>
             <div className="grid md:grid-cols-3 gap-8">

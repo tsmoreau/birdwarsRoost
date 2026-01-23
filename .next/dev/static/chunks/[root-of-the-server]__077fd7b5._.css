@@ -868,6 +868,11 @@ body {
   --tw-gradient-to: hsl(var(--primary) / .05) var(--tw-gradient-to-position);
 }
 
+.object-cover {
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+
 .p-2 {
   padding: .5rem;
 }
