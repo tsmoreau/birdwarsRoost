@@ -130,14 +130,35 @@ export default function HomePage() {
                   <span className="px-2 py-1 rounded text-xs font-mono font-bold bg-chart-2/10 text-chart-2">GET</span>
                   <code className="text-sm font-mono">/api/battles</code>
                 </div>
-                <p className="text-sm text-muted-foreground">List all battles for the authenticated device</p>
+                <p className="text-sm text-muted-foreground">List all public battles (excludes private battles)</p>
               </div>
               <div className="p-4 rounded-lg border border-border bg-card">
                 <div className="flex items-center gap-3 mb-2">
                   <span className="px-2 py-1 rounded text-xs font-mono font-bold bg-primary/10 text-primary">POST</span>
                   <code className="text-sm font-mono">/api/battles</code>
                 </div>
-                <p className="text-sm text-muted-foreground">Create a new battle session</p>
+                <p className="text-sm text-muted-foreground">Create a new battle session (supports isPrivate option)</p>
+              </div>
+              <div className="p-4 rounded-lg border border-border bg-card">
+                <div className="flex items-center gap-3 mb-2">
+                  <span className="px-2 py-1 rounded text-xs font-mono font-bold bg-chart-2/10 text-chart-2">GET</span>
+                  <code className="text-sm font-mono">/api/battles/:id</code>
+                </div>
+                <p className="text-sm text-muted-foreground">Get battle details and current state</p>
+              </div>
+              <div className="p-4 rounded-lg border border-border bg-card">
+                <div className="flex items-center gap-3 mb-2">
+                  <span className="px-2 py-1 rounded text-xs font-mono font-bold bg-chart-4/10 text-chart-4">PATCH</span>
+                  <code className="text-sm font-mono">/api/battles/:id</code>
+                </div>
+                <p className="text-sm text-muted-foreground">Join a pending battle as player 2 (authenticated)</p>
+              </div>
+              <div className="p-4 rounded-lg border border-border bg-card">
+                <div className="flex items-center gap-3 mb-2">
+                  <span className="px-2 py-1 rounded text-xs font-mono font-bold bg-chart-2/10 text-chart-2">GET</span>
+                  <code className="text-sm font-mono">/api/mybattles</code>
+                </div>
+                <p className="text-sm text-muted-foreground">List all battles for the authenticated device (includes private)</p>
               </div>
               <div className="p-4 rounded-lg border border-border bg-card">
                 <div className="flex items-center gap-3 mb-2">
@@ -145,6 +166,13 @@ export default function HomePage() {
                   <code className="text-sm font-mono">/api/turns</code>
                 </div>
                 <p className="text-sm text-muted-foreground">Submit a turn with actions (authenticated, validated)</p>
+              </div>
+              <div className="p-4 rounded-lg border border-border bg-card">
+                <div className="flex items-center gap-3 mb-2">
+                  <span className="px-2 py-1 rounded text-xs font-mono font-bold bg-chart-2/10 text-chart-2">GET</span>
+                  <code className="text-sm font-mono">/api/turns?battleId=:id</code>
+                </div>
+                <p className="text-sm text-muted-foreground">Get turn history for a battle</p>
               </div>
             </div>
           </div>

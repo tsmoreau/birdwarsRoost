@@ -7,26 +7,14 @@ import { z } from 'zod';
 
 const createBattleSchema = z.object({
   mapData: z.record(z.unknown()).optional(),
+  isPrivate: z.boolean().optional(),
 });
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
-    const auth = await authenticateDevice(request);
-    
     await connectToDatabase();
 
-    let query = {};
-    
-    if (auth) {
-      query = {
-        $or: [
-          { player1DeviceId: auth.deviceId },
-          { player2DeviceId: auth.deviceId }
-        ]
-      };
-    }
-
-    const battles = await Battle.find(query)
+    const battles = await Battle.find({ isPrivate: { $ne: true } })
       .sort({ updatedAt: -1 })
       .limit(50);
 
@@ -64,7 +52,7 @@ export async function POST(request: NextRequest) {
       }, { status: 400 });
     }
 
-    const { mapData } = parsed.data;
+    const { mapData, isPrivate } = parsed.data;
 
     const battleId = generateSecureToken().substring(0, 16);
 
@@ -79,6 +67,7 @@ export async function POST(request: NextRequest) {
       updatedAt: new Date(),
       winnerId: null,
       mapData: mapData || {},
+      isPrivate: isPrivate || false,
     });
 
     await battle.save();
@@ -89,8 +78,11 @@ export async function POST(request: NextRequest) {
         battleId: battle.battleId,
         status: battle.status,
         currentTurn: battle.currentTurn,
+        isPrivate: battle.isPrivate,
       },
-      message: 'Battle created. Waiting for opponent to join.',
+      message: battle.isPrivate 
+        ? 'Private battle created. Share the battleId with your opponent to join.'
+        : 'Battle created. Waiting for opponent to join.',
     }, { status: 201 });
 
   } catch (error) {
