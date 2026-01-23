@@ -132,8 +132,12 @@ export default function BattleDetailPage() {
       <div className="min-h-screen bg-background">
         <header className="border-b border-border bg-background/80 backdrop-blur-sm sticky top-0 z-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center h-16">
-              <Link href="/battles" className="flex items-center gap-2 text-muted-foreground hover:text-foreground">
+            <div className="flex items-center gap-4 h-16">
+              <Link href="/" className="flex items-center gap-3 no-underline">
+                <img src="/birb001.png" alt="Bird Wars" className="w-10 h-10 rounded-lg object-cover -mt-2" />
+                <span className="text-xl font-bold">Bird Wars Roost</span>
+              </Link>
+              <Link href="/battles" className="flex items-center gap-2 text-muted-foreground hover:text-foreground text-sm">
                 <ArrowLeft className="w-4 h-4" />
                 Back to Battles
               </Link>
@@ -161,10 +165,16 @@ export default function BattleDetailPage() {
       <header className="border-b border-border bg-background/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <Link href="/battles" className="flex items-center gap-2 text-muted-foreground hover:text-foreground" data-testid="link-back-battles">
-              <ArrowLeft className="w-4 h-4" />
-              Back to Battles
-            </Link>
+            <div className="flex items-center gap-4">
+              <Link href="/" className="flex items-center gap-3 no-underline">
+                <img src="/birb001.png" alt="Bird Wars" className="w-10 h-10 rounded-lg object-cover -mt-2" />
+                <span className="text-xl font-bold">Bird Wars Roost</span>
+              </Link>
+              <Link href="/battles" className="flex items-center gap-2 text-muted-foreground hover:text-foreground text-sm" data-testid="link-back-battles">
+                <ArrowLeft className="w-4 h-4" />
+                Back to Battles
+              </Link>
+            </div>
             <nav className="flex items-center gap-4">
               <Link 
                 href="/dashboard" 
