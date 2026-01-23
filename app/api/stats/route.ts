@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
       pendingBattles,
       totalTurns
     ] = await Promise.all([
-      Device.findOne({ deviceId }).select('displayName registeredAt'),
+      Device.findOne({ deviceId }).select('displayName avatar registeredAt'),
       
       Battle.countDocuments({
         $or: [
@@ -92,6 +92,7 @@ export async function GET(request: NextRequest) {
       stats: {
         deviceId,
         displayName: device?.displayName || 'Unknown Device',
+        avatar: device?.avatar || 'BIRD1',
         memberSince: device?.registeredAt?.toISOString() || null,
         totalBattles,
         completedBattles,

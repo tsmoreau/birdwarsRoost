@@ -26,25 +26,28 @@ const endpoints: EndpointSection[] = [
     id: 'post-register',
     method: 'POST',
     path: '/api/register',
-    description: 'Register a new Playdate device. Returns a one-time secret token that must be stored securely - it cannot be retrieved again.',
+    description: 'Register a new Playdate device. Returns a one-time secret token that must be stored securely - it cannot be retrieved again. Can also be used to update profile (displayName, avatar) when authenticated.',
     auth: false,
     requestBody: {
       fields: [
         { name: 'displayName', type: 'string', required: false, description: 'Optional display name for the device (max 100 chars)' },
+        { name: 'avatar', type: 'string', required: false, description: 'Bird avatar: BIRD1-BIRD12 (default: BIRD1)' },
       ],
-      example: { displayName: 'My Playdate' },
+      example: { displayName: 'My Playdate', avatar: 'BIRD4' },
     },
     responseBody: {
       fields: [
         { name: 'success', type: 'boolean', description: 'Whether the registration was successful' },
         { name: 'deviceId', type: 'string', description: 'Unique identifier for the device' },
         { name: 'secretToken', type: 'string', description: 'Secret token for authentication (store securely!)' },
+        { name: 'avatar', type: 'string', description: 'Selected bird avatar (BIRD1-BIRD12)' },
         { name: 'message', type: 'string', description: 'Human-readable status message' },
       ],
       example: {
         success: true,
         deviceId: 'a0dcb007051f88c0aef99bf01ffe224b...',
         secretToken: 'bvUKW9vBPZS8GHtCXe3k8jSm56BQDP...',
+        avatar: 'BIRD4',
         message: 'Device registered successfully. Store this token securely - it cannot be retrieved again.',
       },
     },
@@ -267,6 +270,7 @@ const endpoints: EndpointSection[] = [
         { name: 'stats', type: 'object', description: 'Player statistics object' },
         { name: 'stats.deviceId', type: 'string', description: 'Device identifier' },
         { name: 'stats.displayName', type: 'string', description: 'Device display name' },
+        { name: 'stats.avatar', type: 'string', description: 'Bird avatar (BIRD1-BIRD12)' },
         { name: 'stats.memberSince', type: 'string', description: 'ISO date when device was registered' },
         { name: 'stats.totalBattles', type: 'number', description: 'Total battles participated in' },
         { name: 'stats.completedBattles', type: 'number', description: 'Battles that have ended' },
@@ -283,6 +287,7 @@ const endpoints: EndpointSection[] = [
         stats: {
           deviceId: 'a0dcb007051f88c0...',
           displayName: 'My Playdate',
+          avatar: 'BIRD4',
           memberSince: '2025-01-15T10:30:00.000Z',
           totalBattles: 15,
           completedBattles: 12,

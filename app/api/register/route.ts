@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
-import { Device } from '@/models/Device';
+import { Device, VALID_AVATARS } from '@/models/Device';
 import { generateDeviceSecret, generateSecureToken, hashToken } from '@/lib/auth';
 import { z } from 'zod';
 
 const registerSchema = z.object({
   displayName: z.string().min(1).max(100).optional(),
+  avatar: z.enum(VALID_AVATARS).optional(),
 });
 
 async function getRateLimitData(ip: string): Promise<{ count: number; canProceed: boolean }> {
@@ -73,7 +74,7 @@ export async function POST(request: NextRequest) {
       }, { status: 400 });
     }
 
-    const { displayName } = parsed.data;
+    const { displayName, avatar } = parsed.data;
 
     const existingDevice = await findDeviceByToken(request);
     
@@ -85,6 +86,11 @@ export async function POST(request: NextRequest) {
         updated = true;
       }
       
+      if (avatar && avatar !== existingDevice.avatar) {
+        existingDevice.avatar = avatar;
+        updated = true;
+      }
+      
       existingDevice.lastSeen = new Date();
       await existingDevice.save();
 
@@ -93,9 +99,10 @@ export async function POST(request: NextRequest) {
         registered: true,
         deviceId: existingDevice.deviceId,
         displayName: existingDevice.displayName,
+        avatar: existingDevice.avatar,
         registeredAt: existingDevice.registeredAt,
         message: updated 
-          ? 'Device verified and display name updated.' 
+          ? 'Device verified and profile updated.' 
           : 'Device already registered.',
       }, { status: 200 });
     }
@@ -128,6 +135,7 @@ export async function POST(request: NextRequest) {
       deviceId,
       tokenHash,
       displayName: displayName || 'Playdate Device',
+      avatar: avatar || 'BIRD1',
       registeredAt: new Date(),
       lastSeen: new Date(),
       isActive: true,
@@ -141,6 +149,7 @@ export async function POST(request: NextRequest) {
       deviceId,
       secretToken,
       displayName: device.displayName,
+      avatar: device.avatar,
       message: 'Device registered successfully. Store this token securely - it cannot be retrieved again.',
     }, { status: 201 });
 

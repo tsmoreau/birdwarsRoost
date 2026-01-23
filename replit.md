@@ -161,24 +161,26 @@ When a turn is submitted:
 #### POST /api/register
 **Dual-purpose endpoint:**
 - Without token → Register new device, receive secretToken
-- With token → Verify registration, optionally update displayName
+- With token → Verify registration, optionally update displayName/avatar
+
+**Avatar Options:** BIRD1-BIRD12 (default: BIRD1)
 
 ```
 # New registration
 POST /api/register
-{ "displayName": "My Playdate" }
-→ 201: { deviceId, secretToken, registered: false }
+{ "displayName": "My Playdate", "avatar": "BIRD4" }
+→ 201: { deviceId, secretToken, avatar, registered: false }
 
 # Verify existing
 POST /api/register
 Authorization: Bearer <token>
-→ 200: { deviceId, displayName, registered: true }
+→ 200: { deviceId, displayName, avatar, registered: true }
 
-# Update name
+# Update profile
 POST /api/register
 Authorization: Bearer <token>
-{ "displayName": "New Name" }
-→ 200: { deviceId, displayName, registered: true, message: "...updated" }
+{ "displayName": "New Name", "avatar": "BIRD7" }
+→ 200: { deviceId, displayName, avatar, registered: true, message: "...updated" }
 ```
 
 ### Battle Management

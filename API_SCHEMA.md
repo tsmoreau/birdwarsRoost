@@ -26,20 +26,24 @@ The `secret-token` is obtained during device registration and must be stored sec
 
 #### POST /api/register
 
-Register a new device, verify an existing registration, or update display name.
+Register a new device, verify an existing registration, or update profile.
 
 This is a dual-purpose endpoint:
 - **Without token:** Register a new device
-- **With token:** Verify registration and optionally update display name
+- **With token:** Verify registration and optionally update displayName/avatar
 
 **Authentication:** Optional (Bearer token)
 
 **Request Body:**
 ```json
 {
-  "displayName": "My Playdate"  // optional, max 100 chars
+  "displayName": "My Playdate",  // optional, max 100 chars
+  "avatar": "BIRD1"              // optional, BIRD1-BIRD12 (default: BIRD1)
 }
 ```
+
+**Avatar Options:**
+BIRD1, BIRD2, BIRD3, BIRD4, BIRD5, BIRD6, BIRD7, BIRD8, BIRD9, BIRD10, BIRD11, BIRD12
 
 ---
 
@@ -53,6 +57,7 @@ This is a dual-purpose endpoint:
   "deviceId": "a1b2c3d4e5f6...",
   "secretToken": "sk_live_xxxxxxxxxxxxxxxx",
   "displayName": "My Playdate",
+  "avatar": "BIRD1",
   "message": "Device registered successfully. Store this token securely - it cannot be retrieved again."
 }
 ```
@@ -74,6 +79,7 @@ Authorization: Bearer <secret-token>
   "registered": true,
   "deviceId": "a1b2c3d4e5f6...",
   "displayName": "My Playdate",
+  "avatar": "BIRD1",
   "registeredAt": "2025-01-23T12:00:00.000Z",
   "message": "Device already registered."
 }
@@ -81,13 +87,13 @@ Authorization: Bearer <secret-token>
 
 ---
 
-**Scenario 3: Update Display Name (with valid token + new displayName in body)**
+**Scenario 3: Update Profile (with valid token + displayName/avatar in body)**
 
 ```
 Authorization: Bearer <secret-token>
 Content-Type: application/json
 
-{ "displayName": "New Name" }
+{ "displayName": "New Name", "avatar": "BIRD7" }
 ```
 
 **Success Response (200):**
@@ -97,8 +103,9 @@ Content-Type: application/json
   "registered": true,
   "deviceId": "a1b2c3d4e5f6...",
   "displayName": "New Name",
+  "avatar": "BIRD7",
   "registeredAt": "2025-01-23T12:00:00.000Z",
-  "message": "Device verified and display name updated."
+  "message": "Device verified and profile updated."
 }
 ```
 
@@ -495,6 +502,7 @@ Get player statistics for the authenticated device.
   "stats": {
     "deviceId": "a0dcb007...",
     "displayName": "My Playdate",
+    "avatar": "BIRD4",
     "memberSince": "2025-01-15T10:30:00.000Z",
     "totalBattles": 15,
     "completedBattles": 12,
@@ -514,6 +522,7 @@ Get player statistics for the authenticated device.
 |-------|------|-------------|
 | deviceId | string | Device identifier |
 | displayName | string | Device display name |
+| avatar | string | Bird avatar (BIRD1-BIRD12) |
 | memberSince | string | ISO date when device registered |
 | totalBattles | number | Total battles participated in |
 | completedBattles | number | Battles that have ended |
@@ -538,6 +547,7 @@ Get player statistics for the authenticated device.
 {
   deviceId: string;        // Unique device identifier
   displayName: string;     // Human-readable name
+  avatar: string;          // Bird avatar (BIRD1-BIRD12)
   registeredAt: Date;      // Registration timestamp
   lastSeen: Date;          // Last activity timestamp
   isActive: boolean;       // Whether device is active
