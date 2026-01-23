@@ -48,14 +48,7 @@ export default function HomePage() {
 
       <main>
         <section className="relative flex items-center justify-center py-20 px-4 sm:px-6 lg:px-8">
-          <Image 
-            src="/bg2.png" 
-            alt="Bird Wars Background" 
-            width={800}
-            height={600}
-            className="max-w-full h-auto"
-            priority
-          />
+          <img src="/bg2.png" alt="Bird Wars Background" />
         </section>
 
         <section className="py-16 px-4 sm:px-6 lg:px-8">
