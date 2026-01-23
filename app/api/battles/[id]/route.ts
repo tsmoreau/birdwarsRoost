@@ -1,8 +1,59 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
-import { Battle } from '@/models/Battle';
+import { Battle, IUnit, IBlockedTile } from '@/models/Battle';
 import { Turn } from '@/models/Turn';
 import { authenticateDevice, unauthorizedResponse } from '@/lib/authMiddleware';
+
+function initializeCurrentStateFromMapData(
+  mapData: Record<string, unknown>,
+  player1DeviceId: string,
+  player2DeviceId: string
+): { units: IUnit[]; blockedTiles: IBlockedTile[] } {
+  const units: IUnit[] = [];
+  const blockedTiles: IBlockedTile[] = [];
+
+  const unitPlacements = mapData.unitPlacement as Array<{
+    birdType: string;
+    gridX: number;
+    gridZ: number;
+    player?: number;
+  }> | undefined;
+
+  if (unitPlacements && Array.isArray(unitPlacements)) {
+    unitPlacements.forEach((placement, index) => {
+      const owner = placement.player === 2 ? player2DeviceId : player1DeviceId;
+      units.push({
+        unitId: `${owner}_u${index}`,
+        type: placement.birdType || 'BIRD1',
+        x: placement.gridX,
+        y: placement.gridZ,
+        hp: 10,
+        owner
+      });
+    });
+  }
+
+  const itemPlacements = mapData.itemPlacement as Array<{
+    itemType: string;
+    gridX: number;
+    gridZ: number;
+    canMoveOn?: boolean;
+  }> | undefined;
+
+  if (itemPlacements && Array.isArray(itemPlacements)) {
+    itemPlacements.forEach((item) => {
+      if (item.canMoveOn === false) {
+        blockedTiles.push({
+          x: item.gridX,
+          y: item.gridZ,
+          itemType: item.itemType
+        });
+      }
+    });
+  }
+
+  return { units, blockedTiles };
+}
 
 export async function GET(
   request: NextRequest,
@@ -78,6 +129,14 @@ export async function PATCH(
     battle.player2DeviceId = auth.deviceId;
     battle.status = 'active';
     battle.updatedAt = new Date();
+
+    const initialState = initializeCurrentStateFromMapData(
+      battle.mapData,
+      battle.player1DeviceId,
+      auth.deviceId
+    );
+    battle.currentState = initialState;
+
     await battle.save();
 
     return NextResponse.json({
@@ -88,6 +147,7 @@ export async function PATCH(
         currentTurn: battle.currentTurn,
         player1DeviceId: battle.player1DeviceId,
         player2DeviceId: battle.player2DeviceId,
+        currentState: battle.currentState,
       },
       message: 'Joined battle successfully. Battle is now active.',
     });

@@ -288,11 +288,24 @@ Join a pending battle as player 2.
     "status": "active",
     "currentTurn": 0,
     "player1DeviceId": "device1...",
-    "player2DeviceId": "device2..."
+    "player2DeviceId": "device2...",
+    "currentState": {
+      "units": [
+        { "unitId": "device1_u0", "type": "BIRD1", "x": 2, "y": 3, "hp": 10, "owner": "device1..." },
+        { "unitId": "device2_u0", "type": "BIRD4", "x": 10, "y": 3, "hp": 10, "owner": "device2..." }
+      ],
+      "blockedTiles": [
+        { "x": 5, "y": 5, "itemType": "garbageCan" }
+      ]
+    }
   },
   "message": "Joined battle successfully. Battle is now active."
 }
 ```
+
+**Note:** When a battle becomes active (player 2 joins), the server initializes `currentState` from the battle's `mapData`:
+- `units` array is seeded from `mapData.unitPlacement`
+- `blockedTiles` array is seeded from `mapData.itemPlacement` (items with `canMoveOn: false`)
 
 **Error Responses:**
 - `400` - Battle is not in pending state
@@ -399,11 +412,22 @@ All action fields except `type` are optional. The server validates the schema bu
     "battleId": "abc123def456",
     "currentTurn": 6,
     "currentPlayerIndex": 0,
-    "status": "active"
+    "status": "active",
+    "currentState": {
+      "units": [
+        { "unitId": "device1_u0", "type": "BIRD1", "x": 3, "y": 2, "hp": 10, "owner": "device1..." },
+        { "unitId": "device2_u0", "type": "BIRD4", "x": 10, "y": 3, "hp": 7, "owner": "device2..." }
+      ],
+      "blockedTiles": [
+        { "x": 5, "y": 5, "itemType": "garbageCan" }
+      ]
+    }
   },
   "message": "Turn submitted successfully"
 }
 ```
+
+**Note:** The `currentState` is updated based on the client's submitted `gameState.units`. Dead units (HP <= 0) are automatically filtered out.
 
 **Error Responses:**
 - `400` - Invalid request body / Battle not active
