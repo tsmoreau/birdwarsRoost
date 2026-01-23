@@ -1,3 +1,6 @@
 {
+  "/api/battles/route": "app/api/battles/route.js",
+  "/api/register/route": "app/api/register/route.js",
+  "/dashboard/page": "app/dashboard/page.js",
   "/page": "app/page.js"
 }
