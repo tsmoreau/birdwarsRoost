@@ -11,13 +11,13 @@ export default function HomePage() {
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-3">
               <Image
-                src="/birb001.png"
+                src="/bg2.png"
                 alt="Bird Wars"
-                width={40}
-                height={40}
+                width={100}
+                height={60}
                 className="rounded-lg"
               />
-              <span className="text-xl font-bold">Bird Wars</span>
+              <span className="hidden text-xl font-bold">Bird Wars</span>
             </div>
             <nav className="flex items-center gap-4">
               <Link
@@ -48,7 +48,7 @@ export default function HomePage() {
 
       <main>
         <section className="relative flex items-center justify-center py-20 px-4 sm:px-6 lg:px-8">
-          <img src="/bg2.png" alt="Bird Wars Background" />
+          <img src="/bg2.png" alt="Bird Wars Background" className="-mb-24" />
         </section>
 
         <section className="py-16 px-4 sm:px-6 lg:px-8">
