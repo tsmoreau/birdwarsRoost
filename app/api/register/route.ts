@@ -33,18 +33,35 @@ function getClientIp(request: NextRequest): string {
   return 'unknown';
 }
 
+async function findDeviceByToken(request: NextRequest): Promise<typeof Device.prototype | null> {
+  const authHeader = request.headers.get('authorization');
+  
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return null;
+  }
+
+  const token = authHeader.substring(7);
+  
+  if (!token) {
+    return null;
+  }
+
+  await connectToDatabase();
+  
+  try {
+    const tokenHash = hashToken(token);
+    const device = await Device.findOne({ 
+      tokenHash: tokenHash,
+      isActive: true 
+    });
+    return device;
+  } catch {
+    return null;
+  }
+}
+
 export async function POST(request: NextRequest) {
   try {
-    const ip = getClientIp(request);
-    
-    const rateLimitData = await getRateLimitData(ip);
-    if (!rateLimitData.canProceed) {
-      return NextResponse.json({
-        success: false,
-        error: 'Rate limit exceeded. Try again later.',
-      }, { status: 429 });
-    }
-
     const body = await request.json().catch(() => ({}));
     
     const parsed = registerSchema.safeParse(body);
@@ -57,6 +74,41 @@ export async function POST(request: NextRequest) {
     }
 
     const { displayName } = parsed.data;
+
+    const existingDevice = await findDeviceByToken(request);
+    
+    if (existingDevice) {
+      let updated = false;
+      
+      if (displayName && displayName !== existingDevice.displayName) {
+        existingDevice.displayName = displayName;
+        updated = true;
+      }
+      
+      existingDevice.lastSeen = new Date();
+      await existingDevice.save();
+
+      return NextResponse.json({
+        success: true,
+        registered: true,
+        deviceId: existingDevice.deviceId,
+        displayName: existingDevice.displayName,
+        registeredAt: existingDevice.registeredAt,
+        message: updated 
+          ? 'Device verified and display name updated.' 
+          : 'Device already registered.',
+      }, { status: 200 });
+    }
+
+    const ip = getClientIp(request);
+    
+    const rateLimitData = await getRateLimitData(ip);
+    if (!rateLimitData.canProceed) {
+      return NextResponse.json({
+        success: false,
+        error: 'Rate limit exceeded. Try again later.',
+      }, { status: 429 });
+    }
 
     const deviceId = generateSecureToken();
     const secretToken = generateDeviceSecret();
@@ -85,8 +137,10 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
+      registered: false,
       deviceId,
       secretToken,
+      displayName: device.displayName,
       message: 'Device registered successfully. Store this token securely - it cannot be retrieved again.',
     }, { status: 201 });
 
