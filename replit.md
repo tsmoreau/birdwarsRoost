@@ -79,15 +79,43 @@ The Lua config file from the Playdate client defines all game rules:
 ### Design Philosophy
 The server is a **lightweight state tracker**, not a full game engine. The Playdate client handles all complex game logic (pathfinding, damage calculation, animations). The server only validates what's necessary to prevent cheating.
 
+### State Management
+
+#### Two Types of Blocked Tiles
+
+**1. Static Blockers (`blockedTiles`)** - from mapData, never change:
+- Items with `canMoveOn = false` (trash cans, benches)
+- Loaded once when battle starts
+- Stored in Battle document
+
+**2. Dynamic Blockers (`occupiedTiles`)** - updated per turn:
+- Current unit positions: `{unitId, x, y, owner, hp, unitType}`
+- Updated after each valid turn
+
+#### State Update Flow
+When processing a move action:
+```
+1. Validate destination not in blockedTiles (static items)
+2. Validate destination not in occupiedTiles (other units)
+3. Remove unit from old position in occupiedTiles
+4. Add unit to new position in occupiedTiles
+```
+
+When unit dies (HP <= 0):
+```
+1. Remove unit from occupiedTiles entirely
+```
+
 ### What the Server Tracks
-- **Occupied tiles**: `{unitId, x, y, owner, hp}`
-- **Unit deaths**: Remove from occupied tiles when HP <= 0
+- **blockedTiles**: Static impassable tiles from mapData (items with canMoveOn=false)
+- **occupiedTiles**: Current unit positions `{unitId, x, y, owner, hp, unitType}`
 - **Turn order**: Which player's turn, turn number
 - **Battle state**: pending → active → completed
 
 ### What Comes from mapData
-- Initial unit placements (per player)
-- Terrain layout
+- Initial unit placements (per player) → seeds `occupiedTiles`
+- Item positions where `canMoveOn=false` → seeds `blockedTiles`
+- Terrain layout (for reference, not validated)
 - Building/nest positions
 - Grid dimensions
 
@@ -99,17 +127,19 @@ The server is a **lightweight state tracker**, not a full game engine. The Playd
 - Device is participant in battle
 - Turn includes end_turn action
 
-🔜 Planned:
-- Tile collision (can't move to occupied tile)
-- Unit ownership (can't control enemy units)
-- Unit existence (unitId must be valid)
+🔜 Planned (Phase 2):
+- **Tile collision**: destination not in `blockedTiles` OR `occupiedTiles`
+- **Movement range**: distance(from, to) <= unit's `moveSpaces`
+- **Unit ownership**: can't control enemy units
+- **Unit existence**: unitId must exist in `occupiedTiles`
 
 ### Not Server-Validated (Client Responsibility)
-- Movement range/pathfinding
+- Pathfinding (exact route taken)
 - Attack range validation
-- Damage calculation
-- Resource/currency management
+- Damage calculation (server accepts reported damage)
+- Resource/currency management (food depletion)
 - Fog of war
+- Terrain movement costs
 
 ---
 
@@ -213,10 +243,12 @@ Tokens are:
 
 ### Phase 2: Server-Side Validation 🔜
 - [ ] Convert battleConfig.lua to TypeScript/JSON
-- [ ] Load mapData to establish initial game state
-- [ ] Track occupied tiles per battle
-- [ ] Validate tile collisions on move actions
-- [ ] Validate unit ownership
+- [ ] Load mapData to seed `blockedTiles` (static items) and `occupiedTiles` (initial units)
+- [ ] Track `occupiedTiles` updates per turn (remove old position, add new position)
+- [ ] Validate tile collisions: destination not in `blockedTiles` OR `occupiedTiles`
+- [ ] Validate movement range: distance <= unit's `moveSpaces`
+- [ ] Validate unit ownership: can't control enemy units
+- [ ] Validate unit existence: unitId must exist in `occupiedTiles`
 
 ### Phase 3: Enhanced Features
 - [ ] Map file upload/storage
