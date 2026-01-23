@@ -218,6 +218,30 @@ Submit turn actions (requires auth).
 }
 ```
 
+### Player Statistics
+
+#### GET /api/stats
+Get player statistics for authenticated device. Returns battle counts, win/loss record, and total turns.
+```json
+{
+  "success": true,
+  "stats": {
+    "deviceId": "a0dcb007...",
+    "displayName": "My Playdate",
+    "memberSince": "2025-01-15T10:30:00.000Z",
+    "totalBattles": 15,
+    "completedBattles": 12,
+    "activeBattles": 2,
+    "pendingBattles": 1,
+    "wins": 8,
+    "losses": 3,
+    "draws": 1,
+    "winRate": "66.7%",
+    "totalTurnsSubmitted": 142
+  }
+}
+```
+
 ---
 
 ## Authentication

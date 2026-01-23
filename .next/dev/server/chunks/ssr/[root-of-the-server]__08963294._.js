@@ -769,6 +769,50 @@ function HomePage() {
                                             fileName: "[project]/app/page.tsx",
                                             lineNumber: 137,
                                             columnNumber: 15
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
+                                            href: "/schema#get-stats",
+                                            className: "block p-4 rounded-lg border border-border bg-card hover:border-primary/50 transition-colors cursor-pointer no-underline",
+                                            "data-testid": "endpoint-link-get-stats",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "flex items-center gap-3 mb-2",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                            className: "px-2 py-1 rounded text-xs font-mono font-bold bg-chart-2/10 text-chart-2",
+                                                            children: "GET"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/app/page.tsx",
+                                                            lineNumber: 146,
+                                                            columnNumber: 19
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("code", {
+                                                            className: "text-sm font-mono",
+                                                            children: "/api/stats"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/app/page.tsx",
+                                                            lineNumber: 147,
+                                                            columnNumber: 19
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/app/page.tsx",
+                                                    lineNumber: 145,
+                                                    columnNumber: 17
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                    className: "text-sm text-muted-foreground",
+                                                    children: "Get player statistics (wins, losses, battles, turns)"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/app/page.tsx",
+                                                    lineNumber: 149,
+                                                    columnNumber: 17
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/app/page.tsx",
+                                            lineNumber: 144,
+                                            columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
@@ -801,17 +845,17 @@ function HomePage() {
                         children: "Bird Wars Async Battle Server"
                     }, void 0, false, {
                         fileName: "[project]/app/page.tsx",
-                        lineNumber: 151,
+                        lineNumber: 158,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/app/page.tsx",
-                    lineNumber: 150,
+                    lineNumber: 157,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/app/page.tsx",
-                lineNumber: 149,
+                lineNumber: 156,
                 columnNumber: 7
             }, this)
         ]

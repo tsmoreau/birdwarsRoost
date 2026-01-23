@@ -480,6 +480,57 @@ GET /api/turns?battleId=abc123def456
 
 ---
 
+### Player Statistics
+
+#### GET /api/stats
+
+Get player statistics for the authenticated device.
+
+**Authentication:** Required
+
+**Success Response (200):**
+```json
+{
+  "success": true,
+  "stats": {
+    "deviceId": "a0dcb007...",
+    "displayName": "My Playdate",
+    "memberSince": "2025-01-15T10:30:00.000Z",
+    "totalBattles": 15,
+    "completedBattles": 12,
+    "activeBattles": 2,
+    "pendingBattles": 1,
+    "wins": 8,
+    "losses": 3,
+    "draws": 1,
+    "winRate": "66.7%",
+    "totalTurnsSubmitted": 142
+  }
+}
+```
+
+**Response Fields:**
+| Field | Type | Description |
+|-------|------|-------------|
+| deviceId | string | Device identifier |
+| displayName | string | Device display name |
+| memberSince | string | ISO date when device registered |
+| totalBattles | number | Total battles participated in |
+| completedBattles | number | Battles that have ended |
+| activeBattles | number | Currently active battles |
+| pendingBattles | number | Battles waiting for opponent |
+| wins | number | Total victories |
+| losses | number | Total defeats |
+| draws | number | Battles with no winner |
+| winRate | string | Win percentage (e.g., "66.7%") |
+| totalTurnsSubmitted | number | Total turns across all battles |
+
+**Error Responses:**
+- `401` - Authentication required
+- `500` - Server error
+
+---
+
 ## Data Models
 
 ### Device

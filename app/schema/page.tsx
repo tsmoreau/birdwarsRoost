@@ -255,6 +255,52 @@ const endpoints: EndpointSection[] = [
       { status: 400, description: 'Battle ID is required' },
     ],
   },
+  {
+    id: 'get-stats',
+    method: 'GET',
+    path: '/api/stats',
+    description: 'Get player statistics for the authenticated device. Includes battle counts, win/loss record, and total turns submitted.',
+    auth: true,
+    responseBody: {
+      fields: [
+        { name: 'success', type: 'boolean', description: 'Whether the request was successful' },
+        { name: 'stats', type: 'object', description: 'Player statistics object' },
+        { name: 'stats.deviceId', type: 'string', description: 'Device identifier' },
+        { name: 'stats.displayName', type: 'string', description: 'Device display name' },
+        { name: 'stats.memberSince', type: 'string', description: 'ISO date when device was registered' },
+        { name: 'stats.totalBattles', type: 'number', description: 'Total battles participated in' },
+        { name: 'stats.completedBattles', type: 'number', description: 'Battles that have ended' },
+        { name: 'stats.activeBattles', type: 'number', description: 'Currently active battles' },
+        { name: 'stats.pendingBattles', type: 'number', description: 'Battles waiting for opponent' },
+        { name: 'stats.wins', type: 'number', description: 'Total victories' },
+        { name: 'stats.losses', type: 'number', description: 'Total defeats' },
+        { name: 'stats.draws', type: 'number', description: 'Battles with no winner' },
+        { name: 'stats.winRate', type: 'string', description: 'Win percentage (e.g., "66.7%")' },
+        { name: 'stats.totalTurnsSubmitted', type: 'number', description: 'Total turns submitted across all battles' },
+      ],
+      example: {
+        success: true,
+        stats: {
+          deviceId: 'a0dcb007051f88c0...',
+          displayName: 'My Playdate',
+          memberSince: '2025-01-15T10:30:00.000Z',
+          totalBattles: 15,
+          completedBattles: 12,
+          activeBattles: 2,
+          pendingBattles: 1,
+          wins: 8,
+          losses: 3,
+          draws: 1,
+          winRate: '66.7%',
+          totalTurnsSubmitted: 142,
+        },
+      },
+    },
+    errors: [
+      { status: 401, description: 'Device authentication required' },
+      { status: 500, description: 'Server error' },
+    ],
+  },
 ];
 
 function getMethodColor(method: string) {
