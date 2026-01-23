@@ -1,9 +1,17 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
+export const VALID_AVATARS = [
+  'BIRD1', 'BIRD2', 'BIRD3', 'BIRD4', 'BIRD5', 'BIRD6',
+  'BIRD7', 'BIRD8', 'BIRD9', 'BIRD10', 'BIRD11', 'BIRD12'
+] as const;
+
+export type BirdAvatar = typeof VALID_AVATARS[number];
+
 export interface IDevice {
   deviceId: string;
   tokenHash: string;
   displayName: string;
+  avatar: BirdAvatar;
   registeredAt: Date;
   lastSeen: Date;
   isActive: boolean;
@@ -25,6 +33,11 @@ const DeviceSchema = new Schema<IDeviceDocument>({
   displayName: { 
     type: String, 
     default: 'Unnamed Device' 
+  },
+  avatar: {
+    type: String,
+    enum: ['BIRD1', 'BIRD2', 'BIRD3', 'BIRD4', 'BIRD5', 'BIRD6', 'BIRD7', 'BIRD8', 'BIRD9', 'BIRD10', 'BIRD11', 'BIRD12'],
+    default: 'BIRD1'
   },
   registeredAt: { 
     type: Date, 
