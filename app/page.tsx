@@ -13,8 +13,8 @@ export default function HomePage() {
               <Image 
                 src="/birb001.png" 
                 alt="Bird Wars" 
-                width={40} 
-                height={40} 
+                width={10} 
+                height={10} 
                 className="rounded-lg"
               />
               <span className="text-xl font-bold">Bird Wars</span>
@@ -48,13 +48,9 @@ export default function HomePage() {
 
       <main>
         <section className="relative flex items-center justify-center py-20 px-4 sm:px-6 lg:px-8">
-          <Image 
+          <img 
             src="/bg2.png" 
             alt="Bird Wars Background" 
-            width={800}
-            height={600}
-            className="max-w-full h-auto"
-            priority
           />
         </section>
 
