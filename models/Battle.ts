@@ -13,6 +13,7 @@ export interface IBattle {
   updatedAt: Date;
   winnerId: string | null;
   mapData: Record<string, unknown>;
+  isPrivate: boolean;
 }
 
 export interface IBattleDocument extends IBattle, Document {}
@@ -62,6 +63,10 @@ const BattleSchema = new Schema<IBattleDocument>({
   mapData: { 
     type: Schema.Types.Mixed, 
     default: {} 
+  },
+  isPrivate: {
+    type: Boolean,
+    default: false
   }
 });
 

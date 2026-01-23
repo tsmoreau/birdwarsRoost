@@ -681,6 +681,10 @@ body {
   background-color: hsl(var(--chart-2) / .1);
 }
 
+.bg-chart-4\/10 {
+  background-color: hsl(var(--chart-4) / .1);
+}
+
 .bg-destructive {
   --tw-bg-opacity: 1;
   background-color: hsl(var(--destructive) / var(--tw-bg-opacity, 1));
@@ -902,6 +906,11 @@ body {
 .text-chart-2 {
   --tw-text-opacity: 1;
   color: hsl(var(--chart-2) / var(--tw-text-opacity, 1));
+}
+
+.text-chart-4 {
+  --tw-text-opacity: 1;
+  color: hsl(var(--chart-4) / var(--tw-text-opacity, 1));
 }
 
 .text-destructive-foreground {

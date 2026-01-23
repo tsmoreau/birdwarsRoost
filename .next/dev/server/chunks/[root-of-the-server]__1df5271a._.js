@@ -141,6 +141,10 @@ const BattleSchema = new __TURBOPACK__imported__module__$5b$externals$5d2f$mongo
     mapData: {
         type: __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$external$5d$__$28$mongoose$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f$mongoose$29$__["Schema"].Types.Mixed,
         default: {}
+    },
+    isPrivate: {
+        type: Boolean,
+        default: false
     }
 });
 const Battle = __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$external$5d$__$28$mongoose$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f$mongoose$29$__["default"].models.Battle || __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$external$5d$__$28$mongoose$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f$mongoose$29$__["default"].model('Battle', BattleSchema);
@@ -317,26 +321,17 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2
 ;
 ;
 const createBattleSchema = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["z"].object({
-    mapData: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["z"].record(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["z"].unknown()).optional()
+    mapData: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["z"].record(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["z"].unknown()).optional(),
+    isPrivate: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["z"].boolean().optional()
 });
-async function GET(request) {
+async function GET() {
     try {
-        const auth = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$authMiddleware$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["authenticateDevice"])(request);
         await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$mongodb$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["connectToDatabase"])();
-        let query = {};
-        if (auth) {
-            query = {
-                $or: [
-                    {
-                        player1DeviceId: auth.deviceId
-                    },
-                    {
-                        player2DeviceId: auth.deviceId
-                    }
-                ]
-            };
-        }
-        const battles = await __TURBOPACK__imported__module__$5b$project$5d2f$models$2f$Battle$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Battle"].find(query).sort({
+        const battles = await __TURBOPACK__imported__module__$5b$project$5d2f$models$2f$Battle$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Battle"].find({
+            isPrivate: {
+                $ne: true
+            }
+        }).sort({
             updatedAt: -1
         }).limit(50);
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
@@ -371,7 +366,7 @@ async function POST(request) {
                 status: 400
             });
         }
-        const { mapData } = parsed.data;
+        const { mapData, isPrivate } = parsed.data;
         const battleId = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$auth$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["generateSecureToken"])().substring(0, 16);
         const battle = new __TURBOPACK__imported__module__$5b$project$5d2f$models$2f$Battle$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Battle"]({
             battleId,
@@ -383,7 +378,8 @@ async function POST(request) {
             createdAt: new Date(),
             updatedAt: new Date(),
             winnerId: null,
-            mapData: mapData || {}
+            mapData: mapData || {},
+            isPrivate: isPrivate || false
         });
         await battle.save();
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
@@ -391,9 +387,10 @@ async function POST(request) {
             battle: {
                 battleId: battle.battleId,
                 status: battle.status,
-                currentTurn: battle.currentTurn
+                currentTurn: battle.currentTurn,
+                isPrivate: battle.isPrivate
             },
-            message: 'Battle created. Waiting for opponent to join.'
+            message: battle.isPrivate ? 'Private battle created. Share the battleId with your opponent to join.' : 'Battle created. Waiting for opponent to join.'
         }, {
             status: 201
         });
