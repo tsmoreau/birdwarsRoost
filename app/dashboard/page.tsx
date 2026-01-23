@@ -71,9 +71,9 @@ export default function DashboardPage() {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'active':
-        return <Badge variant="success" data-testid="badge-status-active">Active</Badge>;
+        return <Badge variant="outline" data-testid="badge-status-active">Active</Badge>;
       case 'pending':
-        return <Badge variant="warning" data-testid="badge-status-pending">Waiting</Badge>;
+        return <Badge variant="outline" data-testid="badge-status-pending">Waiting</Badge>;
       case 'completed':
         return <Badge variant="secondary" data-testid="badge-status-completed">Completed</Badge>;
       default:
@@ -93,7 +93,7 @@ export default function DashboardPage() {
 
         {loading ? (
           <div className="flex items-center justify-center py-20">
-            <Loader2 className="w-8 h-8 animate-spin text-primary" data-testid="loading-spinner" />
+            <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" data-testid="loading-spinner" />
           </div>
         ) : (
           <>
@@ -101,7 +101,7 @@ export default function DashboardPage() {
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between gap-2 space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Active Battles</CardTitle>
-                  <Activity className="h-4 w-4 text-primary" />
+                  <Activity className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold" data-testid="stat-active-battles">{activeBattles}</div>
@@ -112,7 +112,7 @@ export default function DashboardPage() {
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between gap-2 space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Pending Battles</CardTitle>
-                  <Clock className="h-4 w-4 text-yellow-500" />
+                  <Clock className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold" data-testid="stat-pending-battles">{pendingBattles}</div>
@@ -123,7 +123,7 @@ export default function DashboardPage() {
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between gap-2 space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Completed</CardTitle>
-                  <Trophy className="h-4 w-4 text-green-500" />
+                  <Trophy className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold" data-testid="stat-completed-battles">{completedBattles}</div>
@@ -134,7 +134,7 @@ export default function DashboardPage() {
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between gap-2 space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Devices</CardTitle>
-                  <Gamepad2 className="h-4 w-4 text-blue-500" />
+                  <Gamepad2 className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold" data-testid="stat-devices">{devices.length}</div>
@@ -176,8 +176,8 @@ export default function DashboardPage() {
                           data-testid={`battle-row-${battle.battleId}`}
                         >
                           <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                              <Swords className="w-5 h-5 text-primary" />
+                            <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center">
+                              <Swords className="w-5 h-5 text-muted-foreground" />
                             </div>
                             <div>
                               <p className="font-medium text-sm">Battle #{battle.battleId.substring(0, 8)}</p>
@@ -225,8 +225,8 @@ export default function DashboardPage() {
                           data-testid={`device-row-${device.deviceId}`}
                         >
                           <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center">
-                              <Gamepad2 className="w-5 h-5 text-blue-500" />
+                            <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center">
+                              <Gamepad2 className="w-5 h-5 text-muted-foreground" />
                             </div>
                             <div>
                               <p className="font-medium text-sm">{device.displayName}</p>

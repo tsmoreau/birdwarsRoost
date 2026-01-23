@@ -56,13 +56,13 @@ export default function BattlesPage() {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'active':
-        return <Badge variant="success" data-testid="badge-status-active">Active</Badge>;
+        return <Badge variant="outline" data-testid="badge-status-active">Active</Badge>;
       case 'pending':
-        return <Badge variant="warning" data-testid="badge-status-pending">Waiting</Badge>;
+        return <Badge variant="outline" data-testid="badge-status-pending">Waiting</Badge>;
       case 'completed':
         return <Badge variant="secondary" data-testid="badge-status-completed">Completed</Badge>;
       case 'abandoned':
-        return <Badge variant="destructive" data-testid="badge-status-abandoned">Abandoned</Badge>;
+        return <Badge variant="secondary" data-testid="badge-status-abandoned">Abandoned</Badge>;
       default:
         return <Badge variant="outline">{status}</Badge>;
     }
@@ -71,11 +71,11 @@ export default function BattlesPage() {
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'active':
-        return <Swords className="w-5 h-5 text-green-500" />;
+        return <Swords className="w-5 h-5 text-muted-foreground" />;
       case 'pending':
-        return <Clock className="w-5 h-5 text-yellow-500" />;
+        return <Clock className="w-5 h-5 text-muted-foreground" />;
       case 'completed':
-        return <Trophy className="w-5 h-5 text-blue-500" />;
+        return <Trophy className="w-5 h-5 text-muted-foreground" />;
       default:
         return <Swords className="w-5 h-5 text-muted-foreground" />;
     }
@@ -112,7 +112,7 @@ export default function BattlesPage() {
 
         {loading ? (
           <div className="flex items-center justify-center py-20">
-            <Loader2 className="w-8 h-8 animate-spin text-primary" data-testid="loading-spinner" />
+            <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" data-testid="loading-spinner" />
           </div>
         ) : filteredBattles.length === 0 ? (
           <Card>
@@ -137,7 +137,7 @@ export default function BattlesPage() {
                 <Card className="hover:border-primary/50 transition-colors cursor-pointer">
                   <CardContent className="flex items-center justify-between p-6">
                     <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                      <div className="w-12 h-12 rounded-xl bg-muted flex items-center justify-center">
                         {getStatusIcon(battle.status)}
                       </div>
                       <div>

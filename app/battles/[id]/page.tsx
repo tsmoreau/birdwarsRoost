@@ -89,13 +89,13 @@ export default function BattleDetailPage() {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'active':
-        return <Badge variant="success">Active</Badge>;
+        return <Badge variant="outline">Active</Badge>;
       case 'pending':
-        return <Badge variant="warning">Waiting for Opponent</Badge>;
+        return <Badge variant="outline">Waiting for Opponent</Badge>;
       case 'completed':
         return <Badge variant="secondary">Completed</Badge>;
       case 'abandoned':
-        return <Badge variant="destructive">Abandoned</Badge>;
+        return <Badge variant="secondary">Abandoned</Badge>;
       default:
         return <Badge variant="outline">{status}</Badge>;
     }
@@ -123,7 +123,7 @@ export default function BattleDetailPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-primary" data-testid="loading-spinner" />
+        <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" data-testid="loading-spinner" />
       </div>
     );
   }
@@ -221,8 +221,8 @@ export default function BattleDetailPage() {
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between p-4 rounded-lg border border-border bg-card">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                    <Gamepad2 className="w-5 h-5 text-primary" />
+                  <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center">
+                    <Gamepad2 className="w-5 h-5 text-muted-foreground" />
                   </div>
                   <div>
                     <p className="font-medium">Player 1</p>
@@ -232,18 +232,18 @@ export default function BattleDetailPage() {
                   </div>
                 </div>
                 {battle.status === 'active' && battle.currentPlayerIndex === 0 && (
-                  <Badge variant="default">Current Turn</Badge>
+                  <Badge variant="outline">Current Turn</Badge>
                 )}
                 {battle.winnerId === battle.player1DeviceId && (
-                  <Badge variant="success">Winner</Badge>
+                  <Badge variant="secondary">Winner</Badge>
                 )}
               </div>
 
               {battle.player2DeviceId ? (
                 <div className="flex items-center justify-between p-4 rounded-lg border border-border bg-card">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center">
-                      <Gamepad2 className="w-5 h-5 text-blue-500" />
+                    <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center">
+                      <Gamepad2 className="w-5 h-5 text-muted-foreground" />
                     </div>
                     <div>
                       <p className="font-medium">Player 2</p>
@@ -253,10 +253,10 @@ export default function BattleDetailPage() {
                     </div>
                   </div>
                   {battle.status === 'active' && battle.currentPlayerIndex === 1 && (
-                    <Badge variant="default">Current Turn</Badge>
+                    <Badge variant="outline">Current Turn</Badge>
                   )}
                   {battle.winnerId === battle.player2DeviceId && (
-                    <Badge variant="success">Winner</Badge>
+                    <Badge variant="secondary">Winner</Badge>
                   )}
                 </div>
               ) : (
