@@ -1,0 +1,363 @@
+'use client';
+
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { useParams } from 'next/navigation';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { 
+  Swords, 
+  ArrowLeft,
+  Loader2,
+  Users,
+  Clock,
+  Trophy,
+  Gamepad2,
+  Activity,
+  ChevronRight
+} from 'lucide-react';
+import { formatRelativeTime, formatDate } from '@/lib/utils';
+
+interface Battle {
+  battleId: string;
+  player1DeviceId: string;
+  player2DeviceId: string | null;
+  status: 'pending' | 'active' | 'completed' | 'abandoned';
+  currentTurn: number;
+  currentPlayerIndex: number;
+  createdAt: string;
+  updatedAt: string;
+  winnerId: string | null;
+  mapData: Record<string, unknown>;
+}
+
+interface TurnAction {
+  type: string;
+  unitId?: string;
+  from?: { x: number; y: number };
+  to?: { x: number; y: number };
+  targetId?: string;
+}
+
+interface Turn {
+  turnId: string;
+  battleId: string;
+  deviceId: string;
+  turnNumber: number;
+  actions: TurnAction[];
+  timestamp: string;
+  isValid: boolean;
+  validationErrors: string[];
+}
+
+export default function BattleDetailPage() {
+  const params = useParams();
+  const battleId = params.id as string;
+  
+  const [battle, setBattle] = useState<Battle | null>(null);
+  const [turns, setTurns] = useState<Turn[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchBattle() {
+      try {
+        const res = await fetch(`/api/battles/${battleId}`);
+        const data = await res.json();
+        
+        if (data.success) {
+          setBattle(data.battle);
+          setTurns(data.turns || []);
+        } else {
+          setError(data.error || 'Failed to load battle');
+        }
+      } catch (err) {
+        console.error('Failed to fetch battle:', err);
+        setError('Failed to load battle');
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    if (battleId) {
+      fetchBattle();
+    }
+  }, [battleId]);
+
+  const getStatusBadge = (status: string) => {
+    switch (status) {
+      case 'active':
+        return <Badge variant="success">Active</Badge>;
+      case 'pending':
+        return <Badge variant="warning">Waiting for Opponent</Badge>;
+      case 'completed':
+        return <Badge variant="secondary">Completed</Badge>;
+      case 'abandoned':
+        return <Badge variant="destructive">Abandoned</Badge>;
+      default:
+        return <Badge variant="outline">{status}</Badge>;
+    }
+  };
+
+  const getActionDescription = (action: TurnAction) => {
+    switch (action.type) {
+      case 'move':
+        return `Move ${action.unitId || 'unit'} from (${action.from?.x}, ${action.from?.y}) to (${action.to?.x}, ${action.to?.y})`;
+      case 'attack':
+        return `Attack ${action.targetId || 'target'} with ${action.unitId || 'unit'}`;
+      case 'build':
+        return `Build unit`;
+      case 'capture':
+        return `Capture building at (${action.to?.x}, ${action.to?.y})`;
+      case 'wait':
+        return `${action.unitId || 'Unit'} waits`;
+      case 'end_turn':
+        return 'End turn';
+      default:
+        return action.type;
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" data-testid="loading-spinner" />
+      </div>
+    );
+  }
+
+  if (error || !battle) {
+    return (
+      <div className="min-h-screen bg-background">
+        <header className="border-b border-border bg-background/80 backdrop-blur-sm sticky top-0 z-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center h-16">
+              <Link href="/battles" className="flex items-center gap-2 text-muted-foreground hover:text-foreground">
+                <ArrowLeft className="w-4 h-4" />
+                Back to Battles
+              </Link>
+            </div>
+          </div>
+        </header>
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <Card>
+            <CardContent className="flex flex-col items-center justify-center py-16">
+              <Swords className="w-16 h-16 text-muted-foreground/50 mb-4" />
+              <h3 className="text-lg font-medium mb-2">Battle not found</h3>
+              <p className="text-muted-foreground text-sm">{error}</p>
+            </CardContent>
+          </Card>
+        </main>
+      </div>
+    );
+  }
+
+  const players = [battle.player1DeviceId, battle.player2DeviceId].filter(Boolean);
+  const currentPlayerDevice = players[battle.currentPlayerIndex];
+
+  return (
+    <div className="min-h-screen bg-background">
+      <header className="border-b border-border bg-background/80 backdrop-blur-sm sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <Link href="/battles" className="flex items-center gap-2 text-muted-foreground hover:text-foreground" data-testid="link-back-battles">
+              <ArrowLeft className="w-4 h-4" />
+              Back to Battles
+            </Link>
+            <nav className="flex items-center gap-4">
+              <Link 
+                href="/dashboard" 
+                className="px-4 py-2 rounded-md text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Dashboard
+              </Link>
+              <Link 
+                href="/battles" 
+                className="px-4 py-2 rounded-md text-sm font-medium bg-secondary text-foreground"
+              >
+                Battles
+              </Link>
+            </nav>
+          </div>
+        </div>
+      </header>
+
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="mb-8">
+          <div className="flex items-center gap-4 mb-2">
+            <h1 className="text-3xl font-bold">Battle #{battle.battleId.substring(0, 8)}</h1>
+            {getStatusBadge(battle.status)}
+          </div>
+          <p className="text-muted-foreground">
+            Created {formatDate(battle.createdAt)}
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-medium flex items-center gap-2">
+                <Activity className="w-4 h-4" />
+                Current Turn
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-3xl font-bold" data-testid="text-current-turn">{battle.currentTurn}</p>
+              {battle.status === 'active' && (
+                <p className="text-sm text-muted-foreground mt-1">
+                  Player {battle.currentPlayerIndex + 1}'s turn
+                </p>
+              )}
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-medium flex items-center gap-2">
+                <Users className="w-4 h-4" />
+                Players
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-3xl font-bold" data-testid="text-player-count">{players.length}/2</p>
+              <p className="text-sm text-muted-foreground mt-1">
+                {battle.player2DeviceId ? 'Battle ready' : 'Waiting for opponent'}
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-medium flex items-center gap-2">
+                <Clock className="w-4 h-4" />
+                Last Update
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-lg font-bold" data-testid="text-last-update">{formatRelativeTime(battle.updatedAt)}</p>
+              <p className="text-sm text-muted-foreground mt-1">
+                {formatDate(battle.updatedAt)}
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Players</CardTitle>
+              <CardDescription>Devices participating in this battle</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex items-center justify-between p-4 rounded-lg border border-border bg-card">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                    <Gamepad2 className="w-5 h-5 text-primary" />
+                  </div>
+                  <div>
+                    <p className="font-medium">Player 1</p>
+                    <p className="text-xs text-muted-foreground font-mono">
+                      {battle.player1DeviceId.substring(0, 16)}...
+                    </p>
+                  </div>
+                </div>
+                {battle.status === 'active' && battle.currentPlayerIndex === 0 && (
+                  <Badge variant="default">Current Turn</Badge>
+                )}
+                {battle.winnerId === battle.player1DeviceId && (
+                  <Badge variant="success">Winner</Badge>
+                )}
+              </div>
+
+              {battle.player2DeviceId ? (
+                <div className="flex items-center justify-between p-4 rounded-lg border border-border bg-card">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center">
+                      <Gamepad2 className="w-5 h-5 text-blue-500" />
+                    </div>
+                    <div>
+                      <p className="font-medium">Player 2</p>
+                      <p className="text-xs text-muted-foreground font-mono">
+                        {battle.player2DeviceId.substring(0, 16)}...
+                      </p>
+                    </div>
+                  </div>
+                  {battle.status === 'active' && battle.currentPlayerIndex === 1 && (
+                    <Badge variant="default">Current Turn</Badge>
+                  )}
+                  {battle.winnerId === battle.player2DeviceId && (
+                    <Badge variant="success">Winner</Badge>
+                  )}
+                </div>
+              ) : (
+                <div className="flex items-center justify-center p-4 rounded-lg border border-dashed border-border">
+                  <p className="text-muted-foreground text-sm">Waiting for Player 2 to join...</p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Turn History</CardTitle>
+              <CardDescription>
+                {turns.length} turn{turns.length !== 1 ? 's' : ''} recorded
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              {turns.length === 0 ? (
+                <div className="text-center py-8 text-muted-foreground">
+                  <Clock className="w-12 h-12 mx-auto mb-3 opacity-50" />
+                  <p>No turns submitted yet</p>
+                </div>
+              ) : (
+                <div className="space-y-3 max-h-96 overflow-y-auto">
+                  {turns.map((turn) => (
+                    <div
+                      key={turn.turnId}
+                      className="p-3 rounded-lg border border-border"
+                      data-testid={`turn-${turn.turnNumber}`}
+                    >
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-2">
+                          <span className="font-medium">Turn {turn.turnNumber}</span>
+                          {turn.isValid ? (
+                            <Badge variant="success" className="text-xs">Valid</Badge>
+                          ) : (
+                            <Badge variant="destructive" className="text-xs">Invalid</Badge>
+                          )}
+                        </div>
+                        <span className="text-xs text-muted-foreground">
+                          {formatRelativeTime(turn.timestamp)}
+                        </span>
+                      </div>
+                      <div className="text-sm text-muted-foreground">
+                        {turn.actions.length} action{turn.actions.length !== 1 ? 's' : ''}
+                      </div>
+                      {turn.actions.length > 0 && (
+                        <div className="mt-2 space-y-1">
+                          {turn.actions.slice(0, 3).map((action, idx) => (
+                            <div key={idx} className="text-xs text-muted-foreground flex items-center gap-1">
+                              <ChevronRight className="w-3 h-3" />
+                              {getActionDescription(action)}
+                            </div>
+                          ))}
+                          {turn.actions.length > 3 && (
+                            <p className="text-xs text-muted-foreground">
+                              +{turn.actions.length - 3} more actions
+                            </p>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+      </main>
+    </div>
+  );
+}
