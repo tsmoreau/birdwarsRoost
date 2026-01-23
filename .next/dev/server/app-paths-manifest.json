@@ -3,5 +3,6 @@
   "/api/register/route": "app/api/register/route.js",
   "/battles/page": "app/battles/page.js",
   "/dashboard/page": "app/dashboard/page.js",
+  "/devices/page": "app/devices/page.js",
   "/page": "app/page.js"
 }
