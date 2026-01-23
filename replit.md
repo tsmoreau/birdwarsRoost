@@ -198,7 +198,9 @@ Get battle details + turn history.
 Join pending battle (requires auth). Cannot join after started.
 
 #### GET /api/mybattles
-List battles for authenticated device.
+List battles for authenticated device. Supports `?status=` filter (pending, active, completed, abandoned).
+
+**Auto-Forfeit:** When fetching battles, the server checks all active battles. If the opponent hasn't submitted a turn in 7 days, they automatically forfeit.
 
 ### Turn Submission
 

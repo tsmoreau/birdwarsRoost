@@ -1,6 +1,7 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
 export type BattleStatus = 'pending' | 'active' | 'completed' | 'abandoned';
+export type EndReason = 'victory' | 'forfeit' | 'draw' | null;
 
 export interface IUnit {
   unitId: string;
@@ -32,9 +33,11 @@ export interface IBattle {
   createdAt: Date;
   updatedAt: Date;
   winnerId: string | null;
+  endReason: EndReason;
   mapData: Record<string, unknown>;
   isPrivate: boolean;
   currentState: ICurrentState;
+  lastTurnAt: Date | null;
 }
 
 export interface IBattleDocument extends IBattle, Document {}
@@ -100,6 +103,15 @@ const BattleSchema = new Schema<IBattleDocument>({
   winnerId: { 
     type: String, 
     default: null 
+  },
+  endReason: {
+    type: String,
+    enum: ['victory', 'forfeit', 'draw', null],
+    default: null
+  },
+  lastTurnAt: {
+    type: Date,
+    default: null
   },
   mapData: { 
     type: Schema.Types.Mixed, 
