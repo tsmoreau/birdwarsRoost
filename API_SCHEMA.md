@@ -26,33 +26,93 @@ The `secret-token` is obtained during device registration and must be stored sec
 
 #### POST /api/register
 
-Register a new Playdate device and receive a secret token.
+Register a new device, verify an existing registration, or update display name.
 
-**Authentication:** None required
+This is a dual-purpose endpoint:
+- **Without token:** Register a new device
+- **With token:** Verify registration and optionally update display name
+
+**Authentication:** Optional (Bearer token)
 
 **Request Body:**
 ```json
 {
-  "displayName": "My Playdate"  // optional, max 100 chars, defaults to "Playdate Device"
+  "displayName": "My Playdate"  // optional, max 100 chars
 }
 ```
+
+---
+
+**Scenario 1: New Registration (no Authorization header)**
 
 **Success Response (201):**
 ```json
 {
   "success": true,
+  "registered": false,
   "deviceId": "a1b2c3d4e5f6...",
   "secretToken": "sk_live_xxxxxxxxxxxxxxxx",
+  "displayName": "My Playdate",
   "message": "Device registered successfully. Store this token securely - it cannot be retrieved again."
 }
 ```
 
+**Important:** Store the `secretToken` immediately. It is only returned once and cannot be recovered.
+
+---
+
+**Scenario 2: Verify Existing Registration (with valid Authorization header)**
+
+```
+Authorization: Bearer <secret-token>
+```
+
+**Success Response (200):**
+```json
+{
+  "success": true,
+  "registered": true,
+  "deviceId": "a1b2c3d4e5f6...",
+  "displayName": "My Playdate",
+  "registeredAt": "2025-01-23T12:00:00.000Z",
+  "message": "Device already registered."
+}
+```
+
+---
+
+**Scenario 3: Update Display Name (with valid token + new displayName in body)**
+
+```
+Authorization: Bearer <secret-token>
+Content-Type: application/json
+
+{ "displayName": "New Name" }
+```
+
+**Success Response (200):**
+```json
+{
+  "success": true,
+  "registered": true,
+  "deviceId": "a1b2c3d4e5f6...",
+  "displayName": "New Name",
+  "registeredAt": "2025-01-23T12:00:00.000Z",
+  "message": "Device verified and display name updated."
+}
+```
+
+---
+
 **Error Responses:**
 - `400` - Invalid request body
-- `429` - Rate limit exceeded (max 10 registrations per minute)
+- `429` - Rate limit exceeded (max 10 registrations per minute, only applies to new registrations)
 - `500` - Server error
 
-**Important:** Store the `secretToken` immediately. It is only returned once and cannot be recovered.
+**Client Flow:**
+1. On first launch, call `POST /api/register` without token → store returned `secretToken`
+2. On subsequent launches, call `POST /api/register` with stored token in Authorization header → verify registration
+3. To change name, call with token + new `displayName` in body
 
 ---
 
