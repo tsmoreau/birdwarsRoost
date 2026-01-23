@@ -10,8 +10,10 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-3">
-              <img src="/birb001.png" alt="Bird Wars" className="w-10 h-10 rounded-lg object-cover" />
-              <span className="text-xl font-bold">Bird Wars</span>
+              <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
+                <Swords className="w-6 h-6 text-primary-foreground" />
+              </div>
+              <span className="text-xl font-bold">Bird Wars </span>
             </div>
             <nav className="flex items-center gap-4">
               <Link 
