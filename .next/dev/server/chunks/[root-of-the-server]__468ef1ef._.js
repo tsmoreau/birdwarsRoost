@@ -141,6 +141,10 @@ const BattleSchema = new __TURBOPACK__imported__module__$5b$externals$5d2f$mongo
     mapData: {
         type: __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$external$5d$__$28$mongoose$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f$mongoose$29$__["Schema"].Types.Mixed,
         default: {}
+    },
+    isPrivate: {
+        type: Boolean,
+        default: false
     }
 });
 const Battle = __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$external$5d$__$28$mongoose$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f$mongoose$29$__["default"].models.Battle || __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$external$5d$__$28$mongoose$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f$mongoose$29$__["default"].model('Battle', BattleSchema);
@@ -291,6 +295,13 @@ __turbopack_context__.s([
 ]);
 var __TURBOPACK__imported__module__$5b$externals$5d2f$crypto__$5b$external$5d$__$28$crypto$2c$__cjs$29$__ = __turbopack_context__.i("[externals]/crypto [external] (crypto, cjs)");
 ;
+function getSecretKey() {
+    const secret = process.env.SESSION_SECRET;
+    if (!secret || secret.length < 32) {
+        throw new Error('SESSION_SECRET environment variable must be set with at least 32 characters');
+    }
+    return secret;
+}
 function generateSecureToken() {
     return (0, __TURBOPACK__imported__module__$5b$externals$5d2f$crypto__$5b$external$5d$__$28$crypto$2c$__cjs$29$__["randomBytes"])(32).toString('hex');
 }
@@ -298,7 +309,7 @@ function generateDeviceSecret() {
     return (0, __TURBOPACK__imported__module__$5b$externals$5d2f$crypto__$5b$external$5d$__$28$crypto$2c$__cjs$29$__["randomBytes"])(48).toString('base64url');
 }
 function hashToken(token) {
-    return (0, __TURBOPACK__imported__module__$5b$externals$5d2f$crypto__$5b$external$5d$__$28$crypto$2c$__cjs$29$__["createHmac"])('sha256', process.env.SESSION_SECRET || 'default-secret').update(token).digest('hex');
+    return (0, __TURBOPACK__imported__module__$5b$externals$5d2f$crypto__$5b$external$5d$__$28$crypto$2c$__cjs$29$__["createHmac"])('sha256', getSecretKey()).update(token).digest('hex');
 }
 function verifyToken(providedToken, storedHash) {
     const providedHash = hashToken(providedToken);
