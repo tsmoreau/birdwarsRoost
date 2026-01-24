@@ -198,6 +198,20 @@ const BattleSchema = new __TURBOPACK__imported__module__$5b$externals$5d2f$mongo
         type: String,
         default: null
     },
+    endReason: {
+        type: String,
+        enum: [
+            'victory',
+            'forfeit',
+            'draw',
+            null
+        ],
+        default: null
+    },
+    lastTurnAt: {
+        type: Date,
+        default: null
+    },
     mapData: {
         type: __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$external$5d$__$28$mongoose$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f$mongoose$29$__["Schema"].Types.Mixed,
         default: {}
