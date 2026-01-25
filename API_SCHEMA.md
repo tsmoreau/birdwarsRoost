@@ -567,6 +567,99 @@ Get player statistics for the authenticated device.
 
 ---
 
+### Device Ping
+
+#### POST /api/ping
+
+Record a ping from a device. Useful for connectivity testing and activity tracking.
+
+**Authentication:** Required
+
+**Request Body:**
+```json
+{
+  "message": "Hello from Playdate!"  // optional, max 500 chars
+}
+```
+
+**Success Response (200):**
+```json
+{
+  "success": true,
+  "message": "Ping received",
+  "pingId": "6975e77b60630a547b8b8f9d",
+  "displayName": "My Playdate",
+  "timestamp": "2026-01-25T09:50:51.867Z"
+}
+```
+
+**Response Fields:**
+| Field | Type | Description |
+|-------|------|-------------|
+| success | boolean | Always true on success |
+| message | string | Confirmation message |
+| pingId | string | Unique identifier for this ping |
+| displayName | string | Device's display name |
+| timestamp | string | ISO timestamp when ping was recorded |
+
+**Error Responses:**
+- `400` - Invalid request body
+- `401` - Authentication required
+- `500` - Server error
+
+---
+
+#### GET /api/ping
+
+List recorded pings.
+
+**Authentication:** Required
+
+**Query Parameters:**
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| limit | number | Max pings to return (default: 50, max: 100) |
+| deviceId | string | Filter by specific device ID |
+
+**Example:**
+```
+GET /api/ping?limit=10
+GET /api/ping?deviceId=abc123...
+```
+
+**Success Response (200):**
+```json
+{
+  "success": true,
+  "pings": [
+    {
+      "id": "6975e77b60630a547b8b8f9d",
+      "deviceId": "0c32ad1f...",
+      "displayName": "My Playdate",
+      "ipAddress": "127.0.0.1",
+      "message": "Hello from Playdate!",
+      "createdAt": "2026-01-25T09:50:51.867Z"
+    }
+  ]
+}
+```
+
+**Ping Fields:**
+| Field | Type | Description |
+|-------|------|-------------|
+| id | string | Unique ping identifier |
+| deviceId | string | Device that sent the ping |
+| displayName | string | Device's display name at time of ping |
+| ipAddress | string | Device's IP address (if available) |
+| message | string/null | Optional message sent with ping |
+| createdAt | string | ISO timestamp of ping |
+
+**Error Responses:**
+- `401` - Authentication required
+- `500` - Server error
+
+---
+
 ## Data Models
 
 ### Device
@@ -624,6 +717,19 @@ Get player statistics for the authenticated device.
   to?: { x: number, y: number };    // Target position
   targetId?: string;        // Target unit/building ID
   data?: object;            // Additional action-specific data
+}
+```
+
+### Ping
+```typescript
+{
+  id: string;              // Unique ping identifier
+  deviceId: string;        // Device that sent the ping
+  displayName: string;     // Device's display name at time of ping
+  ipAddress?: string;      // Device's IP address (if available)
+  userAgent?: string;      // Request user agent (if available)
+  message?: string;        // Optional message sent with ping
+  createdAt: Date;         // When ping was recorded
 }
 ```
 
