@@ -19,6 +19,7 @@ A Next.js application with MongoDB backend for async multiplayer turn-based tact
     /battles/[id]      # Single battle operations (GET details, PATCH to join)
     /mybattles         # Player's own battles
     /turns             # Turn submission endpoint
+    /ping              # Device ping endpoint (records pings to DB)
   /dashboard           # Dashboard page
   /battles             # Battles list page
   /battles/[id]        # Battle detail page
@@ -36,6 +37,7 @@ A Next.js application with MongoDB backend for async multiplayer turn-based tact
   /Device.ts           # Device schema
   /Battle.ts           # Battle schema
   /Turn.ts             # Turn schema
+  /Ping.ts             # Ping schema
 /public
   /birb001.png         # App icon (used in Nav)
 
@@ -219,6 +221,44 @@ Submit turn actions (requires auth).
       { "unitId": "u1", "type": "BIRD1", "x": 3, "y": 2, "hp": 10, "owner": "device1..." }
     ]
   }
+}
+```
+
+### Device Ping
+
+#### POST /api/ping
+Record a ping from the Playdate device (requires auth). Captures device info, IP address, user agent, and optional message.
+```json
+{
+  "message": "Hello from Playdate!" // optional
+}
+```
+Response:
+```json
+{
+  "success": true,
+  "message": "Ping received",
+  "pingId": "6975e77b60630a547b8b8f9d",
+  "displayName": "MyPlaydate",
+  "timestamp": "2026-01-25T09:50:51.867Z"
+}
+```
+
+#### GET /api/ping
+List recorded pings (requires auth). Supports `?limit=` (default 50, max 100) and `?deviceId=` filters.
+```json
+{
+  "success": true,
+  "pings": [
+    {
+      "id": "...",
+      "deviceId": "...",
+      "displayName": "MyPlaydate",
+      "ipAddress": "127.0.0.1",
+      "message": "Hello!",
+      "createdAt": "2026-01-25T09:50:51.867Z"
+    }
+  ]
 }
 ```
 
