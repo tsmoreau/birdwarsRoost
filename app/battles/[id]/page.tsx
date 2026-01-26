@@ -18,6 +18,7 @@ import {
   ChevronRight
 } from 'lucide-react';
 import { formatRelativeTime, formatDate } from '@/lib/utils';
+import { generateBattleName } from '@/lib/battleNames';
 import Nav from '@/components/Nav';
 
 interface Battle {
@@ -156,7 +157,7 @@ export default function BattleDetailPage() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
           <div className="flex items-center gap-4 mb-2">
-            <h1 className="text-3xl font-bold" data-testid="battle-display-name">{battle.displayName}</h1>
+            <h1 className="text-3xl font-bold" data-testid="battle-display-name">{battle.displayName || generateBattleName(battle.battleId)}</h1>
             {getStatusBadge(battle.status)}
           </div>
           <p className="text-muted-foreground">

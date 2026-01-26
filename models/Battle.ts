@@ -72,7 +72,8 @@ const BattleSchema = new Schema<IBattleDocument>({
   },
   displayName: {
     type: String,
-    required: true
+    required: false,
+    default: ''
   },
   player1DeviceId: { 
     type: String, 
