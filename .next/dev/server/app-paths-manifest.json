@@ -1,3 +1,7 @@
 {
+  "/api/battles/[id]/route": "app/api/battles/[id]/route.js",
+  "/api/battles/route": "app/api/battles/route.js",
+  "/battles/[id]/page": "app/battles/[id]/page.js",
+  "/battles/page": "app/battles/page.js",
   "/page": "app/page.js"
 }

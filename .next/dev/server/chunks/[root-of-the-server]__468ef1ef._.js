@@ -160,7 +160,8 @@ const BattleSchema = new __TURBOPACK__imported__module__$5b$externals$5d2f$mongo
     },
     displayName: {
         type: String,
-        required: true
+        required: false,
+        default: ''
     },
     player1DeviceId: {
         type: String,
