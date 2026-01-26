@@ -163,7 +163,11 @@ List all public battles (excludes private battles).
       "battleId": "abc123def456",
       "displayName": "Molting-Siege-42",
       "player1DeviceId": "device1...",
+      "player1DisplayName": "PlayerOne",
+      "player1Avatar": "BIRD4",
       "player2DeviceId": "device2..." | null,
+      "player2DisplayName": "PlayerTwo" | null,
+      "player2Avatar": "BIRD7" | null,
       "status": "pending" | "active" | "completed" | "abandoned",
       "currentTurn": 0,
       "currentPlayerIndex": 0,
@@ -176,6 +180,10 @@ List all public battles (excludes private battles).
   ]
 }
 ```
+
+**Player Info Fields:**
+- `player1DisplayName` / `player2DisplayName`: The player's display name (or "Unknown Player" if not found)
+- `player1Avatar` / `player2Avatar`: The player's avatar (BIRD1-BIRD12, null if player2 hasn't joined)
 
 ---
 
@@ -249,7 +257,11 @@ Get battle details and turn history.
     "battleId": "abc123def456",
     "displayName": "Molting-Siege-42",
     "player1DeviceId": "device1...",
+    "player1DisplayName": "PlayerOne",
+    "player1Avatar": "BIRD4",
     "player2DeviceId": "device2...",
+    "player2DisplayName": "PlayerTwo",
+    "player2Avatar": "BIRD7",
     "status": "active",
     "currentTurn": 5,
     "currentPlayerIndex": 1,
@@ -352,6 +364,12 @@ When this endpoint is called, the server checks all active battles. If the oppon
     {
       "battleId": "abc123...",
       "displayName": "Molting-Siege-42",
+      "player1DeviceId": "device1...",
+      "player1DisplayName": "PlayerOne",
+      "player1Avatar": "BIRD4",
+      "player2DeviceId": "device2...",
+      "player2DisplayName": "PlayerTwo",
+      "player2Avatar": "BIRD7",
       "status": "active",
       "winnerId": null,
       "endReason": null,
@@ -362,6 +380,10 @@ When this endpoint is called, the server checks all active battles. If the oppon
   "count": 5
 }
 ```
+
+**Player Info Fields:**
+- `player1DisplayName` / `player2DisplayName`: The player's display name (or "Unknown Player" if not found, null if player2 hasn't joined)
+- `player1Avatar` / `player2Avatar`: The player's avatar (BIRD1-BIRD12, null if player2 hasn't joined)
 
 **Battle End Fields:**
 | Field | Type | Description |

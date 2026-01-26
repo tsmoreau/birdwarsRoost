@@ -474,6 +474,7 @@ __turbopack_context__.s([
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/server.js [app-route] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$mongodb$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/lib/mongodb.ts [app-route] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$models$2f$Battle$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/models/Battle.ts [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$models$2f$Device$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/models/Device.ts [app-route] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$authMiddleware$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/lib/authMiddleware.ts [app-route] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$auth$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/lib/auth.ts [app-route] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$battleNames$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/lib/battleNames.ts [app-route] (ecmascript)");
@@ -485,6 +486,24 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2
 ;
 ;
 ;
+;
+async function getPlayerInfo(deviceIds) {
+    const validIds = deviceIds.filter((id)=>id !== null);
+    if (validIds.length === 0) return new Map();
+    const devices = await __TURBOPACK__imported__module__$5b$project$5d2f$models$2f$Device$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Device"].find({
+        deviceId: {
+            $in: validIds
+        }
+    });
+    const map = new Map();
+    for (const device of devices){
+        map.set(device.deviceId, {
+            displayName: device.displayName || 'Unknown Player',
+            avatar: device.avatar || 'BIRD1'
+        });
+    }
+    return map;
+}
 const createBattleSchema = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["z"].object({
     mapData: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["z"].record(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["z"].unknown()).optional(),
     isPrivate: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["z"].boolean().optional()
@@ -499,9 +518,26 @@ async function GET() {
         }).sort({
             updatedAt: -1
         }).limit(50);
+        const allPlayerIds = battles.flatMap((b)=>[
+                b.player1DeviceId,
+                b.player2DeviceId
+            ]);
+        const playerInfoMap = await getPlayerInfo(allPlayerIds);
+        const battlesWithPlayerInfo = battles.map((battle)=>{
+            const battleObj = battle.toObject();
+            const p1Info = playerInfoMap.get(battle.player1DeviceId);
+            const p2Info = battle.player2DeviceId ? playerInfoMap.get(battle.player2DeviceId) : null;
+            return {
+                ...battleObj,
+                player1DisplayName: p1Info?.displayName || 'Unknown Player',
+                player1Avatar: p1Info?.avatar || 'BIRD1',
+                player2DisplayName: p2Info?.displayName || null,
+                player2Avatar: p2Info?.avatar || null
+            };
+        });
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
             success: true,
-            battles
+            battles: battlesWithPlayerInfo
         });
     } catch (error) {
         console.error('Fetch battles error:', error);
