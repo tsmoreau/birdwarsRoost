@@ -234,88 +234,6 @@ const BattleSchema = new __TURBOPACK__imported__module__$5b$externals$5d2f$mongo
 });
 const Battle = __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$external$5d$__$28$mongoose$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f$mongoose$29$__["default"].models.Battle || __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$external$5d$__$28$mongoose$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f$mongoose$29$__["default"].model('Battle', BattleSchema);
 }),
-"[project]/models/Turn.ts [app-route] (ecmascript)", ((__turbopack_context__) => {
-"use strict";
-
-__turbopack_context__.s([
-    "Turn",
-    ()=>Turn
-]);
-var __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$external$5d$__$28$mongoose$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f$mongoose$29$__ = __turbopack_context__.i("[externals]/mongoose [external] (mongoose, cjs, [project]/node_modules/mongoose)");
-;
-const TurnActionSchema = new __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$external$5d$__$28$mongoose$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f$mongoose$29$__["Schema"]({
-    type: {
-        type: String,
-        enum: [
-            'move',
-            'attack',
-            'build',
-            'capture',
-            'wait',
-            'end_turn'
-        ],
-        required: true
-    },
-    unitId: String,
-    from: {
-        x: Number,
-        y: Number
-    },
-    to: {
-        x: Number,
-        y: Number
-    },
-    targetId: String,
-    data: __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$external$5d$__$28$mongoose$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f$mongoose$29$__["Schema"].Types.Mixed
-}, {
-    _id: false
-});
-const TurnSchema = new __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$external$5d$__$28$mongoose$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f$mongoose$29$__["Schema"]({
-    turnId: {
-        type: String,
-        required: true,
-        unique: true,
-        index: true
-    },
-    battleId: {
-        type: String,
-        required: true,
-        index: true
-    },
-    deviceId: {
-        type: String,
-        required: true,
-        index: true
-    },
-    turnNumber: {
-        type: Number,
-        required: true
-    },
-    actions: [
-        TurnActionSchema
-    ],
-    timestamp: {
-        type: Date,
-        default: Date.now
-    },
-    isValid: {
-        type: Boolean,
-        default: true
-    },
-    validationErrors: [
-        String
-    ],
-    gameState: {
-        type: __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$external$5d$__$28$mongoose$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f$mongoose$29$__["Schema"].Types.Mixed,
-        default: {}
-    }
-});
-TurnSchema.index({
-    battleId: 1,
-    turnNumber: 1
-});
-const Turn = __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$external$5d$__$28$mongoose$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f$mongoose$29$__["default"].models.Turn || __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$external$5d$__$28$mongoose$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f$mongoose$29$__["default"].model('Turn', TurnSchema);
-}),
 "[project]/models/Device.ts [app-route] (ecmascript)", ((__turbopack_context__) => {
 "use strict";
 
@@ -500,153 +418,150 @@ function unauthorizedResponse(message = 'Unauthorized') {
     });
 }
 }),
-"[project]/app/api/battles/[id]/route.ts [app-route] (ecmascript)", ((__turbopack_context__) => {
+"[project]/lib/battleNames.ts [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "generateBattleName",
+    ()=>generateBattleName
+]);
+const ADJECTIVES = [
+    "Molting",
+    "Brooding",
+    "Plucked",
+    "Flightless",
+    "Migratory",
+    "Territorial",
+    "Peckish",
+    "Hollow",
+    "Grounded",
+    "Soaring"
+];
+const NOUNS = [
+    "Skirmish",
+    "Siege",
+    "Sortie",
+    "Standoff",
+    "Offensive",
+    "Ambush",
+    "Retreat",
+    "Stalemate",
+    "Incursion",
+    "Blitz"
+];
+function generateBattleName(battleId) {
+    const numericId = parseInt(battleId.substring(0, 4), 16);
+    const adj = ADJECTIVES[numericId % 10];
+    const noun = NOUNS[Math.floor(numericId / 10) % 10];
+    const suffix = Math.floor(numericId / 100);
+    return `${adj}-${noun}-${suffix}`;
+}
+}),
+"[project]/app/api/battles/route.ts [app-route] (ecmascript)", ((__turbopack_context__) => {
 "use strict";
 
 __turbopack_context__.s([
     "GET",
     ()=>GET,
-    "PATCH",
-    ()=>PATCH
+    "POST",
+    ()=>POST
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/server.js [app-route] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$mongodb$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/lib/mongodb.ts [app-route] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$models$2f$Battle$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/models/Battle.ts [app-route] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$models$2f$Turn$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/models/Turn.ts [app-route] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$authMiddleware$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/lib/authMiddleware.ts [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$auth$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/lib/auth.ts [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$battleNames$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/lib/battleNames.ts [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/zod/lib/index.mjs [app-route] (ecmascript)");
 ;
 ;
 ;
 ;
 ;
-function initializeCurrentStateFromMapData(mapData, player1DeviceId, player2DeviceId) {
-    const units = [];
-    const blockedTiles = [];
-    const unitPlacements = mapData.unitPlacement;
-    if (unitPlacements && Array.isArray(unitPlacements)) {
-        unitPlacements.forEach((placement, index)=>{
-            const owner = placement.player === 2 ? player2DeviceId : player1DeviceId;
-            units.push({
-                unitId: `${owner}_u${index}`,
-                type: placement.birdType || 'BIRD1',
-                x: placement.gridX,
-                y: placement.gridZ,
-                hp: 10,
-                owner
-            });
-        });
-    }
-    const itemPlacements = mapData.itemPlacement;
-    if (itemPlacements && Array.isArray(itemPlacements)) {
-        itemPlacements.forEach((item)=>{
-            if (item.canMoveOn === false) {
-                blockedTiles.push({
-                    x: item.gridX,
-                    y: item.gridZ,
-                    itemType: item.itemType
-                });
-            }
-        });
-    }
-    return {
-        units,
-        blockedTiles
-    };
-}
-async function GET(request, { params }) {
+;
+;
+const createBattleSchema = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["z"].object({
+    mapData: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["z"].record(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["z"].unknown()).optional(),
+    isPrivate: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["z"].boolean().optional()
+});
+async function GET() {
     try {
-        const { id } = await params;
         await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$mongodb$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["connectToDatabase"])();
-        const battle = await __TURBOPACK__imported__module__$5b$project$5d2f$models$2f$Battle$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Battle"].findOne({
-            battleId: id
-        });
-        if (!battle) {
-            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
-                success: false,
-                error: 'Battle not found'
-            }, {
-                status: 404
-            });
-        }
-        const turns = await __TURBOPACK__imported__module__$5b$project$5d2f$models$2f$Turn$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Turn"].find({
-            battleId: id
+        const battles = await __TURBOPACK__imported__module__$5b$project$5d2f$models$2f$Battle$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Battle"].find({
+            isPrivate: {
+                $ne: true
+            }
         }).sort({
-            turnNumber: 1
-        });
+            updatedAt: -1
+        }).limit(50);
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
             success: true,
-            battle,
-            turns
+            battles
         });
     } catch (error) {
-        console.error('Fetch battle error:', error);
+        console.error('Fetch battles error:', error);
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
             success: false,
-            error: 'Failed to fetch battle'
+            error: 'Failed to fetch battles'
         }, {
             status: 500
         });
     }
 }
-async function PATCH(request, { params }) {
+async function POST(request) {
     try {
         const auth = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$authMiddleware$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["authenticateDevice"])(request);
         if (!auth) {
             return (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$authMiddleware$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["unauthorizedResponse"])('Device authentication required');
         }
-        const { id } = await params;
         await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$mongodb$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["connectToDatabase"])();
-        const battle = await __TURBOPACK__imported__module__$5b$project$5d2f$models$2f$Battle$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Battle"].findOne({
-            battleId: id
+        const body = await request.json().catch(()=>({}));
+        const parsed = createBattleSchema.safeParse(body);
+        if (!parsed.success) {
+            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                success: false,
+                error: 'Invalid request body',
+                details: parsed.error.issues
+            }, {
+                status: 400
+            });
+        }
+        const { mapData, isPrivate } = parsed.data;
+        const battleId = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$auth$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["generateSecureToken"])().substring(0, 16);
+        const displayName = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$battleNames$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["generateBattleName"])(battleId);
+        const battle = new __TURBOPACK__imported__module__$5b$project$5d2f$models$2f$Battle$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Battle"]({
+            battleId,
+            displayName,
+            player1DeviceId: auth.deviceId,
+            player2DeviceId: null,
+            status: 'pending',
+            currentTurn: 0,
+            currentPlayerIndex: 0,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            winnerId: null,
+            mapData: mapData || {},
+            isPrivate: isPrivate || false
         });
-        if (!battle) {
-            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
-                success: false,
-                error: 'Battle not found'
-            }, {
-                status: 404
-            });
-        }
-        if (battle.status !== 'pending') {
-            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
-                success: false,
-                error: 'Battle is not in pending state'
-            }, {
-                status: 400
-            });
-        }
-        if (battle.player1DeviceId === auth.deviceId) {
-            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
-                success: false,
-                error: 'Cannot join your own battle'
-            }, {
-                status: 400
-            });
-        }
-        battle.player2DeviceId = auth.deviceId;
-        battle.status = 'active';
-        battle.updatedAt = new Date();
-        battle.lastTurnAt = new Date();
-        const initialState = initializeCurrentStateFromMapData(battle.mapData, battle.player1DeviceId, auth.deviceId);
-        battle.currentState = initialState;
         await battle.save();
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
             success: true,
             battle: {
                 battleId: battle.battleId,
+                displayName: battle.displayName,
                 status: battle.status,
                 currentTurn: battle.currentTurn,
-                player1DeviceId: battle.player1DeviceId,
-                player2DeviceId: battle.player2DeviceId,
-                currentState: battle.currentState
+                isPrivate: battle.isPrivate
             },
-            message: 'Joined battle successfully. Battle is now active.'
+            message: battle.isPrivate ? 'Private battle created. Share the battleId with your opponent to join.' : 'Battle created. Waiting for opponent to join.'
+        }, {
+            status: 201
         });
     } catch (error) {
-        console.error('Join battle error:', error);
+        console.error('Create battle error:', error);
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
             success: false,
-            error: 'Failed to join battle'
+            error: 'Failed to create battle'
         }, {
             status: 500
         });
@@ -655,4 +570,4 @@ async function PATCH(request, { params }) {
 }),
 ];
 
-//# sourceMappingURL=%5Broot-of-the-server%5D__468ef1ef._.js.map
+//# sourceMappingURL=%5Broot-of-the-server%5D__03efb468._.js.map
