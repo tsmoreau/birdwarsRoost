@@ -339,6 +339,52 @@ Join a pending battle as player 2.
 
 ---
 
+#### POST /api/battles/[id]/join
+
+Join a pending battle as player 2. This is an alternative to `PATCH /api/battles/[id]` for devices that don't support PATCH requests.
+
+**Authentication:** Required
+
+**URL Parameters:**
+- `id` - The battle ID to join
+
+**Success Response (200):**
+```json
+{
+  "success": true,
+  "battle": {
+    "battleId": "abc123def456",
+    "status": "active",
+    "currentTurn": 0,
+    "player1DeviceId": "device1...",
+    "player2DeviceId": "device2...",
+    "currentState": {
+      "units": [
+        { "unitId": "device1_u0", "type": "BIRD1", "x": 2, "y": 3, "hp": 10, "owner": "device1..." },
+        { "unitId": "device2_u0", "type": "BIRD4", "x": 10, "y": 3, "hp": 10, "owner": "device2..." }
+      ],
+      "blockedTiles": [
+        { "x": 5, "y": 5, "itemType": "garbageCan" }
+      ]
+    }
+  },
+  "message": "Joined battle successfully. Battle is now active."
+}
+```
+
+**Note:** When a battle becomes active (player 2 joins), the server initializes `currentState` from the battle's `mapData`:
+- `units` array is seeded from `mapData.unitPlacement`
+- `blockedTiles` array is seeded from `mapData.itemPlacement` (items with `canMoveOn: false`)
+
+**Error Responses:**
+- `400` - Battle is not in pending state
+- `400` - Cannot join your own battle
+- `401` - Authentication required
+- `404` - Battle not found
+- `500` - Server error
+
+---
+
 #### GET /api/mybattles
 
 Get all battles where the authenticated device is a participant (includes private battles).
@@ -779,6 +825,10 @@ GET /api/ping?deviceId=abc123...
    ```
 
 3. **Join Battle**
+   ```
+   POST /api/battles/{battleId}/join (with auth) → Battle becomes "active"
+   ```
+   Alternative (for devices supporting PATCH):
    ```
    PATCH /api/battles/{battleId} (with auth) → Battle becomes "active"
    ```
