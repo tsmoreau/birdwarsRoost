@@ -22,6 +22,7 @@ import Nav from '@/components/Nav';
 
 interface Battle {
   battleId: string;
+  displayName: string;
   player1DeviceId: string;
   player2DeviceId: string | null;
   status: 'pending' | 'active' | 'completed' | 'abandoned';
@@ -155,11 +156,11 @@ export default function BattleDetailPage() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
           <div className="flex items-center gap-4 mb-2">
-            <h1 className="text-3xl font-bold">Battle #{battle.battleId.substring(0, 8)}</h1>
+            <h1 className="text-3xl font-bold" data-testid="battle-display-name">{battle.displayName}</h1>
             {getStatusBadge(battle.status)}
           </div>
           <p className="text-muted-foreground">
-            Created {formatDate(battle.createdAt)}
+            <span className="font-mono text-xs">{battle.battleId}</span> · Created {formatDate(battle.createdAt)}
           </p>
         </div>
 
