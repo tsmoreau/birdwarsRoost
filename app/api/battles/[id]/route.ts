@@ -1,8 +1,31 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
 import { Battle, IUnit, IBlockedTile } from '@/models/Battle';
+import { Device } from '@/models/Device';
 import { Turn } from '@/models/Turn';
 import { authenticateDevice, unauthorizedResponse } from '@/lib/authMiddleware';
+
+interface PlayerInfo {
+  displayName: string;
+  avatar: string;
+}
+
+async function getPlayerInfo(deviceIds: (string | null)[]): Promise<Map<string, PlayerInfo>> {
+  const validIds = deviceIds.filter((id): id is string => id !== null);
+  if (validIds.length === 0) return new Map();
+  
+  const devices = await Device.find({ deviceId: { $in: validIds } });
+  const map = new Map<string, PlayerInfo>();
+  
+  for (const device of devices) {
+    map.set(device.deviceId, {
+      displayName: device.displayName || 'Unknown Player',
+      avatar: device.avatar || 'BIRD1'
+    });
+  }
+  
+  return map;
+}
 
 function initializeCurrentStateFromMapData(
   mapData: Record<string, unknown>,
@@ -72,12 +95,25 @@ export async function GET(
       }, { status: 404 });
     }
 
-    const turns = await Turn.find({ battleId: id })
-      .sort({ turnNumber: 1 });
+    const [turns, playerInfoMap] = await Promise.all([
+      Turn.find({ battleId: id }).sort({ turnNumber: 1 }),
+      getPlayerInfo([battle.player1DeviceId, battle.player2DeviceId])
+    ]);
+
+    const p1Info = playerInfoMap.get(battle.player1DeviceId);
+    const p2Info = battle.player2DeviceId ? playerInfoMap.get(battle.player2DeviceId) : null;
+
+    const battleWithPlayerInfo = {
+      ...battle.toObject(),
+      player1DisplayName: p1Info?.displayName || 'Unknown Player',
+      player1Avatar: p1Info?.avatar || 'BIRD1',
+      player2DisplayName: p2Info?.displayName || null,
+      player2Avatar: p2Info?.avatar || null,
+    };
 
     return NextResponse.json({
       success: true,
-      battle,
+      battle: battleWithPlayerInfo,
       turns,
     });
   } catch (error) {
