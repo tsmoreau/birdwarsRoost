@@ -133,4 +133,9 @@ const BattleSchema = new Schema<IBattleDocument>({
   }
 });
 
-export const Battle: Model<IBattleDocument> = mongoose.models.Battle || mongoose.model<IBattleDocument>('Battle', BattleSchema);
+// Delete cached model to ensure schema updates take effect
+if (mongoose.models.Battle) {
+  delete mongoose.models.Battle;
+}
+
+export const Battle: Model<IBattleDocument> = mongoose.model<IBattleDocument>('Battle', BattleSchema);
