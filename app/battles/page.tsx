@@ -15,6 +15,7 @@ import {
   Filter
 } from 'lucide-react';
 import { formatRelativeTime, formatDate } from '@/lib/utils';
+import { generateBattleName } from '@/lib/battleNames';
 import Nav from '@/components/Nav';
 
 interface Battle {
@@ -143,7 +144,7 @@ export default function BattlesPage() {
                       </div>
                       <div>
                         <div className="flex items-center gap-3 mb-1">
-                          <h3 className="font-semibold" data-testid={`battle-name-${battle.battleId}`}>{battle.displayName}</h3>
+                          <h3 className="font-semibold" data-testid={`battle-name-${battle.battleId}`}>{battle.displayName || generateBattleName(battle.battleId)}</h3>
                           {getStatusBadge(battle.status)}
                         </div>
                         <div className="flex items-center gap-4 text-sm text-muted-foreground">
