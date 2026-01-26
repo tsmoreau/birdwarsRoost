@@ -91,12 +91,77 @@ __turbopack_context__.s([
 ]);
 var __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$external$5d$__$28$mongoose$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f$mongoose$29$__ = __turbopack_context__.i("[externals]/mongoose [external] (mongoose, cjs, [project]/node_modules/mongoose)");
 ;
+const UnitSchema = new __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$external$5d$__$28$mongoose$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f$mongoose$29$__["Schema"]({
+    unitId: {
+        type: String,
+        required: true
+    },
+    type: {
+        type: String,
+        required: true
+    },
+    x: {
+        type: Number,
+        required: true
+    },
+    y: {
+        type: Number,
+        required: true
+    },
+    hp: {
+        type: Number,
+        required: true
+    },
+    owner: {
+        type: String,
+        required: true
+    }
+}, {
+    _id: false
+});
+const BlockedTileSchema = new __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$external$5d$__$28$mongoose$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f$mongoose$29$__["Schema"]({
+    x: {
+        type: Number,
+        required: true
+    },
+    y: {
+        type: Number,
+        required: true
+    },
+    itemType: {
+        type: String,
+        required: true
+    }
+}, {
+    _id: false
+});
+const CurrentStateSchema = new __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$external$5d$__$28$mongoose$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f$mongoose$29$__["Schema"]({
+    units: {
+        type: [
+            UnitSchema
+        ],
+        default: []
+    },
+    blockedTiles: {
+        type: [
+            BlockedTileSchema
+        ],
+        default: []
+    }
+}, {
+    _id: false
+});
 const BattleSchema = new __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$external$5d$__$28$mongoose$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f$mongoose$29$__["Schema"]({
     battleId: {
         type: String,
         required: true,
         unique: true,
         index: true
+    },
+    displayName: {
+        type: String,
+        required: false,
+        default: ''
     },
     player1DeviceId: {
         type: String,
@@ -138,6 +203,20 @@ const BattleSchema = new __TURBOPACK__imported__module__$5b$externals$5d2f$mongo
         type: String,
         default: null
     },
+    endReason: {
+        type: String,
+        enum: [
+            'victory',
+            'forfeit',
+            'draw',
+            null
+        ],
+        default: null
+    },
+    lastTurnAt: {
+        type: Date,
+        default: null
+    },
     mapData: {
         type: __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$external$5d$__$28$mongoose$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f$mongoose$29$__["Schema"].Types.Mixed,
         default: {}
@@ -145,19 +224,46 @@ const BattleSchema = new __TURBOPACK__imported__module__$5b$externals$5d2f$mongo
     isPrivate: {
         type: Boolean,
         default: false
+    },
+    currentState: {
+        type: CurrentStateSchema,
+        default: ()=>({
+                units: [],
+                blockedTiles: []
+            })
     }
 });
-const Battle = __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$external$5d$__$28$mongoose$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f$mongoose$29$__["default"].models.Battle || __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$external$5d$__$28$mongoose$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f$mongoose$29$__["default"].model('Battle', BattleSchema);
+// Delete cached model to ensure schema updates take effect
+if (__TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$external$5d$__$28$mongoose$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f$mongoose$29$__["default"].models.Battle) {
+    delete __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$external$5d$__$28$mongoose$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f$mongoose$29$__["default"].models.Battle;
+}
+const Battle = __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$external$5d$__$28$mongoose$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f$mongoose$29$__["default"].model('Battle', BattleSchema);
 }),
 "[project]/models/Device.ts [app-route] (ecmascript)", ((__turbopack_context__) => {
 "use strict";
 
 __turbopack_context__.s([
     "Device",
-    ()=>Device
+    ()=>Device,
+    "VALID_AVATARS",
+    ()=>VALID_AVATARS
 ]);
 var __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$external$5d$__$28$mongoose$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f$mongoose$29$__ = __turbopack_context__.i("[externals]/mongoose [external] (mongoose, cjs, [project]/node_modules/mongoose)");
 ;
+const VALID_AVATARS = [
+    'BIRD1',
+    'BIRD2',
+    'BIRD3',
+    'BIRD4',
+    'BIRD5',
+    'BIRD6',
+    'BIRD7',
+    'BIRD8',
+    'BIRD9',
+    'BIRD10',
+    'BIRD11',
+    'BIRD12'
+];
 const DeviceSchema = new __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$external$5d$__$28$mongoose$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f$mongoose$29$__["Schema"]({
     deviceId: {
         type: String,
@@ -172,6 +278,24 @@ const DeviceSchema = new __TURBOPACK__imported__module__$5b$externals$5d2f$mongo
     displayName: {
         type: String,
         default: 'Unnamed Device'
+    },
+    avatar: {
+        type: String,
+        enum: [
+            'BIRD1',
+            'BIRD2',
+            'BIRD3',
+            'BIRD4',
+            'BIRD5',
+            'BIRD6',
+            'BIRD7',
+            'BIRD8',
+            'BIRD9',
+            'BIRD10',
+            'BIRD11',
+            'BIRD12'
+        ],
+        default: 'BIRD1'
     },
     registeredAt: {
         type: Date,
@@ -309,11 +433,55 @@ __turbopack_context__.s([
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/server.js [app-route] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$mongodb$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/lib/mongodb.ts [app-route] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$models$2f$Battle$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/models/Battle.ts [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$models$2f$Device$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/models/Device.ts [app-route] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$authMiddleware$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/lib/authMiddleware.ts [app-route] (ecmascript)");
 ;
 ;
 ;
 ;
+;
+async function getPlayerInfo(deviceIds) {
+    const validIds = deviceIds.filter((id)=>id !== null);
+    if (validIds.length === 0) return new Map();
+    const devices = await __TURBOPACK__imported__module__$5b$project$5d2f$models$2f$Device$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Device"].find({
+        deviceId: {
+            $in: validIds
+        }
+    });
+    const map = new Map();
+    for (const device of devices){
+        map.set(device.deviceId, {
+            displayName: device.displayName || 'Unknown Player',
+            avatar: device.avatar || 'BIRD1'
+        });
+    }
+    return map;
+}
+const FORFEIT_TIMEOUT_DAYS = 7;
+async function checkAndProcessForfeits(battles, callerDeviceId) {
+    const now = new Date();
+    const timeoutMs = FORFEIT_TIMEOUT_DAYS * 24 * 60 * 60 * 1000;
+    for (const battle of battles){
+        if (battle.status !== 'active') continue;
+        if (!battle.player1DeviceId || !battle.player2DeviceId) continue;
+        const lastActivity = battle.lastTurnAt || battle.updatedAt;
+        const timeSinceLastTurn = now.getTime() - new Date(lastActivity).getTime();
+        if (timeSinceLastTurn < timeoutMs) continue;
+        const players = [
+            battle.player1DeviceId,
+            battle.player2DeviceId
+        ];
+        const currentTurnPlayer = players[battle.currentPlayerIndex];
+        if (currentTurnPlayer) {
+            const winner = currentTurnPlayer === battle.player1DeviceId ? battle.player2DeviceId : battle.player1DeviceId;
+            battle.status = 'completed';
+            battle.winnerId = winner;
+            battle.endReason = 'forfeit';
+            battle.updatedAt = now;
+            await battle.save();
+        }
+    }
+}
 async function GET(request) {
     try {
         const auth = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$authMiddleware$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["authenticateDevice"])(request);
@@ -321,7 +489,9 @@ async function GET(request) {
             return (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$authMiddleware$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["unauthorizedResponse"])('Device authentication required');
         }
         await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$mongodb$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["connectToDatabase"])();
-        const battles = await __TURBOPACK__imported__module__$5b$project$5d2f$models$2f$Battle$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Battle"].find({
+        const { searchParams } = new URL(request.url);
+        const statusFilter = searchParams.get('status');
+        const query = {
             $or: [
                 {
                     player1DeviceId: auth.deviceId
@@ -330,13 +500,43 @@ async function GET(request) {
                     player2DeviceId: auth.deviceId
                 }
             ]
-        }).sort({
+        };
+        if (statusFilter && [
+            'pending',
+            'active',
+            'completed',
+            'abandoned'
+        ].includes(statusFilter)) {
+            query.status = statusFilter;
+        }
+        const battles = await __TURBOPACK__imported__module__$5b$project$5d2f$models$2f$Battle$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Battle"].find(query).sort({
             updatedAt: -1
         }).limit(100);
+        await checkAndProcessForfeits(battles, auth.deviceId);
+        const updatedBattles = await __TURBOPACK__imported__module__$5b$project$5d2f$models$2f$Battle$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Battle"].find(query).sort({
+            updatedAt: -1
+        }).limit(100);
+        const allPlayerIds = updatedBattles.flatMap((b)=>[
+                b.player1DeviceId,
+                b.player2DeviceId
+            ]);
+        const playerInfoMap = await getPlayerInfo(allPlayerIds);
+        const battlesWithPlayerInfo = updatedBattles.map((battle)=>{
+            const battleObj = battle.toObject();
+            const p1Info = playerInfoMap.get(battle.player1DeviceId);
+            const p2Info = battle.player2DeviceId ? playerInfoMap.get(battle.player2DeviceId) : null;
+            return {
+                ...battleObj,
+                player1DisplayName: p1Info?.displayName || 'Unknown Player',
+                player1Avatar: p1Info?.avatar || 'BIRD1',
+                player2DisplayName: p2Info?.displayName || null,
+                player2Avatar: p2Info?.avatar || null
+            };
+        });
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
             success: true,
-            battles,
-            count: battles.length
+            battles: battlesWithPlayerInfo,
+            count: battlesWithPlayerInfo.length
         });
     } catch (error) {
         console.error('Fetch my battles error:', error);
