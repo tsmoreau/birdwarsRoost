@@ -3,6 +3,7 @@ import { connectToDatabase } from '@/lib/mongodb';
 import { Battle } from '@/models/Battle';
 import { authenticateDevice, unauthorizedResponse } from '@/lib/authMiddleware';
 import { generateSecureToken } from '@/lib/auth';
+import { generateBattleName } from '@/lib/battleNames';
 import { z } from 'zod';
 
 const createBattleSchema = z.object({
@@ -55,9 +56,11 @@ export async function POST(request: NextRequest) {
     const { mapData, isPrivate } = parsed.data;
 
     const battleId = generateSecureToken().substring(0, 16);
+    const displayName = generateBattleName(battleId);
 
     const battle = new Battle({
       battleId,
+      displayName,
       player1DeviceId: auth.deviceId,
       player2DeviceId: null,
       status: 'pending',
@@ -76,6 +79,7 @@ export async function POST(request: NextRequest) {
       success: true,
       battle: {
         battleId: battle.battleId,
+        displayName: battle.displayName,
         status: battle.status,
         currentTurn: battle.currentTurn,
         isPrivate: battle.isPrivate,

@@ -25,6 +25,7 @@ export interface ICurrentState {
 
 export interface IBattle {
   battleId: string;
+  displayName: string;
   player1DeviceId: string;
   player2DeviceId: string | null;
   status: BattleStatus;
@@ -68,6 +69,10 @@ const BattleSchema = new Schema<IBattleDocument>({
     required: true, 
     unique: true,
     index: true 
+  },
+  displayName: {
+    type: String,
+    required: true
   },
   player1DeviceId: { 
     type: String, 

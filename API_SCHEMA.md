@@ -161,6 +161,7 @@ List all public battles (excludes private battles).
   "battles": [
     {
       "battleId": "abc123def456",
+      "displayName": "Molting-Siege-42",
       "player1DeviceId": "device1...",
       "player2DeviceId": "device2..." | null,
       "status": "pending" | "active" | "completed" | "abandoned",
@@ -200,6 +201,7 @@ For public battles:
   "success": true,
   "battle": {
     "battleId": "abc123def456",
+    "displayName": "Molting-Siege-42",
     "status": "pending",
     "currentTurn": 0,
     "isPrivate": false
@@ -214,6 +216,7 @@ For private battles:
   "success": true,
   "battle": {
     "battleId": "abc123def456",
+    "displayName": "Molting-Siege-42",
     "status": "pending",
     "currentTurn": 0,
     "isPrivate": true
@@ -244,6 +247,7 @@ Get battle details and turn history.
   "success": true,
   "battle": {
     "battleId": "abc123def456",
+    "displayName": "Molting-Siege-42",
     "player1DeviceId": "device1...",
     "player2DeviceId": "device2...",
     "status": "active",
@@ -347,6 +351,7 @@ When this endpoint is called, the server checks all active battles. If the oppon
   "battles": [
     {
       "battleId": "abc123...",
+      "displayName": "Molting-Siege-42",
       "status": "active",
       "winnerId": null,
       "endReason": null,
@@ -678,6 +683,7 @@ GET /api/ping?deviceId=abc123...
 ```typescript
 {
   battleId: string;              // Unique battle identifier (16 chars)
+  displayName: string;           // Deterministic friendly name (e.g., "Molting-Siege-42")
   player1DeviceId: string;       // Creator's device ID
   player2DeviceId: string | null; // Opponent's device ID (null if pending)
   status: 'pending' | 'active' | 'completed' | 'abandoned';
