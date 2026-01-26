@@ -1,3 +1,9 @@
 {
+  "/api/battles/[id]/route": "app/api/battles/[id]/route.js",
+  "/api/battles/route": "app/api/battles/route.js",
+  "/api/register/route": "app/api/register/route.js",
+  "/battles/[id]/page": "app/battles/[id]/page.js",
+  "/battles/page": "app/battles/page.js",
+  "/devices/page": "app/devices/page.js",
   "/page": "app/page.js"
 }
