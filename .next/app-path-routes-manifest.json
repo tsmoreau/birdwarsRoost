@@ -1,0 +1,18 @@
+{
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/api/battles/[id]/join/route": "/api/battles/[id]/join",
+  "/api/battles/[id]/route": "/api/battles/[id]",
+  "/api/battles/route": "/api/battles",
+  "/api/mybattles/route": "/api/mybattles",
+  "/api/ping/route": "/api/ping",
+  "/api/register/route": "/api/register",
+  "/api/stats/route": "/api/stats",
+  "/api/turns/route": "/api/turns",
+  "/battles/[id]/page": "/battles/[id]",
+  "/battles/page": "/battles",
+  "/dashboard/page": "/dashboard",
+  "/devices/page": "/devices",
+  "/page": "/",
+  "/schema/page": "/schema"
+}

@@ -1,0 +1,18 @@
+{
+  "/_global-error/page": "app/_global-error/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/api/battles/[id]/join/route": "app/api/battles/[id]/join/route.js",
+  "/api/battles/[id]/route": "app/api/battles/[id]/route.js",
+  "/api/battles/route": "app/api/battles/route.js",
+  "/api/mybattles/route": "app/api/mybattles/route.js",
+  "/api/ping/route": "app/api/ping/route.js",
+  "/api/register/route": "app/api/register/route.js",
+  "/api/stats/route": "app/api/stats/route.js",
+  "/api/turns/route": "app/api/turns/route.js",
+  "/battles/[id]/page": "app/battles/[id]/page.js",
+  "/battles/page": "app/battles/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/devices/page": "app/devices/page.js",
+  "/page": "app/page.js",
+  "/schema/page": "app/schema/page.js"
+}
