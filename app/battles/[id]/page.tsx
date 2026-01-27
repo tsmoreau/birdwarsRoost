@@ -25,7 +25,11 @@ interface Battle {
   battleId: string;
   displayName: string;
   player1DeviceId: string;
+  player1DisplayName: string;
+  player1Avatar: string;
   player2DeviceId: string | null;
+  player2DisplayName: string | null;
+  player2Avatar: string | null;
   status: 'pending' | 'active' | 'completed' | 'abandoned';
   currentTurn: number;
   currentPlayerIndex: number;
@@ -177,7 +181,7 @@ export default function BattleDetailPage() {
               <p className="text-3xl font-bold" data-testid="text-current-turn">{battle.currentTurn}</p>
               {battle.status === 'active' && (
                 <p className="text-sm text-muted-foreground mt-1">
-                  Player {battle.currentPlayerIndex + 1}'s turn
+                  {battle.currentPlayerIndex === 0 ? battle.player1DisplayName : battle.player2DisplayName}'s turn (P{battle.currentPlayerIndex + 1})
                 </p>
               )}
             </CardContent>
@@ -227,18 +231,23 @@ export default function BattleDetailPage() {
                     <Gamepad2 className="w-5 h-5 text-muted-foreground" />
                   </div>
                   <div>
-                    <p className="font-medium">Player 1</p>
+                    <div className="flex items-center gap-2">
+                      <p className="font-medium" data-testid="text-player1-name">{battle.player1DisplayName}</p>
+                      <Badge variant="outline" className="text-xs">P1</Badge>
+                    </div>
                     <p className="text-xs text-muted-foreground font-mono">
                       {battle.player1DeviceId.substring(0, 16)}...
                     </p>
                   </div>
                 </div>
-                {battle.status === 'active' && battle.currentPlayerIndex === 0 && (
-                  <Badge variant="default">Current Turn</Badge>
-                )}
-                {battle.winnerId === battle.player1DeviceId && (
-                  <Badge variant="success">Winner</Badge>
-                )}
+                <div className="flex items-center gap-2">
+                  {battle.status === 'active' && battle.currentPlayerIndex === 0 && (
+                    <Badge variant="default">Current Turn</Badge>
+                  )}
+                  {battle.winnerId === battle.player1DeviceId && (
+                    <Badge variant="success">Winner</Badge>
+                  )}
+                </div>
               </div>
 
               {battle.player2DeviceId ? (
@@ -248,18 +257,23 @@ export default function BattleDetailPage() {
                       <Gamepad2 className="w-5 h-5 text-muted-foreground" />
                     </div>
                     <div>
-                      <p className="font-medium">Player 2</p>
+                      <div className="flex items-center gap-2">
+                        <p className="font-medium" data-testid="text-player2-name">{battle.player2DisplayName}</p>
+                        <Badge variant="outline" className="text-xs">P2</Badge>
+                      </div>
                       <p className="text-xs text-muted-foreground font-mono">
                         {battle.player2DeviceId.substring(0, 16)}...
                       </p>
                     </div>
                   </div>
-                  {battle.status === 'active' && battle.currentPlayerIndex === 1 && (
-                    <Badge variant="default">Current Turn</Badge>
-                  )}
-                  {battle.winnerId === battle.player2DeviceId && (
-                    <Badge variant="success">Winner</Badge>
-                  )}
+                  <div className="flex items-center gap-2">
+                    {battle.status === 'active' && battle.currentPlayerIndex === 1 && (
+                      <Badge variant="default">Current Turn</Badge>
+                    )}
+                    {battle.winnerId === battle.player2DeviceId && (
+                      <Badge variant="success">Winner</Badge>
+                    )}
+                  </div>
                 </div>
               ) : (
                 <div className="flex items-center justify-center p-4 rounded-lg border border-dashed border-border">
