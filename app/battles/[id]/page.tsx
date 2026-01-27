@@ -305,8 +305,20 @@ export default function BattleDetailPage() {
                       data-testid={`turn-${turn.turnNumber}`}
                     >
                       <div className="flex items-center justify-between mb-2">
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 flex-wrap">
                           <span className="font-medium">Turn {turn.turnNumber}</span>
+                          <span className="text-sm text-muted-foreground" data-testid={`turn-${turn.turnNumber}-player`}>
+                            by {turn.deviceId === battle.player1DeviceId 
+                              ? battle.player1DisplayName 
+                              : turn.deviceId === battle.player2DeviceId 
+                                ? (battle.player2DisplayName || 'Player 2')
+                                : 'Unknown'}
+                          </span>
+                          {(turn.deviceId === battle.player1DeviceId || turn.deviceId === battle.player2DeviceId) && (
+                            <Badge variant="outline" className="text-xs" data-testid={`turn-${turn.turnNumber}-badge`}>
+                              {turn.deviceId === battle.player1DeviceId ? 'P1' : 'P2'}
+                            </Badge>
+                          )}
                           {turn.isValid ? (
                             <Badge variant="success" className="text-xs">Valid</Badge>
                           ) : (
