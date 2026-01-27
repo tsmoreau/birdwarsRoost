@@ -1,0 +1,147 @@
+{
+  "version": 3,
+  "pages404": true,
+  "appType": "app",
+  "caseSensitive": false,
+  "basePath": "",
+  "redirects": [
+    {
+      "source": "/:path+/",
+      "destination": "/:path+",
+      "internal": true,
+      "priority": true,
+      "statusCode": 308,
+      "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$"
+    }
+  ],
+  "headers": [],
+  "rewrites": {
+    "beforeFiles": [],
+    "afterFiles": [],
+    "fallback": []
+  },
+  "dynamicRoutes": [
+    {
+      "page": "/api/battles/[id]",
+      "regex": "^/api/battles/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/api/battles/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/api/battles/[id]/join",
+      "regex": "^/api/battles/([^/]+?)/join(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/api/battles/(?<nxtPid>[^/]+?)/join(?:/)?$"
+    },
+    {
+      "page": "/battles/[id]",
+      "regex": "^/battles/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/battles/(?<nxtPid>[^/]+?)(?:/)?$"
+    }
+  ],
+  "staticRoutes": [
+    {
+      "page": "/",
+      "regex": "^/(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/(?:/)?$"
+    },
+    {
+      "page": "/_global-error",
+      "regex": "^/_global\\-error(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_global\\-error(?:/)?$"
+    },
+    {
+      "page": "/_not-found",
+      "regex": "^/_not\\-found(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_not\\-found(?:/)?$"
+    },
+    {
+      "page": "/api/battles",
+      "regex": "^/api/battles(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/battles(?:/)?$"
+    },
+    {
+      "page": "/api/mybattles",
+      "regex": "^/api/mybattles(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/mybattles(?:/)?$"
+    },
+    {
+      "page": "/api/ping",
+      "regex": "^/api/ping(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/ping(?:/)?$"
+    },
+    {
+      "page": "/api/register",
+      "regex": "^/api/register(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/register(?:/)?$"
+    },
+    {
+      "page": "/api/stats",
+      "regex": "^/api/stats(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/stats(?:/)?$"
+    },
+    {
+      "page": "/api/turns",
+      "regex": "^/api/turns(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/turns(?:/)?$"
+    },
+    {
+      "page": "/battles",
+      "regex": "^/battles(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/battles(?:/)?$"
+    },
+    {
+      "page": "/dashboard",
+      "regex": "^/dashboard(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/dashboard(?:/)?$"
+    },
+    {
+      "page": "/devices",
+      "regex": "^/devices(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/devices(?:/)?$"
+    },
+    {
+      "page": "/schema",
+      "regex": "^/schema(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/schema(?:/)?$"
+    }
+  ],
+  "dataRoutes": [],
+  "rsc": {
+    "header": "rsc",
+    "varyHeader": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+    "prefetchHeader": "next-router-prefetch",
+    "didPostponeHeader": "x-nextjs-postponed",
+    "contentTypeHeader": "text/x-component",
+    "suffix": ".rsc",
+    "prefetchSegmentHeader": "next-router-segment-prefetch",
+    "prefetchSegmentSuffix": ".segment.rsc",
+    "prefetchSegmentDirSuffix": ".segments",
+    "clientParamParsing": false,
+    "dynamicRSCPrerender": false
+  },
+  "rewriteHeaders": {
+    "pathHeader": "x-nextjs-rewritten-path",
+    "queryHeader": "x-nextjs-rewritten-query"
+  }
+}
