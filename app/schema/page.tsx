@@ -472,7 +472,7 @@ export default function SchemaPage() {
             <div>
               <h3 className="font-medium mb-2">Action</h3>
               <div className="text-sm space-y-1 text-muted-foreground">
-                <p><code className="bg-muted px-1 rounded">type</code> — "move" | "attack" | "build" | "capture" | "wait" | "end_turn"</p>
+                <p><code className="bg-muted px-1 rounded">type</code> — "move" | "attack" | "build" | "capture" | "wait" | "take_off" | "land" | "supply" | "end_turn"</p>
                 <p><code className="bg-muted px-1 rounded">unitId</code> — Identifier of the unit performing action</p>
                 <p><code className="bg-muted px-1 rounded">from</code> — Starting position {"{ x, y }"}</p>
                 <p><code className="bg-muted px-1 rounded">to</code> — Target position {"{ x, y }"}</p>

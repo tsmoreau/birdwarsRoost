@@ -486,6 +486,9 @@ All action fields except `type` are optional. The server validates the schema bu
 | `build` | Build something | `unitId`, `to`, `data` |
 | `capture` | Capture a target | `unitId`, `targetId` |
 | `wait` | Unit waits | `unitId` |
+| `take_off` | Transition unit from ground to air | `unitId` |
+| `land` | Transition unit from air to ground | `unitId` |
+| `supply` | Replenish food for adjacent units | `unitId` |
 | `end_turn` | End the turn | none |
 
 **Note:** Only `type` is required by the server. All other fields are optional and should be validated client-side based on your game logic.
@@ -785,7 +788,7 @@ GET /api/ping?deviceId=abc123...
 ### Action
 ```typescript
 {
-  type: 'move' | 'attack' | 'build' | 'capture' | 'wait' | 'end_turn';
+  type: 'move' | 'attack' | 'build' | 'capture' | 'wait' | 'end_turn' | 'take_off' | 'land' | 'supply';
   unitId?: string;          // Unit performing the action
   from?: { x: number, y: number };  // Starting position
   to?: { x: number, y: number };    // Target position

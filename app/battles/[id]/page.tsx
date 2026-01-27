@@ -119,6 +119,12 @@ export default function BattleDetailPage() {
         return `Capture building at (${action.to?.x}, ${action.to?.y})`;
       case 'wait':
         return `${action.unitId || 'Unit'} waits`;
+      case 'take_off':
+        return `${action.unitId || 'Unit'} takes off`;
+      case 'land':
+        return `${action.unitId || 'Unit'} lands`;
+      case 'supply':
+        return `${action.unitId || 'Unit'} supplies adjacent units`;
       case 'end_turn':
         return 'End turn';
       default:
