@@ -109,6 +109,8 @@ export async function GET(request: NextRequest) {
       return {
         battleId: battleObj.battleId,
         displayName: battleObj.displayName,
+        player1DeviceId: battleObj.player1DeviceId,
+        player2DeviceId: battleObj.player2DeviceId,
         player1DisplayName: p1Info?.displayName || 'Unknown Player',
         player1Avatar: p1Info?.avatar || 'BIRD1',
         player2DisplayName: p2Info?.displayName || null,
