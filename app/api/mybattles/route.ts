@@ -103,6 +103,9 @@ export async function GET(request: NextRequest) {
       const p1Info = playerInfoMap.get(battle.player1DeviceId);
       const p2Info = battle.player2DeviceId ? playerInfoMap.get(battle.player2DeviceId) : null;
       
+      const myPlayerIndex = battle.player1DeviceId === auth.deviceId ? 0 : 1;
+      const isMyTurn = battleObj.currentPlayerIndex === myPlayerIndex;
+      
       return {
         battleId: battleObj.battleId,
         displayName: battleObj.displayName,
@@ -113,6 +116,8 @@ export async function GET(request: NextRequest) {
         status: battleObj.status,
         currentTurn: battleObj.currentTurn,
         currentPlayerIndex: battleObj.currentPlayerIndex,
+        myPlayerIndex,
+        isMyTurn,
         isPrivate: battleObj.isPrivate,
         lastTurnAt: battleObj.lastTurnAt,
       };
