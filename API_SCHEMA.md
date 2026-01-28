@@ -150,7 +150,7 @@ List all registered devices (for admin/dashboard use).
 
 #### GET /api/battles
 
-List all public battles (excludes private battles).
+List all public battles (excludes private battles). Returns the 50 most recently updated battles.
 
 **Authentication:** None required
 
@@ -162,28 +162,36 @@ List all public battles (excludes private battles).
     {
       "battleId": "abc123def456",
       "displayName": "Molting-Siege-42",
-      "player1DeviceId": "device1...",
       "player1DisplayName": "PlayerOne",
       "player1Avatar": "BIRD4",
-      "player2DeviceId": "device2..." | null,
       "player2DisplayName": "PlayerTwo" | null,
       "player2Avatar": "BIRD7" | null,
       "status": "pending" | "active" | "completed" | "abandoned",
       "currentTurn": 0,
       "currentPlayerIndex": 0,
-      "createdAt": "2025-01-23T12:00:00.000Z",
-      "updatedAt": "2025-01-23T12:00:00.000Z",
-      "winnerId": null | "deviceId...",
-      "mapData": {},
-      "isPrivate": false
+      "isPrivate": false,
+      "lastTurnAt": "2025-01-23T14:30:00.000Z" | null,
+      "mapName": "Forest Arena"
     }
   ]
 }
 ```
 
-**Player Info Fields:**
-- `player1DisplayName` / `player2DisplayName`: The player's display name (or "Unknown Player" if not found)
-- `player1Avatar` / `player2Avatar`: The player's avatar (BIRD1-BIRD12, null if player2 hasn't joined)
+**Response Fields:**
+| Field | Type | Description |
+|-------|------|-------------|
+| battleId | string | Unique battle identifier |
+| displayName | string | Human-readable battle name |
+| player1DisplayName | string | Player 1's display name (or "Unknown Player") |
+| player1Avatar | string | Player 1's avatar (BIRD1-BIRD12) |
+| player2DisplayName | string/null | Player 2's display name (null if not joined) |
+| player2Avatar | string/null | Player 2's avatar (null if not joined) |
+| status | string | Battle status |
+| currentTurn | number | Current turn number |
+| currentPlayerIndex | number | Whose turn it is (0 or 1) |
+| isPrivate | boolean | Whether battle is private |
+| lastTurnAt | string/null | ISO timestamp of last turn |
+| mapName | string | Map name from mapData.selection (or "Unknown Map")
 
 ---
 
@@ -387,7 +395,7 @@ Join a pending battle as player 2. This is an alternative to `PATCH /api/battles
 
 #### GET /api/mybattles
 
-Get all battles where the authenticated device is a participant (includes private battles).
+Get all battles where the authenticated device is a participant (includes private battles). Returns up to 100 battles.
 
 **Authentication:** Required
 
@@ -410,33 +418,70 @@ When this endpoint is called, the server checks all active battles. If the oppon
     {
       "battleId": "abc123...",
       "displayName": "Molting-Siege-42",
-      "player1DeviceId": "device1...",
       "player1DisplayName": "PlayerOne",
       "player1Avatar": "BIRD4",
-      "player2DeviceId": "device2...",
       "player2DisplayName": "PlayerTwo",
       "player2Avatar": "BIRD7",
       "status": "active",
-      "winnerId": null,
-      "endReason": null,
+      "currentTurn": 5,
+      "currentPlayerIndex": 1,
+      "myPlayerIndex": 0,
+      "isMyTurn": false,
+      "isPrivate": false,
       "lastTurnAt": "2025-01-20T10:30:00.000Z",
-      ...
+      "mapName": "Forest Arena"
     }
   ],
   "count": 5
 }
 ```
 
-**Player Info Fields:**
-- `player1DisplayName` / `player2DisplayName`: The player's display name (or "Unknown Player" if not found, null if player2 hasn't joined)
-- `player1Avatar` / `player2Avatar`: The player's avatar (BIRD1-BIRD12, null if player2 hasn't joined)
-
-**Battle End Fields:**
+**Response Fields:**
 | Field | Type | Description |
 |-------|------|-------------|
-| winnerId | string/null | Device ID of winner (null if ongoing) |
-| endReason | string/null | How battle ended: `victory`, `forfeit`, `draw` |
-| lastTurnAt | string/null | ISO timestamp of last turn submission |
+| battleId | string | Unique battle identifier |
+| displayName | string | Human-readable battle name |
+| player1DisplayName | string | Player 1's display name (or "Unknown Player") |
+| player1Avatar | string | Player 1's avatar (BIRD1-BIRD12) |
+| player2DisplayName | string/null | Player 2's display name (null if not joined) |
+| player2Avatar | string/null | Player 2's avatar (null if not joined) |
+| status | string | Battle status |
+| currentTurn | number | Current turn number |
+| currentPlayerIndex | number | Whose turn it is (0 or 1) |
+| myPlayerIndex | number | Your player index (0 = player1, 1 = player2) |
+| isMyTurn | boolean | Whether it's your turn |
+| isPrivate | boolean | Whether battle is private |
+| lastTurnAt | string/null | ISO timestamp of last turn |
+| mapName | string | Map name from mapData.selection (or "Unknown Map") |
+| count | number | Total number of battles returned |
+
+---
+
+#### GET /api/myActiveTurns
+
+Get a lightweight list of battles where it's the authenticated device's turn. Useful for quick polling to check if action is needed.
+
+**Authentication:** Required
+
+**Success Response (200):**
+```json
+{
+  "success": true,
+  "count": 2,
+  "battles": ["abc123def456", "xyz789ghi012"]
+}
+```
+
+**Response Fields:**
+| Field | Type | Description |
+|-------|------|-------------|
+| success | boolean | Always true on success |
+| count | number | Number of battles awaiting your turn |
+| battles | string[] | Array of battleIds where it's your turn |
+
+**Error Responses:**
+- `401` - Authentication required
+- `500` - Server error
 
 ---
 
