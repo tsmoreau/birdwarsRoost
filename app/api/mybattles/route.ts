@@ -120,6 +120,7 @@ export async function GET(request: NextRequest) {
         isMyTurn,
         isPrivate: battleObj.isPrivate,
         lastTurnAt: battleObj.lastTurnAt,
+        mapName: battleObj.mapData?.selection || 'Unknown Map',
       };
     });
 

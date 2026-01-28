@@ -62,6 +62,7 @@ export async function GET() {
         currentPlayerIndex: battleObj.currentPlayerIndex,
         isPrivate: battleObj.isPrivate,
         lastTurnAt: battleObj.lastTurnAt,
+        mapName: battleObj.mapData?.selection || 'Unknown Map',
       };
     });
 
