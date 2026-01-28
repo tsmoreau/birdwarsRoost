@@ -128,6 +128,15 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   type __Unused = __Check
 }
 
+// Validate ../../../app/api/myActiveTurns/route.ts
+{
+  type __IsExpected<Specific extends RouteHandlerConfig<"/api/myActiveTurns">> = Specific
+  const handler = {} as typeof import("../../../app/api/myActiveTurns/route.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
 // Validate ../../../app/api/mybattles/route.ts
 {
   type __IsExpected<Specific extends RouteHandlerConfig<"/api/mybattles">> = Specific
