@@ -104,24 +104,17 @@ export async function GET(request: NextRequest) {
       const p2Info = battle.player2DeviceId ? playerInfoMap.get(battle.player2DeviceId) : null;
       
       return {
-        _id: battleObj._id,
         battleId: battleObj.battleId,
         displayName: battleObj.displayName,
-        player1DeviceId: battleObj.player1DeviceId,
         player1DisplayName: p1Info?.displayName || 'Unknown Player',
         player1Avatar: p1Info?.avatar || 'BIRD1',
-        player2DeviceId: battleObj.player2DeviceId,
         player2DisplayName: p2Info?.displayName || null,
         player2Avatar: p2Info?.avatar || null,
         status: battleObj.status,
         currentTurn: battleObj.currentTurn,
         currentPlayerIndex: battleObj.currentPlayerIndex,
-        winnerId: battleObj.winnerId,
-        endReason: battleObj.endReason,
-        lastTurnAt: battleObj.lastTurnAt,
-        createdAt: battleObj.createdAt,
-        updatedAt: battleObj.updatedAt,
         isPrivate: battleObj.isPrivate,
+        lastTurnAt: battleObj.lastTurnAt,
       };
     });
 
