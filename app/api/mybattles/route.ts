@@ -122,8 +122,6 @@ export async function GET(request: NextRequest) {
         createdAt: battleObj.createdAt,
         updatedAt: battleObj.updatedAt,
         isPrivate: battleObj.isPrivate,
-        mapData: battleObj.mapData,
-        currentState: battleObj.currentState,
       };
     });
 
