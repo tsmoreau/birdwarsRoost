@@ -3,6 +3,7 @@
 import { connectToDatabase } from '@/lib/mongodb';
 import { Battle } from '@/models/Battle';
 import { Device } from '@/models/Device';
+import { Turn } from '@/models/Turn';
 
 interface PlayerInfo {
   displayName: string;
@@ -82,6 +83,102 @@ export async function getBattles(options?: { includePrivate?: boolean; limit?: n
       createdAt: battleObj.createdAt.toISOString(),
       updatedAt: battleObj.updatedAt.toISOString(),
       winnerId: battleObj.winnerId,
+    };
+  });
+}
+
+export interface BattleProfile {
+  battleId: string;
+  displayName: string;
+  player1DeviceId: string;
+  player1DisplayName: string;
+  player1Avatar: string;
+  player2DeviceId: string | null;
+  player2DisplayName: string | null;
+  player2Avatar: string | null;
+  status: 'pending' | 'active' | 'completed' | 'abandoned';
+  currentTurn: number;
+  currentPlayerIndex: number;
+  createdAt: string;
+  updatedAt: string;
+  winnerId: string | null;
+  endReason: string | null;
+  mapData: Record<string, unknown>;
+  isPrivate: boolean;
+}
+
+export interface TurnData {
+  turnId: string;
+  battleId: string;
+  deviceId: string;
+  turnNumber: number;
+  actions: Array<{
+    type: string;
+    unitId?: string;
+    from?: { x: number; y: number };
+    to?: { x: number; y: number };
+    targetId?: string;
+    data?: Record<string, unknown>;
+  }>;
+  timestamp: string;
+  isValid: boolean;
+  validationErrors: string[];
+}
+
+export async function getBattleByDisplayName(displayName: string): Promise<BattleProfile | null> {
+  await connectToDatabase();
+  
+  const battle = await Battle.findOne({ 
+    displayName: { $regex: new RegExp(`^${displayName}$`, 'i') }
+  });
+  
+  if (!battle) {
+    return null;
+  }
+
+  const battleObj = battle.toObject();
+  const playerInfoMap = await getPlayerInfo([battleObj.player1DeviceId, battleObj.player2DeviceId]);
+
+  const p1Info = playerInfoMap.get(battleObj.player1DeviceId);
+  const p2Info = battleObj.player2DeviceId ? playerInfoMap.get(battleObj.player2DeviceId) : null;
+
+  return {
+    battleId: battleObj.battleId,
+    displayName: battleObj.displayName || 'Unnamed Battle',
+    player1DeviceId: battleObj.player1DeviceId,
+    player1DisplayName: p1Info?.displayName || 'Unknown Player',
+    player1Avatar: p1Info?.avatar || 'BIRD1',
+    player2DeviceId: battleObj.player2DeviceId,
+    player2DisplayName: p2Info?.displayName || null,
+    player2Avatar: p2Info?.avatar || null,
+    status: battleObj.status,
+    currentTurn: battleObj.currentTurn,
+    currentPlayerIndex: battleObj.currentPlayerIndex,
+    createdAt: battleObj.createdAt.toISOString(),
+    updatedAt: battleObj.updatedAt.toISOString(),
+    winnerId: battleObj.winnerId,
+    endReason: battleObj.endReason,
+    mapData: battleObj.mapData,
+    isPrivate: battleObj.isPrivate
+  };
+}
+
+export async function getBattleTurns(battleId: string): Promise<TurnData[]> {
+  await connectToDatabase();
+  
+  const turns = await Turn.find({ battleId }).sort({ turnNumber: -1 });
+  
+  return turns.map(turn => {
+    const turnObj = turn.toObject();
+    return {
+      turnId: turnObj.turnId,
+      battleId: turnObj.battleId,
+      deviceId: turnObj.deviceId,
+      turnNumber: turnObj.turnNumber,
+      actions: turnObj.actions,
+      timestamp: turnObj.timestamp.toISOString(),
+      isValid: turnObj.isValid,
+      validationErrors: turnObj.validationErrors
     };
   });
 }

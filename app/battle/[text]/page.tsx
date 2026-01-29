@@ -1,8 +1,5 @@
-"use client";
-
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { notFound } from "next/navigation";
 import {
   Card,
   CardContent,
@@ -15,164 +12,75 @@ import { Button } from "@/components/ui/button";
 import {
   Swords,
   ArrowLeft,
-  Loader2,
   Users,
   Clock,
-  Trophy,
   Gamepad2,
   Activity,
   ChevronRight,
 } from "lucide-react";
 import { formatRelativeTime, formatDate } from "@/lib/utils";
-import { generateBattleName } from "@/lib/battleNames";
 import Nav from "@/components/Nav";
+import { getBattleByDisplayName, getBattleTurns, type TurnData } from "@/app/actions/battles";
 
-interface Battle {
-  battleId: string;
-  displayName: string;
-  player1DeviceId: string;
-  player1DisplayName: string;
-  player1Avatar: string;
-  player2DeviceId: string | null;
-  player2DisplayName: string | null;
-  player2Avatar: string | null;
-  status: "pending" | "active" | "completed" | "abandoned";
-  currentTurn: number;
-  currentPlayerIndex: number;
-  createdAt: string;
-  updatedAt: string;
-  winnerId: string | null;
-  mapData: Record<string, unknown>;
+export const dynamic = 'force-dynamic';
+
+interface Props {
+  params: Promise<{ text: string }>;
 }
 
-interface TurnAction {
-  type: string;
-  unitId?: string;
-  from?: { x: number; y: number };
-  to?: { x: number; y: number };
-  targetId?: string;
+function getStatusBadge(status: string) {
+  switch (status) {
+    case "active":
+      return <Badge variant="success">Active</Badge>;
+    case "pending":
+      return <Badge variant="warning">Waiting for Opponent</Badge>;
+    case "completed":
+      return <Badge variant="secondary">Completed</Badge>;
+    case "abandoned":
+      return <Badge variant="destructive">Abandoned</Badge>;
+    default:
+      return <Badge variant="outline">{status}</Badge>;
+  }
 }
 
-interface Turn {
-  turnId: string;
-  battleId: string;
-  deviceId: string;
-  turnNumber: number;
-  actions: TurnAction[];
-  timestamp: string;
-  isValid: boolean;
-  validationErrors: string[];
+function getActionDescription(action: TurnData['actions'][0]) {
+  switch (action.type) {
+    case "move":
+      return `Move ${action.unitId || "unit"} from (${action.from?.x}, ${action.from?.y}) to (${action.to?.x}, ${action.to?.y})`;
+    case "attack":
+      return `Attack ${action.targetId || "target"} with ${action.unitId || "unit"}`;
+    case "build":
+      return `Build unit`;
+    case "capture":
+      return `Capture building at (${action.to?.x}, ${action.to?.y})`;
+    case "wait":
+      return `${action.unitId || "Unit"} waits`;
+    case "take_off":
+      return `${action.unitId || "Unit"} takes off`;
+    case "land":
+      return `${action.unitId || "Unit"} lands`;
+    case "supply":
+      return `${action.unitId || "Unit"} supplies adjacent units`;
+    case "end_turn":
+      return "End turn";
+    default:
+      return action.type;
+  }
 }
 
-export default function BattleDetailPage() {
-  const params = useParams();
-  const battleId = params.id as string;
+export default async function BattleDetailPage({ params }: Props) {
+  const { text } = await params;
+  const displayName = decodeURIComponent(text);
 
-  const [battle, setBattle] = useState<Battle | null>(null);
-  const [turns, setTurns] = useState<Turn[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const battle = await getBattleByDisplayName(displayName);
 
-  useEffect(() => {
-    async function fetchBattle() {
-      try {
-        const res = await fetch(`/api/battles/${battleId}`);
-        const data = await res.json();
-
-        if (data.success) {
-          setBattle(data.battle);
-          const sortedTurns = (data.turns || []).sort(
-            (a: Turn, b: Turn) => b.turnNumber - a.turnNumber,
-          );
-          setTurns(sortedTurns);
-        } else {
-          setError(data.error || "Failed to load battle");
-        }
-      } catch (err) {
-        console.error("Failed to fetch battle:", err);
-        setError("Failed to load battle");
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    if (battleId) {
-      fetchBattle();
-    }
-  }, [battleId]);
-
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case "active":
-        return <Badge variant="success">Active</Badge>;
-      case "pending":
-        return <Badge variant="warning">Waiting for Opponent</Badge>;
-      case "completed":
-        return <Badge variant="secondary">Completed</Badge>;
-      case "abandoned":
-        return <Badge variant="destructive">Abandoned</Badge>;
-      default:
-        return <Badge variant="outline">{status}</Badge>;
-    }
-  };
-
-  const getActionDescription = (action: TurnAction) => {
-    switch (action.type) {
-      case "move":
-        return `Move ${action.unitId || "unit"} from (${action.from?.x}, ${action.from?.y}) to (${action.to?.x}, ${action.to?.y})`;
-      case "attack":
-        return `Attack ${action.targetId || "target"} with ${action.unitId || "unit"}`;
-      case "build":
-        return `Build unit`;
-      case "capture":
-        return `Capture building at (${action.to?.x}, ${action.to?.y})`;
-      case "wait":
-        return `${action.unitId || "Unit"} waits`;
-      case "take_off":
-        return `${action.unitId || "Unit"} takes off`;
-      case "land":
-        return `${action.unitId || "Unit"} lands`;
-      case "supply":
-        return `${action.unitId || "Unit"} supplies adjacent units`;
-      case "end_turn":
-        return "End turn";
-      default:
-        return action.type;
-    }
-  };
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <Loader2
-          className="w-8 h-8 animate-spin text-muted-foreground"
-          data-testid="loading-spinner"
-        />
-      </div>
-    );
+  if (!battle) {
+    notFound();
   }
 
-  if (error || !battle) {
-    return (
-      <div className="min-h-screen bg-background">
-        <Nav />
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <Card>
-            <CardContent className="flex flex-col items-center justify-center py-16">
-              <Swords className="w-16 h-16 text-muted-foreground/50 mb-4" />
-              <h3 className="text-lg font-medium mb-2">Battle not found</h3>
-              <p className="text-muted-foreground text-sm">{error}</p>
-            </CardContent>
-          </Card>
-        </main>
-      </div>
-    );
-  }
+  const turns = await getBattleTurns(battle.battleId);
 
-  const players = [battle.player1DeviceId, battle.player2DeviceId].filter(
-    Boolean,
-  );
-  const currentPlayerDevice = players[battle.currentPlayerIndex];
+  const players = [battle.player1DeviceId, battle.player2DeviceId].filter(Boolean);
 
   return (
     <div className="min-h-screen bg-background">
@@ -193,7 +101,7 @@ export default function BattleDetailPage() {
               className="text-3xl font-bold"
               data-testid="battle-display-name"
             >
-              {battle.displayName || generateBattleName(battle.battleId)}
+              {battle.displayName}
             </h1>
             {getStatusBadge(battle.status)}
           </div>
@@ -220,7 +128,7 @@ export default function BattleDetailPage() {
                   {battle.currentPlayerIndex === 0
                     ? battle.player1DisplayName
                     : battle.player2DisplayName}
-                  's turn (P{battle.currentPlayerIndex + 1})
+                  &apos;s turn (P{battle.currentPlayerIndex + 1})
                 </p>
               )}
             </CardContent>
