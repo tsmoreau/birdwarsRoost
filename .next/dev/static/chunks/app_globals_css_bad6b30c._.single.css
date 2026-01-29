@@ -289,14 +289,14 @@ h1, h2, h3 {
   z-index: 50;
 }
 
+.mx-0\.5 {
+  margin-left: .125rem;
+  margin-right: .125rem;
+}
+
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
-}
-
-.mx-1 {
-  margin-left: .25rem;
-  margin-right: .25rem;
 }
 
 .mb-1 {
@@ -902,12 +902,12 @@ h1, h2, h3 {
   font-weight: 500;
 }
 
-.font-semibold {
-  font-weight: 600;
-}
-
 .font-normal {
   font-weight: 400;
+}
+
+.font-semibold {
+  font-weight: 600;
 }
 
 .uppercase {
@@ -924,6 +924,10 @@ h1, h2, h3 {
 
 .tracking-tight {
   letter-spacing: -.025em;
+}
+
+.tracking-tighter {
+  letter-spacing: -.05em;
 }
 
 .tracking-wide {
@@ -972,6 +976,10 @@ h1, h2, h3 {
 
 .text-muted-foreground\/50 {
   color: hsl(var(--muted-foreground) / .5);
+}
+
+.text-muted-foreground\/60 {
+  color: hsl(var(--muted-foreground) / .6);
 }
 
 .text-primary {

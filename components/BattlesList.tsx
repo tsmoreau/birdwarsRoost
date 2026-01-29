@@ -111,11 +111,16 @@ export default function BattlesList({
                       {getStatusIcon(battle.status)}
                     </div>
                     <div className="min-w-0">
-                      <div className="flex items-center gap-3 mb-1 flex-wrap">
+                      <div className="flex flex-col gap-1 mb-1">
                         <h3 className="font-semibold truncate" data-testid={`battle-name-${battle.battleId}`}>
-                          {battle.player1DisplayName} <span className="text-muted-foreground font-normal mx-1">VS</span> {battle.player2DisplayName || 'OPEN SLOT'}
+                          {battle.displayName || generateBattleName(battle.battleId)}
                         </h3>
-                        {getStatusBadge(battle.status)}
+                        <div className="flex items-center gap-3 flex-wrap">
+                          <p className="text-sm text-muted-foreground font-medium">
+                            {battle.player1DisplayName} <span className="text-muted-foreground/60 font-normal mx-0.5 tracking-tighter">VS</span> {battle.player2DisplayName || 'OPEN SLOT'}
+                          </p>
+                          {getStatusBadge(battle.status)}
+                        </div>
                       </div>
                       <div className="flex items-center gap-4 text-sm text-muted-foreground flex-wrap">
                         <span className="flex items-center gap-1">
