@@ -177,31 +177,31 @@ export default function DevicesPage() {
               <Link
                 key={device.deviceId}
                 href={`/player/${encodeURIComponent(device.displayName)}`}
-                className="block no-underline"
+                className="block no-underline group"
               >
-                <Card data-testid={`device-card-${device.deviceId}`} className="hover-elevate cursor-pointer">
+                <Card data-testid={`device-card-${device.deviceId}`} className="cursor-pointer transition-all border-black hover:bg-white active:scale-[0.98] rounded-lg">
                   <CardContent className="p-6">
                     <div className="flex items-start justify-between mb-4">
-                      <div className="w-12 h-12 rounded-xl bg-muted flex items-center justify-center">
-                        <Gamepad2 className="w-6 h-6 text-muted-foreground" />
+                      <div className="w-12 h-12 rounded-xl bg-muted flex items-center justify-center transition-colors group-hover:bg-black group-hover:text-white">
+                        <Gamepad2 className="w-6 h-6" />
                       </div>
-                      <Badge variant="default">Active</Badge>
+                      <Badge variant="default" className="font-bold uppercase tracking-tighter text-[10px]">Active</Badge>
                     </div>
-                    <h3 className="font-semibold mb-1">{device.displayName}</h3>
-                    <p className="text-xs text-muted-foreground font-mono mb-4">
+                    <h3 className="font-bold uppercase tracking-tight mb-1">{device.displayName}</h3>
+                    <p className="text-[10px] text-muted-foreground font-mono mb-4 uppercase font-medium">
                       {device.deviceId.substring(0, 20)}...
                     </p>
                     <div className="space-y-2 text-sm">
                       <div className="flex items-center justify-between text-muted-foreground">
-                        <span className="flex items-center gap-1">
+                        <span className="flex items-center gap-1 uppercase font-bold text-[10px]">
                           <Clock className="w-3 h-3" />
                           Registered
                         </span>
-                        <span>{formatDate(device.registeredAt)}</span>
+                        <span className="font-medium text-[10px]">{formatDate(device.registeredAt)}</span>
                       </div>
                       <div className="flex items-center justify-between text-muted-foreground">
-                        <span>Last seen</span>
-                        <span>{formatRelativeTime(device.lastSeen)}</span>
+                        <span className="uppercase font-bold text-[10px]">Last seen</span>
+                        <span className="font-medium text-[10px]">{formatRelativeTime(device.lastSeen)}</span>
                       </div>
                     </div>
                   </CardContent>
