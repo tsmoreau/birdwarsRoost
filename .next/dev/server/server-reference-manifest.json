@@ -1,21 +1,50 @@
 {
   "node": {
-    "4010fcd2310a5bf0cd4df00ba708c586f57191b769": {
+    "40c994827c659d7f880c4269e8dd15af5a66f56cd3": {
       "workers": {
+        "app/dashboard/page": {
+          "moduleId": "[project]/.next-internal/server/app/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/battles.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/devices.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "getBattles",
+          "filename": "app/actions/battles.ts"
+        },
         "app/page": {
-          "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/battles.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/battles.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/devices.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false,
           "exportedName": "getBattles",
           "filename": "app/actions/battles.ts"
         }
       },
       "layer": {
+        "app/dashboard/page": "rsc",
         "app/page": "rsc"
       },
       "filename": "app/actions/battles.ts",
       "exportedName": "getBattles"
+    },
+    "40a41d28e8cb10239ecb060ae0c275435d73b99f7d": {
+      "workers": {
+        "app/dashboard/page": {
+          "moduleId": "[project]/.next-internal/server/app/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/battles.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/devices.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "getDevices",
+          "filename": "app/actions/devices.ts"
+        },
+        "app/page": {
+          "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/battles.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/devices.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "getDevices",
+          "filename": "app/actions/devices.ts"
+        }
+      },
+      "layer": {
+        "app/dashboard/page": "rsc",
+        "app/page": "rsc"
+      },
+      "filename": "app/actions/devices.ts",
+      "exportedName": "getDevices"
     }
   },
   "edge": {},
-  "encryptionKey": "I9Ch3P5nvMRox3Vtg908E1VUgneoDn6LPgIC8kgmGDg="
+  "encryptionKey": "4tF9cMAb8OYgoDOQ7Xmgzlsu1iUQmokX4ffk3NXWra8="
 }

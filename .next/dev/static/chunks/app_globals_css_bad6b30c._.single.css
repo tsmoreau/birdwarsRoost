@@ -289,11 +289,6 @@ h1, h2, h3 {
   z-index: 50;
 }
 
-.-mx-4 {
-  margin-left: -1rem;
-  margin-right: -1rem;
-}
-
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
@@ -1173,11 +1168,6 @@ h1, h2, h3 {
 }
 
 @media (min-width: 640px) {
-  .sm\:-mx-6 {
-    margin-left: -1.5rem;
-    margin-right: -1.5rem;
-  }
-
   .sm\:px-6 {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
@@ -1195,11 +1185,6 @@ h1, h2, h3 {
 }
 
 @media (min-width: 1024px) {
-  .lg\:-mx-8 {
-    margin-left: -2rem;
-    margin-right: -2rem;
-  }
-
   .lg\:grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
