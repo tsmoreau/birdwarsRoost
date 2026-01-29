@@ -393,6 +393,72 @@ Join a pending battle as player 2. This is an alternative to `PATCH /api/battles
 
 ---
 
+#### GET /api/battles/[id]/poll
+
+Poll for new turns in a battle. Returns basic battle metadata (status, current turn info) and any turns submitted after the specified turn number. Useful for lightweight polling to check if the opponent has moved without fetching the full battle state.
+
+**Authentication:** None required
+
+**URL Parameters:**
+- `id` - The battle ID to poll
+
+**Query Parameters:**
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| since | number | (Optional) Return only turns after this turn number. Defaults to 0 (returns all turns). |
+
+**Success Response (200):**
+```json
+{
+  "success": true,
+  "battleId": "abc123def456",
+  "currentTurn": 5,
+  "currentPlayerIndex": 1,
+  "status": "active",
+  "turns": [
+    {
+      "turnNumber": 3,
+      "deviceId": "device1...",
+      "actions": [
+        { "type": "move", "unitId": "device1_u0", "toX": 5, "toY": 4 },
+        { "type": "attack", "unitId": "device1_u0", "targetId": "device2_u1" }
+      ]
+    },
+    {
+      "turnNumber": 4,
+      "deviceId": "device2...",
+      "actions": [
+        { "type": "move", "unitId": "device2_u0", "toX": 6, "toY": 3 }
+      ]
+    }
+  ]
+}
+```
+
+**Response Fields:**
+| Field | Type | Description |
+|-------|------|-------------|
+| battleId | string | The battle identifier |
+| currentTurn | number | Current turn number |
+| currentPlayerIndex | number | Whose turn it is (0 or 1) |
+| status | string | Battle status: `pending`, `active`, `completed`, `abandoned` |
+| turns | array | Turns submitted after the `since` parameter |
+| turns[].turnNumber | number | The turn number |
+| turns[].deviceId | string | Device that submitted the turn |
+| turns[].actions | array | Actions taken during the turn |
+
+**Example Usage:**
+```
+GET /api/battles/abc123def456/poll?since=2
+```
+Returns all turns after turn 2 (i.e., turns 3, 4, 5, etc.).
+
+**Error Responses:**
+- `404` - Battle not found
+- `500` - Server error
+
+---
+
 #### GET /api/mybattles
 
 Get all battles where the authenticated device is a participant (includes private battles). Returns up to 100 battles.
