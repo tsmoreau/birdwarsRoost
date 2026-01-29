@@ -165,6 +165,14 @@ export default function BattleDetailPage() {
       <Nav />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="mb-6">
+          <Link href="/">
+            <Button variant="ghost" size="sm" data-testid="button-back">
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back to Home
+            </Button>
+          </Link>
+        </div>
         <div className="mb-8">
           <div className="flex items-center gap-4 mb-2">
             <h1 className="text-3xl font-bold" data-testid="battle-display-name">{battle.displayName || generateBattleName(battle.battleId)}</h1>
@@ -238,7 +246,13 @@ export default function BattleDetailPage() {
                   </div>
                   <div>
                     <div className="flex items-center gap-2">
-                      <p className="font-medium" data-testid="text-player1-name">{battle.player1DisplayName}</p>
+                      <Link 
+                        href={`/player/${encodeURIComponent(battle.player1DisplayName || '')}`}
+                        className="font-medium hover:underline"
+                        data-testid="text-player1-name"
+                      >
+                        {battle.player1DisplayName}
+                      </Link>
                       <Badge variant="outline" className="text-xs">P1</Badge>
                     </div>
                     <p className="text-xs text-muted-foreground font-mono">
@@ -264,7 +278,13 @@ export default function BattleDetailPage() {
                     </div>
                     <div>
                       <div className="flex items-center gap-2">
-                        <p className="font-medium" data-testid="text-player2-name">{battle.player2DisplayName}</p>
+                        <Link 
+                          href={`/player/${encodeURIComponent(battle.player2DisplayName || '')}`}
+                          className="font-medium hover:underline"
+                          data-testid="text-player2-name"
+                        >
+                          {battle.player2DisplayName}
+                        </Link>
                         <Badge variant="outline" className="text-xs">P2</Badge>
                       </div>
                       <p className="text-xs text-muted-foreground font-mono">
@@ -305,55 +325,77 @@ export default function BattleDetailPage() {
               ) : (
                 <div className="space-y-3 max-h-96 overflow-y-auto">
                   {turns.map((turn) => (
-                    <div
-                      key={turn.turnId}
-                      className="p-3 rounded-lg border border-border"
-                      data-testid={`turn-${turn.turnNumber}`}
-                    >
-                      <div className="flex items-center justify-between mb-2">
-                        <div className="flex items-center gap-2 flex-wrap">
-                          <span className="font-medium">Turn {turn.turnNumber}</span>
-                          <span className="text-sm text-muted-foreground" data-testid={`turn-${turn.turnNumber}-player`}>
-                            by {turn.deviceId === battle.player1DeviceId 
-                              ? battle.player1DisplayName 
-                              : turn.deviceId === battle.player2DeviceId 
-                                ? (battle.player2DisplayName || 'Player 2')
-                                : 'Unknown'}
-                          </span>
-                          {(turn.deviceId === battle.player1DeviceId || turn.deviceId === battle.player2DeviceId) && (
-                            <Badge variant="outline" className="text-xs" data-testid={`turn-${turn.turnNumber}-badge`}>
-                              {turn.deviceId === battle.player1DeviceId ? 'P1' : 'P2'}
-                            </Badge>
-                          )}
-                          {turn.isValid ? (
-                            <Badge variant="success" className="text-xs">Valid</Badge>
-                          ) : (
-                            <Badge variant="destructive" className="text-xs">Invalid</Badge>
-                          )}
-                        </div>
-                        <span className="text-xs text-muted-foreground">
-                          {formatRelativeTime(turn.timestamp)}
-                        </span>
-                      </div>
-                      <div className="text-sm text-muted-foreground">
-                        {turn.actions.length} action{turn.actions.length !== 1 ? 's' : ''}
-                      </div>
-                      {turn.actions.length > 0 && (
-                        <div className="mt-2 space-y-1">
-                          {turn.actions.slice(0, 3).map((action, idx) => (
-                            <div key={idx} className="text-xs text-muted-foreground flex items-center gap-1">
-                              <ChevronRight className="w-3 h-3" />
-                              {getActionDescription(action)}
+                        <div
+                          className="flex items-center justify-between p-3 rounded-lg border border-border transition-all active:scale-[0.98]"
+                          data-testid={`turn-${turn.turnNumber}`}
+                        >
+                          <div className="flex items-center justify-between mb-2">
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <span className="font-medium">Turn {turn.turnNumber}</span>
+                              <Link
+                                href={`/player/${encodeURIComponent(
+                                  turn.deviceId === battle.player1DeviceId
+                                    ? battle.player1DisplayName || ""
+                                    : turn.deviceId === battle.player2DeviceId
+                                    ? battle.player2DisplayName || "Player 2"
+                                    : ""
+                                )}`}
+                                className="text-sm text-muted-foreground hover:underline"
+                                data-testid={`turn-${turn.turnNumber}-player`}
+                              >
+                                by{" "}
+                                {turn.deviceId === battle.player1DeviceId
+                                  ? battle.player1DisplayName
+                                  : turn.deviceId === battle.player2DeviceId
+                                  ? battle.player2DisplayName || "Player 2"
+                                  : "Unknown"}
+                              </Link>
+                              {(turn.deviceId === battle.player1DeviceId ||
+                                turn.deviceId === battle.player2DeviceId) && (
+                                <Badge
+                                  variant="outline"
+                                  className="text-xs"
+                                  data-testid={`turn-${turn.turnNumber}-badge`}
+                                >
+                                  {turn.deviceId === battle.player1DeviceId ? "P1" : "P2"}
+                                </Badge>
+                              )}
+                              {turn.isValid ? (
+                                <Badge variant="success" className="text-xs">
+                                  Valid
+                                </Badge>
+                              ) : (
+                                <Badge variant="destructive" className="text-xs">
+                                  Invalid
+                                </Badge>
+                              )}
                             </div>
-                          ))}
-                          {turn.actions.length > 3 && (
-                            <p className="text-xs text-muted-foreground">
-                              +{turn.actions.length - 3} more actions
-                            </p>
+                            <span className="text-xs text-muted-foreground">
+                              {formatRelativeTime(turn.timestamp)}
+                            </span>
+                          </div>
+                          <div className="text-sm text-muted-foreground">
+                            {turn.actions.length} action{turn.actions.length !== 1 ? "s" : ""}
+                          </div>
+                          {turn.actions.length > 0 && (
+                            <div className="mt-2 space-y-1">
+                              {turn.actions.slice(0, 3).map((action, idx) => (
+                                <div
+                                  key={idx}
+                                  className="text-xs text-muted-foreground flex items-center gap-1"
+                                >
+                                  <ChevronRight className="w-3 h-3" />
+                                  {getActionDescription(action)}
+                                </div>
+                              ))}
+                              {turn.actions.length > 3 && (
+                                <p className="text-xs text-muted-foreground">
+                                  +{turn.actions.length - 3} more actions
+                                </p>
+                              )}
+                            </div>
                           )}
                         </div>
-                      )}
-                    </div>
                   ))}
                 </div>
               )}
