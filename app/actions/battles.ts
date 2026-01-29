@@ -78,7 +78,7 @@ export async function getBattles(options?: { includePrivate?: boolean; limit?: n
       currentPlayerIndex: battleObj.currentPlayerIndex,
       isPrivate: battleObj.isPrivate,
       lastTurnAt: battleObj.lastTurnAt?.toISOString() || null,
-      mapName: battleObj.mapData?.selection || 'Unknown Map',
+      mapName: (battleObj.mapData?.selection as string) || 'Unknown Map',
       createdAt: battleObj.createdAt.toISOString(),
       updatedAt: battleObj.updatedAt.toISOString(),
       winnerId: battleObj.winnerId,
