@@ -1,6 +1,6 @@
 {
   "node": {
-    "40429bfd6726376463d6d1eb264161fc13375a02c3": {
+    "40b9ecc140c2e308a86c983da1910312d7ddce0b8c": {
       "workers": {
         "app/page": {
           "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/battles.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/devices.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -15,7 +15,7 @@
       "filename": "app/actions/battles.ts",
       "exportedName": "getBattles"
     },
-    "40cfa4fe9ab5cca82d298874ad756d073853c518ce": {
+    "4026052bb0cf20f7a0336b298cbf6dee4448296f2f": {
       "workers": {
         "app/page": {
           "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/battles.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/devices.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -32,5 +32,5 @@
     }
   },
   "edge": {},
-  "encryptionKey": "oTR+W9SrdI9yL23idFLUgxH19+fejzgITnG5OUmYIr8="
+  "encryptionKey": "rdAcaOBEi+8UZznzB2ruU6EaFvRuXqmDzo5zvh100p0="
 }
