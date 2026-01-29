@@ -330,7 +330,10 @@ const TurnActionSchema = new __TURBOPACK__imported__module__$5b$externals$5d2f$m
             'build',
             'capture',
             'wait',
-            'end_turn'
+            'end_turn',
+            'take_off',
+            'land',
+            'supply'
         ],
         required: true
     },
