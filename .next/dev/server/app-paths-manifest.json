@@ -4,5 +4,6 @@
   "/battles/[id]/page": "app/battles/[id]/page.js",
   "/dashboard/page": "app/dashboard/page.js",
   "/devices/page": "app/devices/page.js",
-  "/page": "app/page.js"
+  "/page": "app/page.js",
+  "/player/[text]/page": "app/player/[text]/page.js"
 }

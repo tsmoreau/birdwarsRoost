@@ -43,6 +43,36 @@
       },
       "filename": "app/actions/devices.ts",
       "exportedName": "getDevices"
+    },
+    "405c873fdefeccb5110345cc316c1597febf8306f4": {
+      "workers": {
+        "app/player/[text]/page": {
+          "moduleId": "[project]/.next-internal/server/app/player/[text]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/players.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "getPlayerByDisplayName",
+          "filename": "app/actions/players.ts"
+        }
+      },
+      "layer": {
+        "app/player/[text]/page": "rsc"
+      },
+      "filename": "app/actions/players.ts",
+      "exportedName": "getPlayerByDisplayName"
+    },
+    "6040752770388e9773501963773963cff1e1bc3f9a": {
+      "workers": {
+        "app/player/[text]/page": {
+          "moduleId": "[project]/.next-internal/server/app/player/[text]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/players.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "getPlayerBattles",
+          "filename": "app/actions/players.ts"
+        }
+      },
+      "layer": {
+        "app/player/[text]/page": "rsc"
+      },
+      "filename": "app/actions/players.ts",
+      "exportedName": "getPlayerBattles"
     }
   },
   "edge": {},
