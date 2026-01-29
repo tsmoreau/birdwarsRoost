@@ -156,12 +156,12 @@ export default async function HomePage() {
                       className="block group"
                     >
                       <div
-                        className="flex items-center justify-between p-3 rounded-lg border border-border transition-all hover:border-black hover:bg-white active:scale-[0.98]"
+                        className="flex items-center justify-between p-3 rounded-lg border border-border transition-all active:scale-[0.98]"
                         data-testid={`device-row-${device.deviceId}`}
                       >
                         <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center border border-border transition-colors group-hover:bg-black group-hover:text-white group-hover:border-black">
-                            <Gamepad2 className="w-5 h-5" />
+                          <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center border border-border transition-colors">
+                            <Gamepad2 className="w-5 h-5 text-muted-foreground" />
                           </div>
                           <div>
                             <p className="font-bold text-sm uppercase tracking-tight">
@@ -172,7 +172,6 @@ export default async function HomePage() {
                             </p>
                           </div>
                         </div>
-                        <Badge variant="outline" className="font-bold uppercase tracking-tighter text-[10px] py-0 h-5 group-hover:bg-black group-hover:text-white group-hover:border-black transition-colors">Active</Badge>
                       </div>
                     </Link>
                   ))}

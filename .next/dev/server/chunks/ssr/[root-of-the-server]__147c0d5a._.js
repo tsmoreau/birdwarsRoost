@@ -358,7 +358,7 @@ const Turn = __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$ext
 "[project]/app/actions/players.ts [app-rsc] (ecmascript)", ((__turbopack_context__) => {
 "use strict";
 
-/* __next_internal_action_entry_do_not_use__ [{"408ddb9f0e67ba2100d975a12fa4a9027860fa3a6a":"getPlayerByDisplayName","608da3812c6c73f08c5d2f1f6b6b386ba06b7e6bbf":"getPlayerBattles"},"",""] */ __turbopack_context__.s([
+/* __next_internal_action_entry_do_not_use__ [{"40ffa4e9d65a79185178942c69f60855c67e1a8358":"getPlayerByDisplayName","601a3c89f3d8467a7035dda0d2e5d2e35d368c047d":"getPlayerBattles"},"",""] */ __turbopack_context__.s([
     "getPlayerBattles",
     ()=>getPlayerBattles,
     "getPlayerByDisplayName",
@@ -538,8 +538,8 @@ async function getPlayerBattles(deviceId, limit = 10) {
     getPlayerByDisplayName,
     getPlayerBattles
 ]);
-(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getPlayerByDisplayName, "408ddb9f0e67ba2100d975a12fa4a9027860fa3a6a", null);
-(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getPlayerBattles, "608da3812c6c73f08c5d2f1f6b6b386ba06b7e6bbf", null);
+(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getPlayerByDisplayName, "40ffa4e9d65a79185178942c69f60855c67e1a8358", null);
+(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getPlayerBattles, "601a3c89f3d8467a7035dda0d2e5d2e35d368c047d", null);
 }),
 "[project]/.next-internal/server/app/player/[text]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/players.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript) <locals>", ((__turbopack_context__) => {
 "use strict";
@@ -553,9 +553,9 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$app$2f$actions$2f$players$2e
 "use strict";
 
 __turbopack_context__.s([
-    "408ddb9f0e67ba2100d975a12fa4a9027860fa3a6a",
+    "40ffa4e9d65a79185178942c69f60855c67e1a8358",
     ()=>__TURBOPACK__imported__module__$5b$project$5d2f$app$2f$actions$2f$players$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getPlayerByDisplayName"],
-    "608da3812c6c73f08c5d2f1f6b6b386ba06b7e6bbf",
+    "601a3c89f3d8467a7035dda0d2e5d2e35d368c047d",
     ()=>__TURBOPACK__imported__module__$5b$project$5d2f$app$2f$actions$2f$players$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getPlayerBattles"]
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f2e$next$2d$internal$2f$server$2f$app$2f$player$2f5b$text$5d2f$page$2f$actions$2e$js__$7b$__ACTIONS_MODULE0__$3d3e$__$225b$project$5d2f$app$2f$actions$2f$players$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$2922$__$7d$__$5b$app$2d$rsc$5d$__$28$server__actions__loader$2c$__ecmascript$29$__$3c$locals$3e$__ = __turbopack_context__.i('[project]/.next-internal/server/app/player/[text]/page/actions.js { ACTIONS_MODULE0 => "[project]/app/actions/players.ts [app-rsc] (ecmascript)" } [app-rsc] (server actions loader, ecmascript) <locals>');
