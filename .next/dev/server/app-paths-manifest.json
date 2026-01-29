@@ -1,6 +1,5 @@
 {
   "/api/battles/[id]/route": "app/api/battles/[id]/route.js",
   "/battles/[id]/page": "app/battles/[id]/page.js",
-  "/page": "app/page.js",
-  "/player/[text]/page": "app/player/[text]/page.js"
+  "/page": "app/page.js"
 }
