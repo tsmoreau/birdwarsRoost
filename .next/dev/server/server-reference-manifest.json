@@ -1,6 +1,6 @@
 {
   "node": {
-    "406220f3cbf02f0e1d47b0065e43f783739addef05": {
+    "4010fcd2310a5bf0cd4df00ba708c586f57191b769": {
       "workers": {
         "app/page": {
           "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/battles.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -17,5 +17,5 @@
     }
   },
   "edge": {},
-  "encryptionKey": "Ma3kWACGz9+cd7oaxbOtLooWoEjRGNOHtF2BTsBfrWg="
+  "encryptionKey": "I9Ch3P5nvMRox3Vtg908E1VUgneoDn6LPgIC8kgmGDg="
 }

@@ -717,6 +717,10 @@ h1, h2, h3 {
   border-radius: .5625rem;
 }
 
+.rounded-md {
+  border-radius: .375rem;
+}
+
 .rounded-sm {
   border-radius: .1875rem;
 }
@@ -725,32 +729,16 @@ h1, h2, h3 {
   border-radius: .75rem;
 }
 
-.rounded-md {
-  border-radius: .375rem;
-}
-
 .border {
   border-width: 1px;
-}
-
-.border-2 {
-  border-width: 2px;
 }
 
 .border-b {
   border-bottom-width: 1px;
 }
 
-.border-b-2 {
-  border-bottom-width: 2px;
-}
-
 .border-t {
   border-top-width: 1px;
-}
-
-.border-t-2 {
-  border-top-width: 2px;
 }
 
 .border-dashed {

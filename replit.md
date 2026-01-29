@@ -315,7 +315,7 @@ Tokens are:
 - **Cards**: 1px black borders with rounded corners (rounded-lg) on white backgrounds
 - **Dither Pattern**: CSS-based dither texture applied to header areas (`.dither-pattern` class)
 - **Shared Nav component**: Bold uppercase links with Bird Wars logo
-- **Branding**: "Bird Wars" with birb001.png icon, styled with 2px border
+- **Branding**: "Bird Wars Roost" with birb001.png icon (no border)
 
 ### Color Palette (globals.css)
 - Background: Light gray (#EBEBEB) / Dark: Near black (#141414)

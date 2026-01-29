@@ -11,9 +11,9 @@ export default function Nav() {
             <img
               src="/birb001.png"
               alt="Bird Wars"
-              className="w-10 h-10 rounded-md border border-border object-cover"
+              className="w-10 h-10 rounded-md object-cover"
             />
-            <span className="font-mono text-lg font-bold leading-tight uppercase tracking-wide">Bird Wars</span>
+            <span className="font-mono text-lg font-bold leading-tight uppercase tracking-wide">Bird Wars Roost</span>
           </Link>
           <nav className="flex items-center gap-1">
             <Link
