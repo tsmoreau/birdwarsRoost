@@ -174,33 +174,39 @@ export default function DevicesPage() {
         ) : (
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {devices.map((device) => (
-              <Card key={device.deviceId} data-testid={`device-card-${device.deviceId}`}>
-                <CardContent className="p-6">
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="w-12 h-12 rounded-xl bg-muted flex items-center justify-center">
-                      <Gamepad2 className="w-6 h-6 text-muted-foreground" />
+              <Link
+                key={device.deviceId}
+                href={`/player/${encodeURIComponent(device.displayName)}`}
+                className="block no-underline"
+              >
+                <Card data-testid={`device-card-${device.deviceId}`} className="hover-elevate cursor-pointer">
+                  <CardContent className="p-6">
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="w-12 h-12 rounded-xl bg-muted flex items-center justify-center">
+                        <Gamepad2 className="w-6 h-6 text-muted-foreground" />
+                      </div>
+                      <Badge variant="default">Active</Badge>
                     </div>
-                    <Badge variant="success">Active</Badge>
-                  </div>
-                  <h3 className="font-semibold mb-1">{device.displayName}</h3>
-                  <p className="text-xs text-muted-foreground font-mono mb-4">
-                    {device.deviceId.substring(0, 20)}...
-                  </p>
-                  <div className="space-y-2 text-sm">
-                    <div className="flex items-center justify-between text-muted-foreground">
-                      <span className="flex items-center gap-1">
-                        <Clock className="w-3 h-3" />
-                        Registered
-                      </span>
-                      <span>{formatDate(device.registeredAt)}</span>
+                    <h3 className="font-semibold mb-1">{device.displayName}</h3>
+                    <p className="text-xs text-muted-foreground font-mono mb-4">
+                      {device.deviceId.substring(0, 20)}...
+                    </p>
+                    <div className="space-y-2 text-sm">
+                      <div className="flex items-center justify-between text-muted-foreground">
+                        <span className="flex items-center gap-1">
+                          <Clock className="w-3 h-3" />
+                          Registered
+                        </span>
+                        <span>{formatDate(device.registeredAt)}</span>
+                      </div>
+                      <div className="flex items-center justify-between text-muted-foreground">
+                        <span>Last seen</span>
+                        <span>{formatRelativeTime(device.lastSeen)}</span>
+                      </div>
                     </div>
-                    <div className="flex items-center justify-between text-muted-foreground">
-                      <span>Last seen</span>
-                      <span>{formatRelativeTime(device.lastSeen)}</span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+              </Link>
             ))}
           </div>
         )}
