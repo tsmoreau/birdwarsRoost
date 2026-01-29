@@ -1,6 +1,6 @@
 {
   "node": {
-    "40f6c3b6ecbbf1134b7e0bdb6c25cf11872c1c8904": {
+    "40ea1004337e04754e2f1bb73eec954f60df900627": {
       "workers": {
         "app/player/[text]/page": {
           "moduleId": "[project]/.next-internal/server/app/player/[text]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/players.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -15,7 +15,7 @@
       "exportedName": "getPlayerByDisplayName",
       "filename": "app/actions/players.ts"
     },
-    "6024caa2f347e8d85ee1038998218c43bafcc2d95d": {
+    "60aad4fac49a432805734c0e603eda7eeb08a2eb44": {
       "workers": {
         "app/player/[text]/page": {
           "moduleId": "[project]/.next-internal/server/app/player/[text]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/players.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
