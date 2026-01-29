@@ -1,6 +1,21 @@
 {
   "node": {
-    "408d80488fe149683006d7028bd15c9c77104391f5": {
+    "402a6b29e53db48c44b54839cefd186f1299f952c5": {
+      "workers": {
+        "app/battle/[text]/page": {
+          "moduleId": "[project]/.next-internal/server/app/battle/[text]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/battles.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "getBattleTurns",
+          "filename": "app/actions/battles.ts"
+        }
+      },
+      "layer": {
+        "app/battle/[text]/page": "rsc"
+      },
+      "exportedName": "getBattleTurns",
+      "filename": "app/actions/battles.ts"
+    },
+    "40306fa87646d4f4c4407f10427cdd23be72fc6789": {
       "workers": {
         "app/battle/[text]/page": {
           "moduleId": "[project]/.next-internal/server/app/battle/[text]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/battles.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -15,7 +30,7 @@
       "exportedName": "getBattleByDisplayName",
       "filename": "app/actions/battles.ts"
     },
-    "40ad2ad1c09cf50f473201cb245acb1770b230af8d": {
+    "40c6013edd48e69a1a420ff5cd56402c74d3a8aab2": {
       "workers": {
         "app/battle/[text]/page": {
           "moduleId": "[project]/.next-internal/server/app/battle/[text]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/battles.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -28,21 +43,6 @@
         "app/battle/[text]/page": "rsc"
       },
       "exportedName": "getBattles",
-      "filename": "app/actions/battles.ts"
-    },
-    "40b8283109a7b74ddbaefbfbead4a372199693edd7": {
-      "workers": {
-        "app/battle/[text]/page": {
-          "moduleId": "[project]/.next-internal/server/app/battle/[text]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/battles.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
-          "async": false,
-          "exportedName": "getBattleTurns",
-          "filename": "app/actions/battles.ts"
-        }
-      },
-      "layer": {
-        "app/battle/[text]/page": "rsc"
-      },
-      "exportedName": "getBattleTurns",
       "filename": "app/actions/battles.ts"
     }
   },

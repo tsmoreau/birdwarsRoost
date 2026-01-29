@@ -302,7 +302,7 @@ function generateBattleName(battleId) {
     const numericId = parseInt(battleId.substring(0, 4), 16);
     const adj = ADJECTIVES[numericId % 10];
     const noun = NOUNS[Math.floor(numericId / 10) % 10];
-    const suffix = Math.floor(numericId / 100);
+    const suffix = Math.floor(numericId / 100) % 100;
     return `${adj}-${noun}-${suffix}`;
 }
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
