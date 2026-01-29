@@ -62,7 +62,7 @@ export default async function PlayerProfilePage({ params }: Props) {
       <Nav />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-6">
+        <div className="hidden mb-6">
           <Link href="/devices">
             <Button variant="ghost" size="sm" data-testid="button-back">
               <ArrowLeft className="w-4 h-4 mr-2" />
@@ -71,8 +71,8 @@ export default async function PlayerProfilePage({ params }: Props) {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <Card className="lg:col-span-1">
+        <div className="flex flex-col lg:flex-row gap-6 items-start">
+          <Card className="w-full lg:w-1/3 lg:sticky lg:top-24">
             <CardHeader className="text-center">
               <div className="mx-auto w-24 h-24 rounded-full bg-muted flex items-center justify-center mb-4">
                 <User className="w-12 h-12 text-muted-foreground" />
@@ -102,7 +102,7 @@ export default async function PlayerProfilePage({ params }: Props) {
             </CardContent>
           </Card>
 
-          <div className="lg:col-span-2 space-y-6">
+          <div className="flex-1 w-full space-y-6">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between gap-2 space-y-0 pb-2">
