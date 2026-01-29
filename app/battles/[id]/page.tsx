@@ -251,7 +251,7 @@ export default function BattleDetailPage() {
                     <div>
                       <div className="flex items-center gap-2">
                         <p
-                          className="font-medium group-hover:underline"
+                          className="font-medium"
                           data-testid="text-player1-name"
                         >
                           {battle.player1DisplayName}
@@ -289,7 +289,7 @@ export default function BattleDetailPage() {
                       <div>
                         <div className="flex items-center gap-2">
                           <p
-                            className="font-medium group-hover:underline"
+                            className="font-medium"
                             data-testid="text-player2-name"
                           >
                             {battle.player2DisplayName}
@@ -358,7 +358,7 @@ export default function BattleDetailPage() {
                           <div className="flex items-center gap-2 flex-wrap">
                             <span className="font-medium">Turn {turn.turnNumber}</span>
                             <span
-                              className="text-sm text-muted-foreground group-hover:underline"
+                              className="text-sm text-muted-foreground"
                               data-testid={`turn-${turn.turnNumber}-player`}
                             >
                               by{" "}
