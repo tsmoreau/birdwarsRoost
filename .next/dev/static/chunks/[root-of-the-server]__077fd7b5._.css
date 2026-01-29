@@ -1265,10 +1265,6 @@ body {
   background-color: hsl(var(--secondary) / var(--tw-bg-opacity, 1));
 }
 
-.hover\:bg-secondary\/50:hover {
-  background-color: hsl(var(--secondary) / .5);
-}
-
 .hover\:bg-secondary\/80:hover {
   background-color: hsl(var(--secondary) / .8);
 }

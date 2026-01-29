@@ -528,26 +528,20 @@ async function GET() {
             const p1Info = playerInfoMap.get(battle.player1DeviceId);
             const p2Info = battle.player2DeviceId ? playerInfoMap.get(battle.player2DeviceId) : null;
             return {
-                _id: battleObj._id,
                 battleId: battleObj.battleId,
                 displayName: battleObj.displayName,
                 player1DeviceId: battleObj.player1DeviceId,
+                player2DeviceId: battleObj.player2DeviceId,
                 player1DisplayName: p1Info?.displayName || 'Unknown Player',
                 player1Avatar: p1Info?.avatar || 'BIRD1',
-                player2DeviceId: battleObj.player2DeviceId,
                 player2DisplayName: p2Info?.displayName || null,
                 player2Avatar: p2Info?.avatar || null,
                 status: battleObj.status,
                 currentTurn: battleObj.currentTurn,
                 currentPlayerIndex: battleObj.currentPlayerIndex,
-                winnerId: battleObj.winnerId,
-                endReason: battleObj.endReason,
-                lastTurnAt: battleObj.lastTurnAt,
-                createdAt: battleObj.createdAt,
-                updatedAt: battleObj.updatedAt,
                 isPrivate: battleObj.isPrivate,
-                mapData: battleObj.mapData,
-                currentState: battleObj.currentState
+                lastTurnAt: battleObj.lastTurnAt,
+                mapName: battleObj.mapData?.selection || 'Unknown Map'
             };
         });
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
