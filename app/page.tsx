@@ -135,19 +135,9 @@ export default async function HomePage() {
             <CardHeader>
               <div className="flex items-center justify-between gap-4">
                 <div>
-                  <CardTitle>Registered Players</CardTitle>
-                  <CardDescription>Connected Playdate players</CardDescription>
+                  <CardTitle>Recent Players</CardTitle>
+                  <CardDescription>Latest public player activity</CardDescription>
                 </div>
-                <Link href="/devices">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    data-testid="button-view-all-devices"
-                  >
-                    View All
-                    <ArrowRight className="w-4 h-4 ml-1" />
-                  </Button>
-                </Link>
               </div>
             </CardHeader>
             <CardContent>
@@ -178,7 +168,7 @@ export default async function HomePage() {
                           </p>
                         </div>
                       </div>
-                      <Badge variant="success">Online</Badge>
+                   
                     </div>
                   ))}
                 </div>
