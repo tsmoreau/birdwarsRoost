@@ -477,6 +477,10 @@ body {
   width: 2rem;
 }
 
+.min-w-0 {
+  min-width: 0;
+}
+
 .max-w-2xl {
   max-width: 42rem;
 }
@@ -495,6 +499,10 @@ body {
 
 .flex-1 {
   flex: 1;
+}
+
+.shrink-0 {
+  flex-shrink: 0;
 }
 
 @keyframes spin {
@@ -629,6 +637,12 @@ body {
 
 .overflow-y-auto {
   overflow-y: auto;
+}
+
+.truncate {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .whitespace-nowrap {

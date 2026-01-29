@@ -1,4 +1,20 @@
 {
-  "node": {},
+  "node": {
+    "40d278d7ec1fa9beea9c14414e301a5be4b7228b48": {
+      "workers": {
+        "app/battles/page": {
+          "moduleId": "[project]/.next-internal/server/app/battles/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/battles.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "getBattles",
+          "filename": "app/actions/battles.ts"
+        }
+      },
+      "layer": {
+        "app/battles/page": "rsc"
+      },
+      "exportedName": "getBattles",
+      "filename": "app/actions/battles.ts"
+    }
+  },
   "edge": {}
 }
