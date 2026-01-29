@@ -341,13 +341,7 @@ export default function BattleDetailPage() {
                   {turns.map((turn) => (
                     <Link
                       key={turn.turnId}
-                      href={`/player/${encodeURIComponent(
-                        turn.deviceId === battle.player1DeviceId
-                          ? battle.player1DisplayName || ""
-                          : turn.deviceId === battle.player2DeviceId
-                          ? battle.player2DisplayName || "Player 2"
-                          : ""
-                      )}`}
+                      href={`/turn/${turn.turnId}`}
                       className="block group"
                     >
                       <div
