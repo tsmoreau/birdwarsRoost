@@ -1,0 +1,3 @@
+{
+  "/api/battles/[id]/poll/route": "app/api/battles/[id]/poll/route.js"
+}
