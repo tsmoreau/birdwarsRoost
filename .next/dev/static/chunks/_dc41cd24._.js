@@ -657,31 +657,21 @@ function BattlesList({ battles, showFilters = true, showCreatedDate = true, empt
                                                                 lineNumber: 115,
                                                                 columnNumber: 25
                                                             }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: "flex items-center gap-3 flex-wrap",
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                className: "text-sm text-muted-foreground font-medium",
                                                                 children: [
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                                        className: "text-sm text-muted-foreground font-medium",
-                                                                        children: [
-                                                                            battle.player1DisplayName,
-                                                                            " ",
-                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                                className: "text-muted-foreground/60 font-normal mx-0.5 tracking-tighter",
-                                                                                children: "VS"
-                                                                            }, void 0, false, {
-                                                                                fileName: "[project]/components/BattlesList.tsx",
-                                                                                lineNumber: 120,
-                                                                                columnNumber: 57
-                                                                            }, this),
-                                                                            " ",
-                                                                            battle.player2DisplayName || 'OPEN SLOT'
-                                                                        ]
-                                                                    }, void 0, true, {
+                                                                    battle.player1DisplayName,
+                                                                    " ",
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                        className: "text-muted-foreground/60 font-normal mx-0.5 tracking-tighter",
+                                                                        children: "VS"
+                                                                    }, void 0, false, {
                                                                         fileName: "[project]/components/BattlesList.tsx",
                                                                         lineNumber: 119,
-                                                                        columnNumber: 27
+                                                                        columnNumber: 55
                                                                     }, this),
-                                                                    getStatusBadge(battle.status)
+                                                                    " ",
+                                                                    battle.player2DisplayName || 'OPEN SLOT'
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/components/BattlesList.tsx",
@@ -704,14 +694,14 @@ function BattlesList({ battles, showFilters = true, showCreatedDate = true, empt
                                                                         className: "w-4 h-4"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/components/BattlesList.tsx",
-                                                                        lineNumber: 127,
+                                                                        lineNumber: 124,
                                                                         columnNumber: 27
                                                                     }, this),
                                                                     battle.player2DeviceId ? '2 players' : '1 player (waiting)'
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/components/BattlesList.tsx",
-                                                                lineNumber: 126,
+                                                                lineNumber: 123,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -721,7 +711,7 @@ function BattlesList({ battles, showFilters = true, showCreatedDate = true, empt
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/components/BattlesList.tsx",
-                                                                lineNumber: 130,
+                                                                lineNumber: 127,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -731,13 +721,14 @@ function BattlesList({ battles, showFilters = true, showCreatedDate = true, empt
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/components/BattlesList.tsx",
-                                                                lineNumber: 131,
+                                                                lineNumber: 128,
                                                                 columnNumber: 25
-                                                            }, this)
+                                                            }, this),
+                                                            getStatusBadge(battle.status)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/components/BattlesList.tsx",
-                                                        lineNumber: 125,
+                                                        lineNumber: 122,
                                                         columnNumber: 23
                                                     }, this)
                                                 ]
@@ -760,7 +751,7 @@ function BattlesList({ battles, showFilters = true, showCreatedDate = true, empt
                                                 children: "Created"
                                             }, void 0, false, {
                                                 fileName: "[project]/components/BattlesList.tsx",
-                                                lineNumber: 137,
+                                                lineNumber: 135,
                                                 columnNumber: 23
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -768,13 +759,13 @@ function BattlesList({ battles, showFilters = true, showCreatedDate = true, empt
                                                 children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatDate"])(battle.createdAt)
                                             }, void 0, false, {
                                                 fileName: "[project]/components/BattlesList.tsx",
-                                                lineNumber: 138,
+                                                lineNumber: 136,
                                                 columnNumber: 23
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/components/BattlesList.tsx",
-                                        lineNumber: 136,
+                                        lineNumber: 134,
                                         columnNumber: 21
                                     }, this)
                                 ]
