@@ -29,7 +29,7 @@ export function generateBattleName(battleId: string): string {
   
   const adj = ADJECTIVES[numericId % 10];
   const noun = NOUNS[Math.floor(numericId / 10) % 10];
-  const suffix = Math.floor(numericId / 100);
+  const suffix = Math.floor(numericId / 100) % 100;
   
   return `${adj}-${noun}-${suffix}`;
 }

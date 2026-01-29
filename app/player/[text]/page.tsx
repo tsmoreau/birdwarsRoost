@@ -196,7 +196,7 @@ export default async function PlayerProfilePage({ params }: Props) {
                     {battles.map((battle) => (
                       <Link 
                         key={battle.battleId} 
-                        href={`/battles/${battle.battleId}`}
+                        href={`/battle/${encodeURIComponent(battle.displayName)}`}
                         className="block"
                         data-testid={`link-battle-${battle.battleId}`}
                       >
