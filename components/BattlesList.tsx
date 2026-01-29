@@ -113,7 +113,7 @@ export default function BattlesList({
                     <div className="min-w-0">
                       <div className="flex items-center gap-3 mb-1 flex-wrap">
                         <h3 className="font-semibold truncate" data-testid={`battle-name-${battle.battleId}`}>
-                          {battle.displayName || generateBattleName(battle.battleId)}
+                          {battle.player1DisplayName} <span className="text-muted-foreground font-normal mx-1">VS</span> {battle.player2DisplayName || 'OPEN SLOT'}
                         </h3>
                         {getStatusBadge(battle.status)}
                       </div>

@@ -376,6 +376,11 @@ h1, h2, h3 {
   margin-right: auto;
 }
 
+.mx-1 {
+  margin-left: .25rem;
+  margin-right: .25rem;
+}
+
 .mb-1 {
   margin-bottom: .25rem;
 }
@@ -981,6 +986,10 @@ h1, h2, h3 {
 
 .font-semibold {
   font-weight: 600;
+}
+
+.font-normal {
+  font-weight: 400;
 }
 
 .uppercase {
