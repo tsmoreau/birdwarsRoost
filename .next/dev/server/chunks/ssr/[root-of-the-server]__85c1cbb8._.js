@@ -1217,143 +1217,150 @@ function BattleDetailPage() {
                                             columnNumber: 17
                                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                             className: "space-y-3 max-h-96 overflow-y-auto",
-                                            children: turns.map((turn)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                    className: "flex items-center justify-between p-3 rounded-lg border border-border transition-all active:scale-[0.98]",
-                                                    "data-testid": `turn-${turn.turnNumber}`,
-                                                    children: [
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                            className: "flex items-center justify-between mb-2",
-                                                            children: [
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                    className: "flex items-center gap-2 flex-wrap",
-                                                                    children: [
-                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                            className: "font-medium",
-                                                                            children: [
-                                                                                "Turn ",
-                                                                                turn.turnNumber
-                                                                            ]
-                                                                        }, void 0, true, {
-                                                                            fileName: "[project]/app/battles/[id]/page.tsx",
-                                                                            lineNumber: 334,
-                                                                            columnNumber: 31
-                                                                        }, this),
-                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
-                                                                            href: `/player/${encodeURIComponent(turn.deviceId === battle.player1DeviceId ? battle.player1DisplayName || "" : turn.deviceId === battle.player2DeviceId ? battle.player2DisplayName || "Player 2" : "")}`,
-                                                                            className: "text-sm text-muted-foreground hover:underline",
-                                                                            "data-testid": `turn-${turn.turnNumber}-player`,
-                                                                            children: [
-                                                                                "by",
-                                                                                " ",
-                                                                                turn.deviceId === battle.player1DeviceId ? battle.player1DisplayName : turn.deviceId === battle.player2DeviceId ? battle.player2DisplayName || "Player 2" : "Unknown"
-                                                                            ]
-                                                                        }, void 0, true, {
-                                                                            fileName: "[project]/app/battles/[id]/page.tsx",
-                                                                            lineNumber: 335,
-                                                                            columnNumber: 31
-                                                                        }, this),
-                                                                        (turn.deviceId === battle.player1DeviceId || turn.deviceId === battle.player2DeviceId) && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Badge"], {
-                                                                            variant: "outline",
-                                                                            className: "text-xs",
-                                                                            "data-testid": `turn-${turn.turnNumber}-badge`,
-                                                                            children: turn.deviceId === battle.player1DeviceId ? "P1" : "P2"
-                                                                        }, void 0, false, {
-                                                                            fileName: "[project]/app/battles/[id]/page.tsx",
-                                                                            lineNumber: 355,
-                                                                            columnNumber: 33
-                                                                        }, this),
-                                                                        turn.isValid ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Badge"], {
-                                                                            variant: "success",
-                                                                            className: "text-xs",
-                                                                            children: "Valid"
-                                                                        }, void 0, false, {
-                                                                            fileName: "[project]/app/battles/[id]/page.tsx",
-                                                                            lineNumber: 364,
-                                                                            columnNumber: 33
-                                                                        }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Badge"], {
-                                                                            variant: "destructive",
-                                                                            className: "text-xs",
-                                                                            children: "Invalid"
-                                                                        }, void 0, false, {
-                                                                            fileName: "[project]/app/battles/[id]/page.tsx",
-                                                                            lineNumber: 368,
-                                                                            columnNumber: 33
-                                                                        }, this)
-                                                                    ]
-                                                                }, void 0, true, {
-                                                                    fileName: "[project]/app/battles/[id]/page.tsx",
-                                                                    lineNumber: 333,
-                                                                    columnNumber: 29
-                                                                }, this),
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                    className: "text-xs text-muted-foreground",
-                                                                    children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatRelativeTime"])(turn.timestamp)
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/app/battles/[id]/page.tsx",
-                                                                    lineNumber: 373,
-                                                                    columnNumber: 29
-                                                                }, this)
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "[project]/app/battles/[id]/page.tsx",
-                                                            lineNumber: 332,
-                                                            columnNumber: 27
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                            className: "text-sm text-muted-foreground",
-                                                            children: [
-                                                                turn.actions.length,
-                                                                " action",
-                                                                turn.actions.length !== 1 ? "s" : ""
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "[project]/app/battles/[id]/page.tsx",
-                                                            lineNumber: 377,
-                                                            columnNumber: 27
-                                                        }, this),
-                                                        turn.actions.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                            className: "mt-2 space-y-1",
-                                                            children: [
-                                                                turn.actions.slice(0, 3).map((action, idx)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                        className: "text-xs text-muted-foreground flex items-center gap-1",
+                                            children: turns.map((turn)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
+                                                    href: `/player/${encodeURIComponent(turn.deviceId === battle.player1DeviceId ? battle.player1DisplayName || "" : turn.deviceId === battle.player2DeviceId ? battle.player2DisplayName || "Player 2" : "")}`,
+                                                    className: "block group",
+                                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "p-3 rounded-lg border border-border transition-all active:scale-[0.98] hover-elevate",
+                                                        "data-testid": `turn-${turn.turnNumber}`,
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                className: "flex items-center justify-between mb-2",
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                        className: "flex items-center gap-2 flex-wrap",
                                                                         children: [
-                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$right$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronRight$3e$__["ChevronRight"], {
-                                                                                className: "w-3 h-3"
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                                className: "font-medium",
+                                                                                children: [
+                                                                                    "Turn ",
+                                                                                    turn.turnNumber
+                                                                                ]
+                                                                            }, void 0, true, {
+                                                                                fileName: "[project]/app/battles/[id]/page.tsx",
+                                                                                lineNumber: 345,
+                                                                                columnNumber: 29
+                                                                            }, this),
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                                className: "text-sm text-muted-foreground group-hover:underline",
+                                                                                "data-testid": `turn-${turn.turnNumber}-player`,
+                                                                                children: [
+                                                                                    "by",
+                                                                                    " ",
+                                                                                    turn.deviceId === battle.player1DeviceId ? battle.player1DisplayName : turn.deviceId === battle.player2DeviceId ? battle.player2DisplayName || "Player 2" : "Unknown"
+                                                                                ]
+                                                                            }, void 0, true, {
+                                                                                fileName: "[project]/app/battles/[id]/page.tsx",
+                                                                                lineNumber: 346,
+                                                                                columnNumber: 29
+                                                                            }, this),
+                                                                            (turn.deviceId === battle.player1DeviceId || turn.deviceId === battle.player2DeviceId) && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Badge"], {
+                                                                                variant: "outline",
+                                                                                className: "text-xs",
+                                                                                "data-testid": `turn-${turn.turnNumber}-badge`,
+                                                                                children: turn.deviceId === battle.player1DeviceId ? "P1" : "P2"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/app/battles/[id]/page.tsx",
-                                                                                lineNumber: 387,
-                                                                                columnNumber: 35
+                                                                                lineNumber: 359,
+                                                                                columnNumber: 31
                                                                             }, this),
-                                                                            getActionDescription(action)
+                                                                            turn.isValid ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Badge"], {
+                                                                                variant: "success",
+                                                                                className: "text-xs",
+                                                                                children: "Valid"
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/app/battles/[id]/page.tsx",
+                                                                                lineNumber: 368,
+                                                                                columnNumber: 31
+                                                                            }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Badge"], {
+                                                                                variant: "destructive",
+                                                                                className: "text-xs",
+                                                                                children: "Invalid"
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/app/battles/[id]/page.tsx",
+                                                                                lineNumber: 372,
+                                                                                columnNumber: 31
+                                                                            }, this)
                                                                         ]
-                                                                    }, idx, true, {
+                                                                    }, void 0, true, {
                                                                         fileName: "[project]/app/battles/[id]/page.tsx",
-                                                                        lineNumber: 383,
-                                                                        columnNumber: 33
-                                                                    }, this)),
-                                                                turn.actions.length > 3 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                                    className: "text-xs text-muted-foreground",
-                                                                    children: [
-                                                                        "+",
-                                                                        turn.actions.length - 3,
-                                                                        " more actions"
-                                                                    ]
-                                                                }, void 0, true, {
-                                                                    fileName: "[project]/app/battles/[id]/page.tsx",
-                                                                    lineNumber: 392,
-                                                                    columnNumber: 33
-                                                                }, this)
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "[project]/app/battles/[id]/page.tsx",
-                                                            lineNumber: 381,
-                                                            columnNumber: 29
-                                                        }, this)
-                                                    ]
-                                                }, void 0, true, {
+                                                                        lineNumber: 344,
+                                                                        columnNumber: 27
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                        className: "text-xs text-muted-foreground",
+                                                                        children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatRelativeTime"])(turn.timestamp)
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/app/battles/[id]/page.tsx",
+                                                                        lineNumber: 377,
+                                                                        columnNumber: 27
+                                                                    }, this)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "[project]/app/battles/[id]/page.tsx",
+                                                                lineNumber: 343,
+                                                                columnNumber: 25
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                className: "text-sm text-muted-foreground",
+                                                                children: [
+                                                                    turn.actions.length,
+                                                                    " action",
+                                                                    turn.actions.length !== 1 ? "s" : ""
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "[project]/app/battles/[id]/page.tsx",
+                                                                lineNumber: 381,
+                                                                columnNumber: 25
+                                                            }, this),
+                                                            turn.actions.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                className: "mt-2 space-y-1",
+                                                                children: [
+                                                                    turn.actions.slice(0, 3).map((action, idx)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                            className: "text-xs text-muted-foreground flex items-center gap-1",
+                                                                            children: [
+                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$right$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronRight$3e$__["ChevronRight"], {
+                                                                                    className: "w-3 h-3"
+                                                                                }, void 0, false, {
+                                                                                    fileName: "[project]/app/battles/[id]/page.tsx",
+                                                                                    lineNumber: 391,
+                                                                                    columnNumber: 33
+                                                                                }, this),
+                                                                                getActionDescription(action)
+                                                                            ]
+                                                                        }, idx, true, {
+                                                                            fileName: "[project]/app/battles/[id]/page.tsx",
+                                                                            lineNumber: 387,
+                                                                            columnNumber: 31
+                                                                        }, this)),
+                                                                    turn.actions.length > 3 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                        className: "text-xs text-muted-foreground",
+                                                                        children: [
+                                                                            "+",
+                                                                            turn.actions.length - 3,
+                                                                            " more actions"
+                                                                        ]
+                                                                    }, void 0, true, {
+                                                                        fileName: "[project]/app/battles/[id]/page.tsx",
+                                                                        lineNumber: 396,
+                                                                        columnNumber: 31
+                                                                    }, this)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "[project]/app/battles/[id]/page.tsx",
+                                                                lineNumber: 385,
+                                                                columnNumber: 27
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/app/battles/[id]/page.tsx",
+                                                        lineNumber: 339,
+                                                        columnNumber: 23
+                                                    }, this)
+                                                }, turn.turnId, false, {
                                                     fileName: "[project]/app/battles/[id]/page.tsx",
                                                     lineNumber: 328,
-                                                    columnNumber: 25
+                                                    columnNumber: 21
                                                 }, this))
                                         }, void 0, false, {
                                             fileName: "[project]/app/battles/[id]/page.tsx",
