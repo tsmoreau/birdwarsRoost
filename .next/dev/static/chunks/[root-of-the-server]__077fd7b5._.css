@@ -413,8 +413,16 @@ h1, h2, h3 {
   margin-left: .25rem;
 }
 
+.mr-1 {
+  margin-right: .25rem;
+}
+
 .mr-2 {
   margin-right: .5rem;
+}
+
+.mt-0\.5 {
+  margin-top: .125rem;
 }
 
 .mt-1 {
@@ -439,14 +447,6 @@ h1, h2, h3 {
 
 .mt-8 {
   margin-top: 2rem;
-}
-
-.mr-1 {
-  margin-right: .25rem;
-}
-
-.mt-0\.5 {
-  margin-top: .125rem;
 }
 
 .block {
