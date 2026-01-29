@@ -427,6 +427,10 @@ h1, h2, h3 {
   height: 2.25rem;
 }
 
+.h-fit {
+  height: fit-content;
+}
+
 .max-h-96 {
   max-height: 24rem;
 }
@@ -1276,6 +1280,14 @@ h1, h2, h3 {
 }
 
 @media (min-width: 1024px) {
+  .lg\:sticky {
+    position: sticky;
+  }
+
+  .lg\:top-24 {
+    top: 6rem;
+  }
+
   .lg\:col-span-1 {
     grid-column: span 1 / span 1;
   }
