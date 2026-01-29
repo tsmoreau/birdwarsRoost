@@ -92,7 +92,7 @@ export default async function HomePage() {
         </Card>
       </main>
 
-      <footer className="border-t-2 border-border py-8 px-4 sm:px-6 lg:px-8 mt-16">
+      <footer className="border-t border-border py-8 px-4 sm:px-6 lg:px-8 mt-16">
         <div className="max-w-7xl mx-auto text-center text-sm text-muted-foreground">
           <p className="uppercase tracking-wide font-medium">Bird Wars Async Battle Server</p>
         </div>

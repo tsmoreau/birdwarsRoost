@@ -312,7 +312,7 @@ Tokens are:
 ## UI Design Decisions
 - **Bird Wars 1-bit Aesthetic**: Monochrome color palette (pure black, white, grays) inspired by the Playdate game
 - **Typography**: Bold, uppercase headings with tight tracking for military/tactical feel
-- **Cards**: 2px black borders with sharp corners (rounded-sm) on white backgrounds
+- **Cards**: 1px black borders with rounded corners (rounded-lg) on white backgrounds
 - **Dither Pattern**: CSS-based dither texture applied to header areas (`.dither-pattern` class)
 - **Shared Nav component**: Bold uppercase links with Bird Wars logo
 - **Branding**: "Bird Wars" with birb001.png icon, styled with 2px border

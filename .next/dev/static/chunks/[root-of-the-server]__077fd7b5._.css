@@ -725,6 +725,10 @@ h1, h2, h3 {
   border-radius: .75rem;
 }
 
+.rounded-md {
+  border-radius: .375rem;
+}
+
 .border {
   border-width: 1px;
 }
@@ -1148,7 +1152,7 @@ h1, h2, h3 {
   --border: 0 0% 0%;
   --input: 0 0% 70%;
   --ring: 0 0% 0%;
-  --radius: .25rem;
+  --radius: .5rem;
   --sidebar: 0 0% 95%;
   --sidebar-foreground: 0 0% 0%;
   --sidebar-border: 0 0% 0%;
