@@ -119,14 +119,18 @@ export default function BattlesList({
                           {battle.player1DisplayName} <span className="text-muted-foreground/60 font-normal mx-0.5 tracking-tighter">VS</span> {battle.player2DisplayName || 'OPEN SLOT'}
                         </p>
                       </div>
-                      <div className="flex items-center gap-4 text-sm text-muted-foreground flex-wrap">
-                        <span className="flex items-center gap-1">
-                          <Users className="w-4 h-4" />
-                          {battle.player2DeviceId ? '2 players' : '1 player (waiting)'}
-                        </span>
-                        <span>Turn {battle.currentTurn}</span>
-                        <span>Updated {formatRelativeTime(battle.updatedAt)}</span>
-                        {getStatusBadge(battle.status)}
+                      <div className="flex flex-col gap-2 mt-2">
+                        <div className="flex items-center gap-4 text-sm text-muted-foreground flex-wrap">
+                          <span className="flex items-center gap-1">
+                            <Users className="w-4 h-4" />
+                            {battle.player2DeviceId ? '2 players' : '1 player (waiting)'}
+                          </span>
+                          <span>Turn {battle.currentTurn}</span>
+                          <span>Updated {formatRelativeTime(battle.updatedAt)}</span>
+                        </div>
+                        <div className="pt-1">
+                          {getStatusBadge(battle.status)}
+                        </div>
                       </div>
                     </div>
                   </div>
