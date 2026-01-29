@@ -101,7 +101,7 @@ export default function BattlesList({
           {filteredBattles.map((battle) => (
             <Link
               key={battle.battleId}
-              href={`/battles/${battle.battleId}`}
+              href={`/battle/${encodeURIComponent(battle.displayName)}`}
               data-testid={`battle-card-${battle.battleId}`}
             >
               <Card className="hover:border-primary/50 transition-colors cursor-pointer">

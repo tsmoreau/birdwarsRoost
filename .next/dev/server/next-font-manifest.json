@@ -1,9 +1,12 @@
 {
   "app": {
-    "[project]/app/battles/[id]/page": [
+    "[project]/app/battle/[text]/page": [
       "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
     ],
     "[project]/app/page": [
+      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
+    ],
+    "[project]/app/turn/[id]/page": [
       "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
     ]
   },

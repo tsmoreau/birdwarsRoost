@@ -182,7 +182,7 @@ export default function TurnDetailPage() {
 
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-6">
-          <Link href={battle ? `/battles/${battle.battleId}` : '/'}>
+          <Link href={battle ? `/battle/${encodeURIComponent(battle.displayName)}` : '/'}>
             <Button variant="ghost" size="sm" data-testid="button-back">
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Battle
@@ -194,7 +194,7 @@ export default function TurnDetailPage() {
           {battle && (
             <>
               <Link 
-                href={`/battles/${battle.battleId}`} 
+                href={`/battle/${encodeURIComponent(battle.displayName)}`} 
                 className="hover:text-foreground transition-colors"
                 data-testid="breadcrumb-battle"
               >
@@ -385,7 +385,7 @@ export default function TurnDetailPage() {
               </CardHeader>
               <CardContent>
                 <Link 
-                  href={`/battles/${battle.battleId}`}
+                  href={`/battle/${encodeURIComponent(battle.displayName)}`}
                   className="block hover-elevate p-4 rounded-lg border border-border transition-all"
                   data-testid="link-battle"
                 >
