@@ -447,7 +447,8 @@ function BattleDetailPage() {
                 const data = await res.json();
                 if (data.success) {
                     setBattle(data.battle);
-                    setTurns(data.turns || []);
+                    const sortedTurns = (data.turns || []).sort((a, b)=>b.turnNumber - a.turnNumber);
+                    setTurns(sortedTurns);
                 } else {
                     setError(data.error || 'Failed to load battle');
                 }
@@ -472,7 +473,7 @@ function BattleDetailPage() {
                     children: "Active"
                 }, void 0, false, {
                     fileName: "[project]/app/battles/[id]/page.tsx",
-                    lineNumber: 98,
+                    lineNumber: 99,
                     columnNumber: 16
                 }, this);
             case 'pending':
@@ -481,7 +482,7 @@ function BattleDetailPage() {
                     children: "Waiting for Opponent"
                 }, void 0, false, {
                     fileName: "[project]/app/battles/[id]/page.tsx",
-                    lineNumber: 100,
+                    lineNumber: 101,
                     columnNumber: 16
                 }, this);
             case 'completed':
@@ -490,7 +491,7 @@ function BattleDetailPage() {
                     children: "Completed"
                 }, void 0, false, {
                     fileName: "[project]/app/battles/[id]/page.tsx",
-                    lineNumber: 102,
+                    lineNumber: 103,
                     columnNumber: 16
                 }, this);
             case 'abandoned':
@@ -499,7 +500,7 @@ function BattleDetailPage() {
                     children: "Abandoned"
                 }, void 0, false, {
                     fileName: "[project]/app/battles/[id]/page.tsx",
-                    lineNumber: 104,
+                    lineNumber: 105,
                     columnNumber: 16
                 }, this);
             default:
@@ -508,7 +509,7 @@ function BattleDetailPage() {
                     children: status
                 }, void 0, false, {
                     fileName: "[project]/app/battles/[id]/page.tsx",
-                    lineNumber: 106,
+                    lineNumber: 107,
                     columnNumber: 16
                 }, this);
         }
@@ -545,12 +546,12 @@ function BattleDetailPage() {
                 "data-testid": "loading-spinner"
             }, void 0, false, {
                 fileName: "[project]/app/battles/[id]/page.tsx",
-                lineNumber: 138,
+                lineNumber: 139,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/app/battles/[id]/page.tsx",
-            lineNumber: 137,
+            lineNumber: 138,
             columnNumber: 7
         }, this);
     }
@@ -560,7 +561,7 @@ function BattleDetailPage() {
             children: [
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$Nav$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                     fileName: "[project]/app/battles/[id]/page.tsx",
-                    lineNumber: 146,
+                    lineNumber: 147,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
@@ -573,7 +574,7 @@ function BattleDetailPage() {
                                     className: "w-16 h-16 text-muted-foreground/50 mb-4"
                                 }, void 0, false, {
                                     fileName: "[project]/app/battles/[id]/page.tsx",
-                                    lineNumber: 150,
+                                    lineNumber: 151,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
@@ -581,7 +582,7 @@ function BattleDetailPage() {
                                     children: "Battle not found"
                                 }, void 0, false, {
                                     fileName: "[project]/app/battles/[id]/page.tsx",
-                                    lineNumber: 151,
+                                    lineNumber: 152,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -589,29 +590,29 @@ function BattleDetailPage() {
                                     children: error
                                 }, void 0, false, {
                                     fileName: "[project]/app/battles/[id]/page.tsx",
-                                    lineNumber: 152,
+                                    lineNumber: 153,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/battles/[id]/page.tsx",
-                            lineNumber: 149,
+                            lineNumber: 150,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/app/battles/[id]/page.tsx",
-                        lineNumber: 148,
+                        lineNumber: 149,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/app/battles/[id]/page.tsx",
-                    lineNumber: 147,
+                    lineNumber: 148,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/app/battles/[id]/page.tsx",
-            lineNumber: 145,
+            lineNumber: 146,
             columnNumber: 7
         }, this);
     }
@@ -625,7 +626,7 @@ function BattleDetailPage() {
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$Nav$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                 fileName: "[project]/app/battles/[id]/page.tsx",
-                lineNumber: 165,
+                lineNumber: 166,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
@@ -644,24 +645,24 @@ function BattleDetailPage() {
                                         className: "w-4 h-4 mr-2"
                                     }, void 0, false, {
                                         fileName: "[project]/app/battles/[id]/page.tsx",
-                                        lineNumber: 171,
+                                        lineNumber: 172,
                                         columnNumber: 15
                                     }, this),
                                     "Back to Home"
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/battles/[id]/page.tsx",
-                                lineNumber: 170,
+                                lineNumber: 171,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/app/battles/[id]/page.tsx",
-                            lineNumber: 169,
+                            lineNumber: 170,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/app/battles/[id]/page.tsx",
-                        lineNumber: 168,
+                        lineNumber: 169,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -676,14 +677,14 @@ function BattleDetailPage() {
                                         children: battle.displayName || (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$battleNames$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["generateBattleName"])(battle.battleId)
                                     }, void 0, false, {
                                         fileName: "[project]/app/battles/[id]/page.tsx",
-                                        lineNumber: 178,
+                                        lineNumber: 179,
                                         columnNumber: 13
                                     }, this),
                                     getStatusBadge(battle.status)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/battles/[id]/page.tsx",
-                                lineNumber: 177,
+                                lineNumber: 178,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -694,7 +695,7 @@ function BattleDetailPage() {
                                         children: battle.battleId
                                     }, void 0, false, {
                                         fileName: "[project]/app/battles/[id]/page.tsx",
-                                        lineNumber: 182,
+                                        lineNumber: 183,
                                         columnNumber: 13
                                     }, this),
                                     " · Created ",
@@ -702,13 +703,13 @@ function BattleDetailPage() {
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/battles/[id]/page.tsx",
-                                lineNumber: 181,
+                                lineNumber: 182,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/battles/[id]/page.tsx",
-                        lineNumber: 176,
+                        lineNumber: 177,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -725,19 +726,19 @@ function BattleDetailPage() {
                                                     className: "w-4 h-4"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/battles/[id]/page.tsx",
-                                                    lineNumber: 190,
+                                                    lineNumber: 191,
                                                     columnNumber: 17
                                                 }, this),
                                                 "Current Turn"
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/battles/[id]/page.tsx",
-                                            lineNumber: 189,
+                                            lineNumber: 190,
                                             columnNumber: 15
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/app/battles/[id]/page.tsx",
-                                        lineNumber: 188,
+                                        lineNumber: 189,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -748,7 +749,7 @@ function BattleDetailPage() {
                                                 children: battle.currentTurn
                                             }, void 0, false, {
                                                 fileName: "[project]/app/battles/[id]/page.tsx",
-                                                lineNumber: 195,
+                                                lineNumber: 196,
                                                 columnNumber: 15
                                             }, this),
                                             battle.status === 'active' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -761,19 +762,19 @@ function BattleDetailPage() {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/app/battles/[id]/page.tsx",
-                                                lineNumber: 197,
+                                                lineNumber: 198,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/battles/[id]/page.tsx",
-                                        lineNumber: 194,
+                                        lineNumber: 195,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/battles/[id]/page.tsx",
-                                lineNumber: 187,
+                                lineNumber: 188,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
@@ -787,19 +788,19 @@ function BattleDetailPage() {
                                                     className: "w-4 h-4"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/battles/[id]/page.tsx",
-                                                    lineNumber: 207,
+                                                    lineNumber: 208,
                                                     columnNumber: 17
                                                 }, this),
                                                 "Players"
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/battles/[id]/page.tsx",
-                                            lineNumber: 206,
+                                            lineNumber: 207,
                                             columnNumber: 15
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/app/battles/[id]/page.tsx",
-                                        lineNumber: 205,
+                                        lineNumber: 206,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -813,7 +814,7 @@ function BattleDetailPage() {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/app/battles/[id]/page.tsx",
-                                                lineNumber: 212,
+                                                lineNumber: 213,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -821,19 +822,19 @@ function BattleDetailPage() {
                                                 children: battle.player2DeviceId ? 'Battle ready' : 'Waiting for opponent'
                                             }, void 0, false, {
                                                 fileName: "[project]/app/battles/[id]/page.tsx",
-                                                lineNumber: 213,
+                                                lineNumber: 214,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/battles/[id]/page.tsx",
-                                        lineNumber: 211,
+                                        lineNumber: 212,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/battles/[id]/page.tsx",
-                                lineNumber: 204,
+                                lineNumber: 205,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
@@ -847,19 +848,19 @@ function BattleDetailPage() {
                                                     className: "w-4 h-4"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/battles/[id]/page.tsx",
-                                                    lineNumber: 222,
+                                                    lineNumber: 223,
                                                     columnNumber: 17
                                                 }, this),
                                                 "Last Update"
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/battles/[id]/page.tsx",
-                                            lineNumber: 221,
+                                            lineNumber: 222,
                                             columnNumber: 15
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/app/battles/[id]/page.tsx",
-                                        lineNumber: 220,
+                                        lineNumber: 221,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -870,7 +871,7 @@ function BattleDetailPage() {
                                                 children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatRelativeTime"])(battle.updatedAt)
                                             }, void 0, false, {
                                                 fileName: "[project]/app/battles/[id]/page.tsx",
-                                                lineNumber: 227,
+                                                lineNumber: 228,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -878,25 +879,25 @@ function BattleDetailPage() {
                                                 children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatDate"])(battle.updatedAt)
                                             }, void 0, false, {
                                                 fileName: "[project]/app/battles/[id]/page.tsx",
-                                                lineNumber: 228,
+                                                lineNumber: 229,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/battles/[id]/page.tsx",
-                                        lineNumber: 226,
+                                        lineNumber: 227,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/battles/[id]/page.tsx",
-                                lineNumber: 219,
+                                lineNumber: 220,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/battles/[id]/page.tsx",
-                        lineNumber: 186,
+                        lineNumber: 187,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -910,20 +911,20 @@ function BattleDetailPage() {
                                                 children: "Players"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/battles/[id]/page.tsx",
-                                                lineNumber: 238,
+                                                lineNumber: 239,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardDescription"], {
                                                 children: "Devices participating in this battle"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/battles/[id]/page.tsx",
-                                                lineNumber: 239,
+                                                lineNumber: 240,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/battles/[id]/page.tsx",
-                                        lineNumber: 237,
+                                        lineNumber: 238,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -944,12 +945,12 @@ function BattleDetailPage() {
                                                                         className: "w-5 h-5 text-muted-foreground"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/app/battles/[id]/page.tsx",
-                                                                        lineNumber: 249,
+                                                                        lineNumber: 250,
                                                                         columnNumber: 23
                                                                     }, this)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/battles/[id]/page.tsx",
-                                                                    lineNumber: 248,
+                                                                    lineNumber: 249,
                                                                     columnNumber: 21
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -963,7 +964,7 @@ function BattleDetailPage() {
                                                                                     children: battle.player1DisplayName
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/app/battles/[id]/page.tsx",
-                                                                                    lineNumber: 253,
+                                                                                    lineNumber: 254,
                                                                                     columnNumber: 25
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Badge"], {
@@ -972,13 +973,13 @@ function BattleDetailPage() {
                                                                                     children: "P1"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/app/battles/[id]/page.tsx",
-                                                                                    lineNumber: 259,
+                                                                                    lineNumber: 260,
                                                                                     columnNumber: 25
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/app/battles/[id]/page.tsx",
-                                                                            lineNumber: 252,
+                                                                            lineNumber: 253,
                                                                             columnNumber: 23
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -989,19 +990,19 @@ function BattleDetailPage() {
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/app/battles/[id]/page.tsx",
-                                                                            lineNumber: 263,
+                                                                            lineNumber: 264,
                                                                             columnNumber: 23
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/app/battles/[id]/page.tsx",
-                                                                    lineNumber: 251,
+                                                                    lineNumber: 252,
                                                                     columnNumber: 21
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/battles/[id]/page.tsx",
-                                                            lineNumber: 247,
+                                                            lineNumber: 248,
                                                             columnNumber: 19
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1012,7 +1013,7 @@ function BattleDetailPage() {
                                                                     children: "Current Turn"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/battles/[id]/page.tsx",
-                                                                    lineNumber: 270,
+                                                                    lineNumber: 271,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 battle.winnerId === battle.player1DeviceId && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Badge"], {
@@ -1020,24 +1021,24 @@ function BattleDetailPage() {
                                                                     children: "Winner"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/battles/[id]/page.tsx",
-                                                                    lineNumber: 273,
+                                                                    lineNumber: 274,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/battles/[id]/page.tsx",
-                                                            lineNumber: 268,
+                                                            lineNumber: 269,
                                                             columnNumber: 19
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/battles/[id]/page.tsx",
-                                                    lineNumber: 246,
+                                                    lineNumber: 247,
                                                     columnNumber: 17
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/app/battles/[id]/page.tsx",
-                                                lineNumber: 242,
+                                                lineNumber: 243,
                                                 columnNumber: 15
                                             }, this),
                                             battle.player2DeviceId ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -1055,12 +1056,12 @@ function BattleDetailPage() {
                                                                         className: "w-5 h-5 text-muted-foreground"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/app/battles/[id]/page.tsx",
-                                                                        lineNumber: 287,
+                                                                        lineNumber: 288,
                                                                         columnNumber: 25
                                                                     }, this)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/battles/[id]/page.tsx",
-                                                                    lineNumber: 286,
+                                                                    lineNumber: 287,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1074,7 +1075,7 @@ function BattleDetailPage() {
                                                                                     children: battle.player2DisplayName
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/app/battles/[id]/page.tsx",
-                                                                                    lineNumber: 291,
+                                                                                    lineNumber: 292,
                                                                                     columnNumber: 27
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Badge"], {
@@ -1083,13 +1084,13 @@ function BattleDetailPage() {
                                                                                     children: "P2"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/app/battles/[id]/page.tsx",
-                                                                                    lineNumber: 297,
+                                                                                    lineNumber: 298,
                                                                                     columnNumber: 27
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/app/battles/[id]/page.tsx",
-                                                                            lineNumber: 290,
+                                                                            lineNumber: 291,
                                                                             columnNumber: 25
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1100,19 +1101,19 @@ function BattleDetailPage() {
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/app/battles/[id]/page.tsx",
-                                                                            lineNumber: 301,
+                                                                            lineNumber: 302,
                                                                             columnNumber: 25
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/app/battles/[id]/page.tsx",
-                                                                    lineNumber: 289,
+                                                                    lineNumber: 290,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/battles/[id]/page.tsx",
-                                                            lineNumber: 285,
+                                                            lineNumber: 286,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1123,7 +1124,7 @@ function BattleDetailPage() {
                                                                     children: "Current Turn"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/battles/[id]/page.tsx",
-                                                                    lineNumber: 308,
+                                                                    lineNumber: 309,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 battle.winnerId === battle.player2DeviceId && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Badge"], {
@@ -1131,24 +1132,24 @@ function BattleDetailPage() {
                                                                     children: "Winner"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/battles/[id]/page.tsx",
-                                                                    lineNumber: 311,
+                                                                    lineNumber: 312,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/battles/[id]/page.tsx",
-                                                            lineNumber: 306,
+                                                            lineNumber: 307,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/battles/[id]/page.tsx",
-                                                    lineNumber: 284,
+                                                    lineNumber: 285,
                                                     columnNumber: 19
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/app/battles/[id]/page.tsx",
-                                                lineNumber: 280,
+                                                lineNumber: 281,
                                                 columnNumber: 17
                                             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                 className: "flex items-center justify-center p-4 rounded-lg border border-dashed border-border",
@@ -1157,24 +1158,24 @@ function BattleDetailPage() {
                                                     children: "Waiting for Player 2 to join..."
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/battles/[id]/page.tsx",
-                                                    lineNumber: 318,
+                                                    lineNumber: 319,
                                                     columnNumber: 19
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/app/battles/[id]/page.tsx",
-                                                lineNumber: 317,
+                                                lineNumber: 318,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/battles/[id]/page.tsx",
-                                        lineNumber: 241,
+                                        lineNumber: 242,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/battles/[id]/page.tsx",
-                                lineNumber: 236,
+                                lineNumber: 237,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
@@ -1185,7 +1186,7 @@ function BattleDetailPage() {
                                                 children: "Turn History"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/battles/[id]/page.tsx",
-                                                lineNumber: 328,
+                                                lineNumber: 329,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardDescription"], {
@@ -1197,13 +1198,13 @@ function BattleDetailPage() {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/app/battles/[id]/page.tsx",
-                                                lineNumber: 329,
+                                                lineNumber: 330,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/battles/[id]/page.tsx",
-                                        lineNumber: 327,
+                                        lineNumber: 328,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -1214,20 +1215,20 @@ function BattleDetailPage() {
                                                     className: "w-12 h-12 mx-auto mb-3 opacity-50"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/battles/[id]/page.tsx",
-                                                    lineNumber: 336,
+                                                    lineNumber: 337,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                     children: "No turns submitted yet"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/battles/[id]/page.tsx",
-                                                    lineNumber: 337,
+                                                    lineNumber: 338,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/battles/[id]/page.tsx",
-                                            lineNumber: 335,
+                                            lineNumber: 336,
                                             columnNumber: 17
                                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                             className: "space-y-3 max-h-96 overflow-y-auto",
@@ -1252,7 +1253,7 @@ function BattleDetailPage() {
                                                                                 ]
                                                                             }, void 0, true, {
                                                                                 fileName: "[project]/app/battles/[id]/page.tsx",
-                                                                                lineNumber: 353,
+                                                                                lineNumber: 354,
                                                                                 columnNumber: 29
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1265,7 +1266,7 @@ function BattleDetailPage() {
                                                                                 ]
                                                                             }, void 0, true, {
                                                                                 fileName: "[project]/app/battles/[id]/page.tsx",
-                                                                                lineNumber: 354,
+                                                                                lineNumber: 355,
                                                                                 columnNumber: 29
                                                                             }, this),
                                                                             (turn.deviceId === battle.player1DeviceId || turn.deviceId === battle.player2DeviceId) && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Badge"], {
@@ -1275,7 +1276,7 @@ function BattleDetailPage() {
                                                                                 children: turn.deviceId === battle.player1DeviceId ? "P1" : "P2"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/app/battles/[id]/page.tsx",
-                                                                                lineNumber: 367,
+                                                                                lineNumber: 368,
                                                                                 columnNumber: 31
                                                                             }, this),
                                                                             turn.isValid ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Badge"], {
@@ -1284,7 +1285,7 @@ function BattleDetailPage() {
                                                                                 children: "Valid"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/app/battles/[id]/page.tsx",
-                                                                                lineNumber: 376,
+                                                                                lineNumber: 377,
                                                                                 columnNumber: 31
                                                                             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Badge"], {
                                                                                 variant: "destructive",
@@ -1292,13 +1293,13 @@ function BattleDetailPage() {
                                                                                 children: "Invalid"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/app/battles/[id]/page.tsx",
-                                                                                lineNumber: 380,
+                                                                                lineNumber: 381,
                                                                                 columnNumber: 31
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/app/battles/[id]/page.tsx",
-                                                                        lineNumber: 352,
+                                                                        lineNumber: 353,
                                                                         columnNumber: 27
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1306,13 +1307,13 @@ function BattleDetailPage() {
                                                                         children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatRelativeTime"])(turn.timestamp)
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/app/battles/[id]/page.tsx",
-                                                                        lineNumber: 385,
+                                                                        lineNumber: 386,
                                                                         columnNumber: 27
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/app/battles/[id]/page.tsx",
-                                                                lineNumber: 351,
+                                                                lineNumber: 352,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1324,7 +1325,7 @@ function BattleDetailPage() {
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/app/battles/[id]/page.tsx",
-                                                                lineNumber: 389,
+                                                                lineNumber: 390,
                                                                 columnNumber: 25
                                                             }, this),
                                                             turn.actions.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1337,14 +1338,14 @@ function BattleDetailPage() {
                                                                                     className: "w-3 h-3"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/app/battles/[id]/page.tsx",
-                                                                                    lineNumber: 399,
+                                                                                    lineNumber: 400,
                                                                                     columnNumber: 33
                                                                                 }, this),
                                                                                 getActionDescription(action)
                                                                             ]
                                                                         }, idx, true, {
                                                                             fileName: "[project]/app/battles/[id]/page.tsx",
-                                                                            lineNumber: 395,
+                                                                            lineNumber: 396,
                                                                             columnNumber: 31
                                                                         }, this)),
                                                                     turn.actions.length > 3 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1356,58 +1357,58 @@ function BattleDetailPage() {
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/app/battles/[id]/page.tsx",
-                                                                        lineNumber: 404,
+                                                                        lineNumber: 405,
                                                                         columnNumber: 31
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/app/battles/[id]/page.tsx",
-                                                                lineNumber: 393,
+                                                                lineNumber: 394,
                                                                 columnNumber: 27
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/app/battles/[id]/page.tsx",
-                                                        lineNumber: 347,
+                                                        lineNumber: 348,
                                                         columnNumber: 23
                                                     }, this)
                                                 }, turn.turnId, false, {
                                                     fileName: "[project]/app/battles/[id]/page.tsx",
-                                                    lineNumber: 342,
+                                                    lineNumber: 343,
                                                     columnNumber: 21
                                                 }, this))
                                         }, void 0, false, {
                                             fileName: "[project]/app/battles/[id]/page.tsx",
-                                            lineNumber: 340,
+                                            lineNumber: 341,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/app/battles/[id]/page.tsx",
-                                        lineNumber: 333,
+                                        lineNumber: 334,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/battles/[id]/page.tsx",
-                                lineNumber: 326,
+                                lineNumber: 327,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/battles/[id]/page.tsx",
-                        lineNumber: 235,
+                        lineNumber: 236,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/battles/[id]/page.tsx",
-                lineNumber: 167,
+                lineNumber: 168,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/app/battles/[id]/page.tsx",
-        lineNumber: 164,
+        lineNumber: 165,
         columnNumber: 5
     }, this);
 }

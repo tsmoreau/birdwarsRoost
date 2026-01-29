@@ -75,7 +75,8 @@ export default function BattleDetailPage() {
         
         if (data.success) {
           setBattle(data.battle);
-          setTurns(data.turns || []);
+          const sortedTurns = (data.turns || []).sort((a: Turn, b: Turn) => b.turnNumber - a.turnNumber);
+          setTurns(sortedTurns);
         } else {
           setError(data.error || 'Failed to load battle');
         }
