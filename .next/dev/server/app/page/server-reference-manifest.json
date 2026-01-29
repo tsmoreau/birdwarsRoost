@@ -1,6 +1,6 @@
 {
   "node": {
-    "40546443ab8cc4d56b0438b8c72e04a771deb3b9a1": {
+    "4008ccb0e90d7ed897c8b5e179140a07dc4cc8974b": {
       "workers": {
         "app/page": {
           "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/battles.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
