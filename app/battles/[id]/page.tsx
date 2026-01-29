@@ -239,71 +239,85 @@ export default function BattleDetailPage() {
               <CardDescription>Devices participating in this battle</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="flex items-center justify-between p-4 rounded-lg border border-border bg-card">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center">
-                    <Gamepad2 className="w-5 h-5 text-muted-foreground" />
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <Link 
-                        href={`/player/${encodeURIComponent(battle.player1DisplayName || '')}`}
-                        className="font-medium hover:underline"
-                        data-testid="text-player1-name"
-                      >
-                        {battle.player1DisplayName}
-                      </Link>
-                      <Badge variant="outline" className="text-xs">P1</Badge>
-                    </div>
-                    <p className="text-xs text-muted-foreground font-mono">
-                      {battle.player1DeviceId.substring(0, 16)}...
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  {battle.status === 'active' && battle.currentPlayerIndex === 0 && (
-                    <Badge variant="default">Current Turn</Badge>
-                  )}
-                  {battle.winnerId === battle.player1DeviceId && (
-                    <Badge variant="success">Winner</Badge>
-                  )}
-                </div>
-              </div>
-
-              {battle.player2DeviceId ? (
-                <div className="flex items-center justify-between p-4 rounded-lg border border-border bg-card">
+              <Link
+                href={`/player/${encodeURIComponent(battle.player1DisplayName || "")}`}
+                className="block group no-underline"
+              >
+                <div className="flex items-center justify-between p-4 rounded-lg border border-border bg-card transition-all active:scale-[0.98] hover-elevate">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center">
                       <Gamepad2 className="w-5 h-5 text-muted-foreground" />
                     </div>
                     <div>
                       <div className="flex items-center gap-2">
-                        <Link 
-                          href={`/player/${encodeURIComponent(battle.player2DisplayName || '')}`}
-                          className="font-medium hover:underline"
-                          data-testid="text-player2-name"
+                        <p
+                          className="font-medium group-hover:underline"
+                          data-testid="text-player1-name"
                         >
-                          {battle.player2DisplayName}
-                        </Link>
-                        <Badge variant="outline" className="text-xs">P2</Badge>
+                          {battle.player1DisplayName}
+                        </p>
+                        <Badge variant="outline" className="text-xs">
+                          P1
+                        </Badge>
                       </div>
                       <p className="text-xs text-muted-foreground font-mono">
-                        {battle.player2DeviceId.substring(0, 16)}...
+                        {battle.player1DeviceId.substring(0, 16)}...
                       </p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    {battle.status === 'active' && battle.currentPlayerIndex === 1 && (
+                    {battle.status === "active" && battle.currentPlayerIndex === 0 && (
                       <Badge variant="default">Current Turn</Badge>
                     )}
-                    {battle.winnerId === battle.player2DeviceId && (
+                    {battle.winnerId === battle.player1DeviceId && (
                       <Badge variant="success">Winner</Badge>
                     )}
                   </div>
                 </div>
+              </Link>
+
+              {battle.player2DeviceId ? (
+                <Link
+                  href={`/player/${encodeURIComponent(battle.player2DisplayName || "")}`}
+                  className="block group no-underline"
+                >
+                  <div className="flex items-center justify-between p-4 rounded-lg border border-border bg-card transition-all active:scale-[0.98] hover-elevate">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center">
+                        <Gamepad2 className="w-5 h-5 text-muted-foreground" />
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <p
+                            className="font-medium group-hover:underline"
+                            data-testid="text-player2-name"
+                          >
+                            {battle.player2DisplayName}
+                          </p>
+                          <Badge variant="outline" className="text-xs">
+                            P2
+                          </Badge>
+                        </div>
+                        <p className="text-xs text-muted-foreground font-mono">
+                          {battle.player2DeviceId.substring(0, 16)}...
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      {battle.status === "active" && battle.currentPlayerIndex === 1 && (
+                        <Badge variant="default">Current Turn</Badge>
+                      )}
+                      {battle.winnerId === battle.player2DeviceId && (
+                        <Badge variant="success">Winner</Badge>
+                      )}
+                    </div>
+                  </div>
+                </Link>
               ) : (
                 <div className="flex items-center justify-center p-4 rounded-lg border border-dashed border-border">
-                  <p className="text-muted-foreground text-sm">Waiting for Player 2 to join...</p>
+                  <p className="text-muted-foreground text-sm">
+                    Waiting for Player 2 to join...
+                  </p>
                 </div>
               )}
             </CardContent>
