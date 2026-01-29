@@ -310,9 +310,19 @@ Tokens are:
 ---
 
 ## UI Design Decisions
-- **Greyscale theme** except for API method badges (POST=green, GET=blue, PATCH=yellow) and status badges
-- **Shared Nav component** with automatic active state based on pathname
-- **Branding**: "Bird Wars Roost!" with birb001.png icon
+- **Bird Wars 1-bit Aesthetic**: Monochrome color palette (pure black, white, grays) inspired by the Playdate game
+- **Typography**: Bold, uppercase headings with tight tracking for military/tactical feel
+- **Cards**: 2px black borders with sharp corners (rounded-sm) on white backgrounds
+- **Dither Pattern**: CSS-based dither texture applied to header areas (`.dither-pattern` class)
+- **Shared Nav component**: Bold uppercase links with Bird Wars logo
+- **Branding**: "Bird Wars" with birb001.png icon, styled with 2px border
+
+### Color Palette (globals.css)
+- Background: Light gray (#EBEBEB) / Dark: Near black (#141414)
+- Cards: Pure white / Dark: Dark gray (#1F1F1F)
+- Borders: Pure black / Dark: Pure white
+- All accent colors removed in favor of monochrome
+- Badges use black/white variants for status indicators
 
 ---
 
