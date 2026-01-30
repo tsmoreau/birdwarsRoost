@@ -1,7 +1,7 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
 export type BattleStatus = 'pending' | 'active' | 'completed' | 'abandoned';
-export type EndReason = 'victory' | 'forfeit' | 'draw' | null;
+export type EndReason = 'victory' | 'forfeit' | 'draw' | 'cancelled' | null;
 
 export interface IUnit {
   unitId: string;
@@ -112,7 +112,7 @@ const BattleSchema = new Schema<IBattleDocument>({
   },
   endReason: {
     type: String,
-    enum: ['victory', 'forfeit', 'draw', null],
+    enum: ['victory', 'forfeit', 'draw', 'cancelled', null],
     default: null
   },
   lastTurnAt: {

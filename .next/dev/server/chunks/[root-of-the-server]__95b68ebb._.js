@@ -209,6 +209,7 @@ const BattleSchema = new __TURBOPACK__imported__module__$5b$externals$5d2f$mongo
             'victory',
             'forfeit',
             'draw',
+            'cancelled',
             null
         ],
         default: null
@@ -512,6 +513,8 @@ function unauthorizedResponse(message = 'Unauthorized') {
 "use strict";
 
 __turbopack_context__.s([
+    "DELETE",
+    ()=>DELETE,
     "GET",
     ()=>GET,
     "PATCH",
@@ -529,6 +532,25 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$authMiddleware$2e$ts_
 ;
 ;
 ;
+const MAX_ACTIVE_GAMES = 9;
+async function getUserActiveGameCount(deviceId) {
+    return __TURBOPACK__imported__module__$5b$project$5d2f$models$2f$Battle$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Battle"].countDocuments({
+        $or: [
+            {
+                player1DeviceId: deviceId
+            },
+            {
+                player2DeviceId: deviceId
+            }
+        ],
+        status: {
+            $in: [
+                'pending',
+                'active'
+            ]
+        }
+    });
+}
 async function getPlayerInfo(deviceIds) {
     const validIds = deviceIds.filter((id)=>id !== null);
     if (validIds.length === 0) return new Map();
@@ -681,6 +703,16 @@ async function PATCH(request, { params }) {
                 status: 400
             });
         }
+        const userActiveCount = await getUserActiveGameCount(auth.deviceId);
+        if (userActiveCount >= MAX_ACTIVE_GAMES) {
+            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                success: false,
+                error: 'limit_reached',
+                message: 'Maximum 9 active games allowed'
+            }, {
+                status: 403
+            });
+        }
         battle.player2DeviceId = auth.deviceId;
         battle.status = 'active';
         battle.updatedAt = new Date();
@@ -705,6 +737,59 @@ async function PATCH(request, { params }) {
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
             success: false,
             error: 'Failed to join battle'
+        }, {
+            status: 500
+        });
+    }
+}
+async function DELETE(request, { params }) {
+    try {
+        const auth = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$authMiddleware$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["authenticateDevice"])(request);
+        if (!auth) {
+            return (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$authMiddleware$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["unauthorizedResponse"])('Device authentication required');
+        }
+        const { id } = await params;
+        await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$mongodb$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["connectToDatabase"])();
+        const battle = await __TURBOPACK__imported__module__$5b$project$5d2f$models$2f$Battle$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Battle"].findOne({
+            battleId: id
+        });
+        if (!battle) {
+            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                success: false,
+                error: 'Battle not found'
+            }, {
+                status: 404
+            });
+        }
+        if (battle.player1DeviceId !== auth.deviceId) {
+            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                success: false,
+                error: 'Only the battle creator can cancel this battle'
+            }, {
+                status: 403
+            });
+        }
+        if (battle.status !== 'pending') {
+            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                success: false,
+                error: 'Battle is not pending (already active or completed)'
+            }, {
+                status: 400
+            });
+        }
+        battle.status = 'abandoned';
+        battle.endReason = 'cancelled';
+        battle.updatedAt = new Date();
+        await battle.save();
+        return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+            success: true,
+            message: 'Battle cancelled'
+        });
+    } catch (error) {
+        console.error('Cancel battle error:', error);
+        return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+            success: false,
+            error: 'Failed to cancel battle'
         }, {
             status: 500
         });

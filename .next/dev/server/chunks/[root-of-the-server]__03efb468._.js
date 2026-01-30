@@ -209,6 +209,7 @@ const BattleSchema = new __TURBOPACK__imported__module__$5b$externals$5d2f$mongo
             'victory',
             'forfeit',
             'draw',
+            'cancelled',
             null
         ],
         default: null
@@ -539,6 +540,9 @@ async function GET(request) {
         const baseQuery = {
             isPrivate: {
                 $ne: true
+            },
+            status: {
+                $ne: 'abandoned'
             }
         };
         if (cursor) {
@@ -560,6 +564,9 @@ async function GET(request) {
         const total = await __TURBOPACK__imported__module__$5b$project$5d2f$models$2f$Battle$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Battle"].countDocuments({
             isPrivate: {
                 $ne: true
+            },
+            status: {
+                $ne: 'abandoned'
             }
         });
         const statusCounts = await __TURBOPACK__imported__module__$5b$project$5d2f$models$2f$Battle$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Battle"].aggregate([
@@ -567,6 +574,9 @@ async function GET(request) {
                 $match: {
                     isPrivate: {
                         $ne: true
+                    },
+                    status: {
+                        $ne: 'abandoned'
                     }
                 }
             },
