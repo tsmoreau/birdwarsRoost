@@ -345,7 +345,6 @@ img, video {
 * {
   --tw-border-opacity: 1;
   border-color: hsl(var(--border) / var(--tw-border-opacity, 1));
-  border-width: 0;
 }
 
 body {
@@ -764,6 +763,10 @@ h1, h2, h3 {
 
 .border {
   border-width: 1px;
+}
+
+.border-0 {
+  border-width: 0;
 }
 
 .border-b {
