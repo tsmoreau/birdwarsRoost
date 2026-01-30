@@ -342,11 +342,6 @@ img, video {
   display: none;
 }
 
-* {
-  --tw-border-opacity: 1;
-  border-color: hsl(var(--border) / var(--tw-border-opacity, 1));
-}
-
 body {
   --tw-bg-opacity: 1;
   background-color: hsl(var(--background) / var(--tw-bg-opacity, 1));
