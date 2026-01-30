@@ -230,6 +230,9 @@ Cancel a pending battle (requires auth). Only the creator can cancel. Sets statu
 - 400: Battle is not pending
 - 404: Battle not found
 
+#### POST /api/battles/[id]/cancel
+Alternative cancel endpoint for clients that don't support DELETE requests (e.g., Playdate). Same behavior as DELETE /api/battles/[id].
+
 #### GET /api/mybattles
 List battles for authenticated device. Supports `?status=` filter (pending, active, completed, abandoned) and cursor-based pagination (same params as GET /api/battles).
 
