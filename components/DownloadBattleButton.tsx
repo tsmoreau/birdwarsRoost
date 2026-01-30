@@ -35,7 +35,7 @@ export function DownloadBattleButton({ battle, turns }: DownloadBattleButtonProp
           avatar: battle.player2Avatar,
         } : null,
       },
-      turns: turns.map(turn => ({
+      turns: [...turns].reverse().map(turn => ({
         turnId: turn.turnId,
         battleId: turn.battleId,
         deviceId: turn.deviceId,
