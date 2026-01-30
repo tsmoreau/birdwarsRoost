@@ -61,7 +61,10 @@ export async function GET(request: NextRequest) {
       ? Math.min(Math.max(1, parseInt(limitParam || '9', 10)), 50)
       : null;
 
-    const baseQuery: Record<string, unknown> = { isPrivate: { $ne: true } };
+    const baseQuery: Record<string, unknown> = { 
+      isPrivate: { $ne: true },
+      status: { $ne: 'abandoned' }
+    };
 
     if (cursor) {
       try {
@@ -76,10 +79,10 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    const total = await Battle.countDocuments({ isPrivate: { $ne: true } });
+    const total = await Battle.countDocuments({ isPrivate: { $ne: true }, status: { $ne: 'abandoned' } });
 
     const statusCounts = await Battle.aggregate([
-      { $match: { isPrivate: { $ne: true } } },
+      { $match: { isPrivate: { $ne: true }, status: { $ne: 'abandoned' } } },
       { $group: { _id: '$status', count: { $sum: 1 } } }
     ]);
     const counts: Record<string, number> = {};

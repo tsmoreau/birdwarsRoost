@@ -102,6 +102,9 @@ export async function GET(request: NextRequest) {
 
     if (statusFilter && ['pending', 'active', 'completed', 'abandoned'].includes(statusFilter)) {
       baseQuery.status = statusFilter;
+    } else {
+      // Exclude abandoned by default
+      baseQuery.status = { $ne: 'abandoned' };
     }
 
     const allActiveBattles = await Battle.find({
