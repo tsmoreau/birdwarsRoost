@@ -4,6 +4,8 @@ import { Device, VALID_AVATARS } from '@/models/Device';
 import { generateDeviceSecret, generateSecureToken, hashToken } from '@/lib/auth';
 import { z } from 'zod';
 
+const MIN_CLIENT_VERSION = process.env.MIN_CLIENT_VERSION || '0.0.1';
+
 const registerSchema = z.object({
   displayName: z.string().min(1).max(100).optional(),
   avatar: z.enum(VALID_AVATARS).optional(),
@@ -101,6 +103,7 @@ export async function POST(request: NextRequest) {
         displayName: existingDevice.displayName,
         avatar: existingDevice.avatar,
         registeredAt: existingDevice.registeredAt,
+        minClientVersion: MIN_CLIENT_VERSION,
         message: updated 
           ? 'Device verified and profile updated.' 
           : 'Device already registered.',
@@ -150,6 +153,7 @@ export async function POST(request: NextRequest) {
       secretToken,
       displayName: device.displayName,
       avatar: device.avatar,
+      minClientVersion: MIN_CLIENT_VERSION,
       message: 'Device registered successfully. Store this token securely - it cannot be retrieved again.',
     }, { status: 201 });
 
