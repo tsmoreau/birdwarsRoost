@@ -5,7 +5,7 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
 export const metadata: Metadata = {
-  title: 'Bird Wars - Async Battle Server',
+  title: 'Bird Wars Roost - Playdate Game Server',
   description: 'Turn-based tactical strategy game server for Playdate',
 };
 

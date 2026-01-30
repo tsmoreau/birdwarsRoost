@@ -42,7 +42,7 @@ var __TURBOPACK__imported__module__$5b$next$5d2f$internal$2f$font$2f$google$2f$i
 ;
 ;
 const metadata = {
-    title: 'Bird Wars - Async Battle Server',
+    title: 'Bird Wars Roost - Playdate Game Server',
     description: 'Turn-based tactical strategy game server for Playdate'
 };
 function RootLayout({ children }) {

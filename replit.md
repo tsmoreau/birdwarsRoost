@@ -1,4 +1,4 @@
-# Bird Wars - Async Battle Server
+# Bird Wars Roost - Playdate Game Server
 
 ## Overview
 A Next.js application with MongoDB backend for async multiplayer turn-based tactics game (Bird Wars) on Playdate. The server handles device registration with secure token-based authentication, battle session management, and turn submission with validation. Inspired by Advance Wars-style gameplay.
