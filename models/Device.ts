@@ -28,7 +28,8 @@ const DeviceSchema = new Schema<IDeviceDocument>({
   },
   tokenHash: { 
     type: String, 
-    required: true 
+    required: true,
+    index: true
   },
   displayName: { 
     type: String, 
@@ -49,8 +50,11 @@ const DeviceSchema = new Schema<IDeviceDocument>({
   },
   isActive: { 
     type: Boolean, 
-    default: true 
+    default: true,
+    index: true
   }
 });
+
+DeviceSchema.index({ tokenHash: 1, isActive: 1 });
 
 export const Device: Model<IDeviceDocument> = mongoose.models.Device || mongoose.model<IDeviceDocument>('Device', DeviceSchema);

@@ -88,7 +88,8 @@ const BattleSchema = new Schema<IBattleDocument>({
   status: { 
     type: String, 
     enum: ['pending', 'active', 'completed', 'abandoned'],
-    default: 'pending' 
+    default: 'pending',
+    index: true
   },
   currentTurn: { 
     type: Number, 
@@ -125,7 +126,8 @@ const BattleSchema = new Schema<IBattleDocument>({
   },
   isPrivate: {
     type: Boolean,
-    default: false
+    default: false,
+    index: true
   },
   currentState: {
     type: CurrentStateSchema,

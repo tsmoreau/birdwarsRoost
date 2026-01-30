@@ -5,6 +5,8 @@ import { Ping } from '@/models/Ping';
 import { hashToken } from '@/lib/auth';
 import { z } from 'zod';
 
+const MIN_CLIENT_VERSION = process.env.MIN_CLIENT_VERSION || '0.0.1';
+
 const pingSchema = z.object({
   message: z.string().max(500).optional(),
 });
@@ -94,6 +96,7 @@ export async function POST(request: NextRequest) {
       pingId: ping._id.toString(),
       displayName: device.displayName,
       timestamp: ping.createdAt.toISOString(),
+      minClientVersion: MIN_CLIENT_VERSION,
     }, { status: 200 });
 
   } catch (error) {

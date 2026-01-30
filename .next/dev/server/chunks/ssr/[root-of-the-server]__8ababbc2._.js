@@ -139,7 +139,8 @@ const BattleSchema = new __TURBOPACK__imported__module__$5b$externals$5d2f$mongo
             'completed',
             'abandoned'
         ],
-        default: 'pending'
+        default: 'pending',
+        index: true
     },
     currentTurn: {
         type: Number,
@@ -182,7 +183,8 @@ const BattleSchema = new __TURBOPACK__imported__module__$5b$externals$5d2f$mongo
     },
     isPrivate: {
         type: Boolean,
-        default: false
+        default: false,
+        index: true
     },
     currentState: {
         type: CurrentStateSchema,
@@ -232,7 +234,8 @@ const DeviceSchema = new __TURBOPACK__imported__module__$5b$externals$5d2f$mongo
     },
     tokenHash: {
         type: String,
-        required: true
+        required: true,
+        index: true
     },
     displayName: {
         type: String,
@@ -266,8 +269,13 @@ const DeviceSchema = new __TURBOPACK__imported__module__$5b$externals$5d2f$mongo
     },
     isActive: {
         type: Boolean,
-        default: true
+        default: true,
+        index: true
     }
+});
+DeviceSchema.index({
+    tokenHash: 1,
+    isActive: 1
 });
 const Device = __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$external$5d$__$28$mongoose$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f$mongoose$29$__["default"].models.Device || __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$external$5d$__$28$mongoose$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f$mongoose$29$__["default"].model('Device', DeviceSchema);
 }),
