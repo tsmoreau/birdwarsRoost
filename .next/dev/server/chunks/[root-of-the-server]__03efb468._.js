@@ -458,7 +458,7 @@ function generateBattleName(battleId) {
     const numericId = parseInt(battleId.substring(0, 4), 16);
     const adj = ADJECTIVES[numericId % 10];
     const noun = NOUNS[Math.floor(numericId / 10) % 10];
-    const suffix = Math.floor(numericId / 100);
+    const suffix = Math.floor(numericId / 100) % 100;
     return `${adj}-${noun}-${suffix}`;
 }
 }),
@@ -508,16 +508,47 @@ const createBattleSchema = __TURBOPACK__imported__module__$5b$project$5d2f$node_
     mapData: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["z"].record(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["z"].unknown()).optional(),
     isPrivate: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["z"].boolean().optional()
 });
-async function GET() {
+async function GET(request) {
     try {
         await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$mongodb$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["connectToDatabase"])();
-        const battles = await __TURBOPACK__imported__module__$5b$project$5d2f$models$2f$Battle$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Battle"].find({
+        const { searchParams } = new URL(request.url);
+        const limitParam = searchParams.get('limit');
+        const cursor = searchParams.get('cursor');
+        const isPaginated = limitParam !== null || cursor !== null;
+        const limit = isPaginated ? Math.min(Math.max(1, parseInt(limitParam || '9', 10)), 50) : null;
+        const baseQuery = {
             isPrivate: {
                 $ne: true
             }
-        }).sort({
-            updatedAt: -1
-        }).limit(50);
+        };
+        if (cursor) {
+            try {
+                const { lastId } = JSON.parse(Buffer.from(cursor, 'base64').toString());
+                const mongoose = await __turbopack_context__.A("[externals]/mongoose [external] (mongoose, cjs, [project]/node_modules/mongoose, async loader)");
+                baseQuery._id = {
+                    $lt: new mongoose.Types.ObjectId(lastId)
+                };
+            } catch  {
+                return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                    success: false,
+                    error: 'Invalid cursor'
+                }, {
+                    status: 400
+                });
+            }
+        }
+        const total = await __TURBOPACK__imported__module__$5b$project$5d2f$models$2f$Battle$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Battle"].countDocuments({
+            isPrivate: {
+                $ne: true
+            }
+        });
+        let battlesQuery = __TURBOPACK__imported__module__$5b$project$5d2f$models$2f$Battle$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Battle"].find(baseQuery).sort({
+            _id: -1
+        });
+        if (limit !== null) {
+            battlesQuery = battlesQuery.limit(limit);
+        }
+        const battles = await battlesQuery;
         const allPlayerIds = battles.flatMap((b)=>[
                 b.player1DeviceId,
                 b.player2DeviceId
@@ -544,9 +575,19 @@ async function GET() {
                 mapName: battleObj.mapData?.selection || 'Unknown Map'
             };
         });
+        const hasMore = isPaginated && limit !== null && battles.length === limit;
+        const lastBattle = battles[battles.length - 1];
+        const nextCursor = hasMore && lastBattle ? Buffer.from(JSON.stringify({
+            lastId: lastBattle._id.toString()
+        })).toString('base64') : null;
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
             success: true,
-            battles: battlesWithPlayerInfo
+            battles: battlesWithPlayerInfo,
+            pagination: {
+                hasMore,
+                nextCursor,
+                total
+            }
         });
     } catch (error) {
         console.error('Fetch battles error:', error);

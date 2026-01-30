@@ -34,13 +34,41 @@ const createBattleSchema = z.object({
   isPrivate: z.boolean().optional(),
 });
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
     await connectToDatabase();
 
-    const battles = await Battle.find({ isPrivate: { $ne: true } })
-      .sort({ updatedAt: -1 })
-      .limit(50);
+    const { searchParams } = new URL(request.url);
+    const limitParam = searchParams.get('limit');
+    const cursor = searchParams.get('cursor');
+
+    const isPaginated = limitParam !== null || cursor !== null;
+    const limit = isPaginated 
+      ? Math.min(Math.max(1, parseInt(limitParam || '9', 10)), 50)
+      : null;
+
+    const baseQuery: Record<string, unknown> = { isPrivate: { $ne: true } };
+
+    if (cursor) {
+      try {
+        const { lastId } = JSON.parse(Buffer.from(cursor, 'base64').toString());
+        const mongoose = await import('mongoose');
+        baseQuery._id = { $lt: new mongoose.Types.ObjectId(lastId) };
+      } catch {
+        return NextResponse.json({
+          success: false,
+          error: 'Invalid cursor',
+        }, { status: 400 });
+      }
+    }
+
+    const total = await Battle.countDocuments({ isPrivate: { $ne: true } });
+
+    let battlesQuery = Battle.find(baseQuery).sort({ _id: -1 });
+    if (limit !== null) {
+      battlesQuery = battlesQuery.limit(limit);
+    }
+    const battles = await battlesQuery;
 
     const allPlayerIds = battles.flatMap(b => [b.player1DeviceId, b.player2DeviceId]);
     const playerInfoMap = await getPlayerInfo(allPlayerIds);
@@ -68,9 +96,20 @@ export async function GET() {
       };
     });
 
+    const hasMore = isPaginated && limit !== null && battles.length === limit;
+    const lastBattle = battles[battles.length - 1];
+    const nextCursor = hasMore && lastBattle
+      ? Buffer.from(JSON.stringify({ lastId: lastBattle._id.toString() })).toString('base64')
+      : null;
+
     return NextResponse.json({
       success: true,
       battles: battlesWithPlayerInfo,
+      pagination: {
+        hasMore,
+        nextCursor,
+        total,
+      },
     });
   } catch (error) {
     console.error('Fetch battles error:', error);

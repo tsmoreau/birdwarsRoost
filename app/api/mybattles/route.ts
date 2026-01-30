@@ -73,8 +73,15 @@ export async function GET(request: NextRequest) {
 
     const { searchParams } = new URL(request.url);
     const statusFilter = searchParams.get('status');
+    const limitParam = searchParams.get('limit');
+    const cursor = searchParams.get('cursor');
 
-    const query: Record<string, unknown> = {
+    const isPaginated = limitParam !== null || cursor !== null;
+    const limit = isPaginated 
+      ? Math.min(Math.max(1, parseInt(limitParam || '9', 10)), 50)
+      : null;
+
+    const baseQuery: Record<string, unknown> = {
       $or: [
         { player1DeviceId: auth.deviceId },
         { player2DeviceId: auth.deviceId }
@@ -82,23 +89,42 @@ export async function GET(request: NextRequest) {
     };
 
     if (statusFilter && ['pending', 'active', 'completed', 'abandoned'].includes(statusFilter)) {
-      query.status = statusFilter;
+      baseQuery.status = statusFilter;
     }
 
-    const battles = await Battle.find(query)
-      .sort({ updatedAt: -1 })
-      .limit(100);
+    const allActiveBattles = await Battle.find({
+      ...baseQuery,
+      status: 'active',
+    });
+    await checkAndProcessForfeits(allActiveBattles, auth.deviceId);
 
-    await checkAndProcessForfeits(battles, auth.deviceId);
+    const paginatedQuery = { ...baseQuery };
 
-    const updatedBattles = await Battle.find(query)
-      .sort({ updatedAt: -1 })
-      .limit(100);
+    if (cursor) {
+      try {
+        const { lastId } = JSON.parse(Buffer.from(cursor, 'base64').toString());
+        const mongoose = await import('mongoose');
+        paginatedQuery._id = { $lt: new mongoose.Types.ObjectId(lastId) };
+      } catch {
+        return NextResponse.json({
+          success: false,
+          error: 'Invalid cursor',
+        }, { status: 400 });
+      }
+    }
 
-    const allPlayerIds = updatedBattles.flatMap(b => [b.player1DeviceId, b.player2DeviceId]);
+    const total = await Battle.countDocuments(baseQuery);
+
+    let battlesQuery = Battle.find(paginatedQuery).sort({ _id: -1 });
+    if (limit !== null) {
+      battlesQuery = battlesQuery.limit(limit);
+    }
+    const battles = await battlesQuery;
+
+    const allPlayerIds = battles.flatMap(b => [b.player1DeviceId, b.player2DeviceId]);
     const playerInfoMap = await getPlayerInfo(allPlayerIds);
 
-    const battlesWithPlayerInfo = updatedBattles.map(battle => {
+    const battlesWithPlayerInfo = battles.map(battle => {
       const battleObj = battle.toObject();
       const p1Info = playerInfoMap.get(battle.player1DeviceId);
       const p2Info = battle.player2DeviceId ? playerInfoMap.get(battle.player2DeviceId) : null;
@@ -126,10 +152,20 @@ export async function GET(request: NextRequest) {
       };
     });
 
+    const hasMore = isPaginated && limit !== null && battles.length === limit;
+    const lastBattle = battles[battles.length - 1];
+    const nextCursor = hasMore && lastBattle
+      ? Buffer.from(JSON.stringify({ lastId: lastBattle._id.toString() })).toString('base64')
+      : null;
+
     return NextResponse.json({
       success: true,
       battles: battlesWithPlayerInfo,
-      count: battlesWithPlayerInfo.length,
+      pagination: {
+        hasMore,
+        nextCursor,
+        total,
+      },
     });
   } catch (error) {
     console.error('Fetch my battles error:', error);
