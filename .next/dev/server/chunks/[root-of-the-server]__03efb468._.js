@@ -542,6 +542,27 @@ async function GET(request) {
                 $ne: true
             }
         });
+        const statusCounts = await __TURBOPACK__imported__module__$5b$project$5d2f$models$2f$Battle$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Battle"].aggregate([
+            {
+                $match: {
+                    isPrivate: {
+                        $ne: true
+                    }
+                }
+            },
+            {
+                $group: {
+                    _id: '$status',
+                    count: {
+                        $sum: 1
+                    }
+                }
+            }
+        ]);
+        const counts = {};
+        for (const { _id, count } of statusCounts){
+            counts[_id] = count;
+        }
         let battlesQuery = __TURBOPACK__imported__module__$5b$project$5d2f$models$2f$Battle$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Battle"].find(baseQuery).sort({
             _id: -1
         });
@@ -586,7 +607,8 @@ async function GET(request) {
             pagination: {
                 hasMore,
                 nextCursor,
-                total
+                total,
+                counts
             }
         });
     } catch (error) {

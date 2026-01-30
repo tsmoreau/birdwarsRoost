@@ -115,6 +115,21 @@ export async function GET(request: NextRequest) {
 
     const total = await Battle.countDocuments(baseQuery);
 
+    const playerMatchQuery = {
+      $or: [
+        { player1DeviceId: auth.deviceId },
+        { player2DeviceId: auth.deviceId }
+      ]
+    };
+    const statusCounts = await Battle.aggregate([
+      { $match: playerMatchQuery },
+      { $group: { _id: '$status', count: { $sum: 1 } } }
+    ]);
+    const counts: Record<string, number> = {};
+    for (const { _id, count } of statusCounts) {
+      counts[_id] = count;
+    }
+
     let battlesQuery = Battle.find(paginatedQuery).sort({ _id: -1 });
     if (limit !== null) {
       battlesQuery = battlesQuery.limit(limit);
@@ -165,6 +180,7 @@ export async function GET(request: NextRequest) {
         hasMore,
         nextCursor,
         total,
+        counts,
       },
     });
   } catch (error) {

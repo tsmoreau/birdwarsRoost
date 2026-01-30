@@ -64,6 +64,15 @@ export async function GET(request: NextRequest) {
 
     const total = await Battle.countDocuments({ isPrivate: { $ne: true } });
 
+    const statusCounts = await Battle.aggregate([
+      { $match: { isPrivate: { $ne: true } } },
+      { $group: { _id: '$status', count: { $sum: 1 } } }
+    ]);
+    const counts: Record<string, number> = {};
+    for (const { _id, count } of statusCounts) {
+      counts[_id] = count;
+    }
+
     let battlesQuery = Battle.find(baseQuery).sort({ _id: -1 });
     if (limit !== null) {
       battlesQuery = battlesQuery.limit(limit);
@@ -109,6 +118,7 @@ export async function GET(request: NextRequest) {
         hasMore,
         nextCursor,
         total,
+        counts,
       },
     });
   } catch (error) {
