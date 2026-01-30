@@ -21,6 +21,7 @@ import {
 import { formatRelativeTime, formatDate } from "@/lib/utils";
 import Nav from "@/components/Nav";
 import { getBattleByDisplayName, getBattleTurns, type TurnData } from "@/app/actions/battles";
+import { DownloadBattleButton } from "@/components/DownloadBattleButton";
 
 export const dynamic = 'force-dynamic';
 
@@ -96,14 +97,17 @@ export default async function BattleDetailPage({ params }: Props) {
           </Link>
         </div>
         <div className="mb-8">
-          <div className="flex items-center gap-4 mb-2">
-            <h1
-              className="text-3xl font-bold"
-              data-testid="battle-display-name"
-            >
-              {battle.displayName}
-            </h1>
-            {getStatusBadge(battle.status)}
+          <div className="flex items-center justify-between gap-4 mb-2 flex-wrap">
+            <div className="flex items-center gap-4">
+              <h1
+                className="text-3xl font-bold"
+                data-testid="battle-display-name"
+              >
+                {battle.displayName}
+              </h1>
+              {getStatusBadge(battle.status)}
+            </div>
+            <DownloadBattleButton battle={battle} turns={turns} />
           </div>
           <p className="text-muted-foreground">
             <span className="font-mono text-xs">{battle.battleId}</span> ·
