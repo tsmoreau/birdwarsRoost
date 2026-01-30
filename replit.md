@@ -189,7 +189,28 @@ Authorization: Bearer <token>
 ### Battle Management
 
 #### GET /api/battles
-List public battles (excludes private).
+List public battles (excludes private). Supports cursor-based pagination.
+
+**Query Parameters:**
+| Param | Type | Default | Max | Description |
+|-------|------|---------|-----|-------------|
+| limit | int | 9 | 50 | Max results per page |
+| cursor | string | null | - | Opaque cursor for next page |
+
+**Response includes pagination object:**
+```json
+{
+  "success": true,
+  "battles": [...],
+  "pagination": {
+    "hasMore": true,
+    "nextCursor": "eyJsYXN0SWQiOiI2NWExMjMuLi4ifQ==",
+    "total": 47
+  }
+}
+```
+
+**Backward Compatibility:** If no limit/cursor params are provided, returns all results with `hasMore: false`.
 
 #### POST /api/battles
 Create battle (requires auth). Status starts as "pending".
@@ -201,7 +222,7 @@ Get battle details + turn history.
 Join pending battle (requires auth). Cannot join after started.
 
 #### GET /api/mybattles
-List battles for authenticated device. Supports `?status=` filter (pending, active, completed, abandoned).
+List battles for authenticated device. Supports `?status=` filter (pending, active, completed, abandoned) and cursor-based pagination (same params as GET /api/battles).
 
 **Auto-Forfeit:** When fetching battles, the server checks all active battles. If the opponent hasn't submitted a turn in 7 days, they automatically forfeit.
 
