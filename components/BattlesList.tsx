@@ -107,7 +107,7 @@ export default function BattlesList({
               <Card className="hover:border-primary/50 transition-colors cursor-pointer">
                 <CardContent className="flex items-center justify-between gap-4 p-6">
                   <div className="flex items-center gap-4 min-w-0">
-                    <div className="w-12 h-12 rounded-xl bg-muted flex items-center justify-center shrink-0 border-0 outline-none ring-0">
+                    <div className="w-12 h-12 rounded-xl bg-muted flex items-center justify-center shrink-0 border-none">
                       {getStatusIcon(battle.status)}
                     </div>
                     <div className="min-w-0">

@@ -179,10 +179,10 @@ export default function DevicesPage() {
                 href={`/player/${encodeURIComponent(device.displayName)}`}
                 className="block no-underline group"
               >
-                <Card data-testid={`device-card-${device.deviceId}`} className="cursor-pointer transition-all active:scale-[0.98] rounded-lg border-0 shadow-none bg-transparent">
+                <Card data-testid={`device-card-${device.deviceId}`} className="cursor-pointer transition-all active:scale-[0.98] rounded-lg">
                   <CardContent className="p-6">
                     <div className="flex items-start justify-between mb-4">
-                      <div className="w-12 h-12 rounded-xl bg-muted flex items-center justify-center transition-colors border-0 shadow-none">
+                      <div className="w-12 h-12 rounded-xl bg-muted flex items-center justify-center transition-colors">
                         <Gamepad2 className="w-6 h-6 text-muted-foreground" />
                       </div>
                     </div>
