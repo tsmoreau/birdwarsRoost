@@ -115,7 +115,9 @@ export default async function HomePage() {
                     size="sm"
                     data-testid="button-view-all-battles"
                   >
+                    <div className="">
                     View All
+                      </div>
                     <ArrowRight className="w-4 h-4 ml-1" />
                   </Button>
                 </Link>
@@ -160,7 +162,7 @@ export default async function HomePage() {
                         data-testid={`device-row-${device.deviceId}`}
                       >
                         <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center border border-border transition-colors">
+                          <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center transition-colors">
                             <Gamepad2 className="w-5 h-5 text-muted-foreground" />
                           </div>
                           <div>
