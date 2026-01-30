@@ -1,5 +1,6 @@
 {
   "/api/turns/[id]/route": "app/api/turns/[id]/route.js",
+  "/battle/[text]/page": "app/battle/[text]/page.js",
   "/page": "app/page.js",
   "/turn/[id]/page": "app/turn/[id]/page.js"
 }
