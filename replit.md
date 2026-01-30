@@ -221,6 +221,15 @@ Get battle details + turn history.
 #### PATCH /api/battles/[id]
 Join pending battle (requires auth). Cannot join after started.
 
+#### DELETE /api/battles/[id]
+Cancel a pending battle (requires auth). Only the creator can cancel. Sets status to "abandoned" and endReason to "cancelled".
+
+**Error Responses:**
+- 401: Authentication required
+- 403: Not the battle creator
+- 400: Battle is not pending
+- 404: Battle not found
+
 #### GET /api/mybattles
 List battles for authenticated device. Supports `?status=` filter (pending, active, completed, abandoned) and cursor-based pagination (same params as GET /api/battles).
 
