@@ -584,7 +584,7 @@ function BattlesList({ battles, showFilters = true, showCreatedDate = true, empt
                         href: `/battle/${encodeURIComponent(battle.displayName)}`,
                         "data-testid": `battle-card-${battle.battleId}`,
                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
-                            className: "hover:border-primary/50 transition-colors cursor-pointer border-0 shadow-none bg-transparent",
+                            className: "hover:border-primary/50 transition-colors cursor-pointer",
                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardContent"], {
                                 className: "flex items-center justify-between gap-4 p-6",
                                 children: [
@@ -592,7 +592,7 @@ function BattlesList({ battles, showFilters = true, showCreatedDate = true, empt
                                         className: "flex items-center gap-4 min-w-0",
                                         children: [
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "w-12 h-12 rounded-xl bg-muted flex items-center justify-center shrink-0 border-0 shadow-none",
+                                                className: "w-12 h-12 rounded-xl bg-muted flex items-center justify-center shrink-0 border-0 outline-none ring-0",
                                                 children: getStatusIcon(battle.status)
                                             }, void 0, false, {
                                                 fileName: "[project]/components/BattlesList.tsx",
