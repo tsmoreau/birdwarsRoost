@@ -487,6 +487,25 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2
 ;
 ;
 ;
+const MAX_ACTIVE_GAMES = 9;
+async function getUserActiveGameCount(deviceId) {
+    return __TURBOPACK__imported__module__$5b$project$5d2f$models$2f$Battle$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Battle"].countDocuments({
+        $or: [
+            {
+                player1DeviceId: deviceId
+            },
+            {
+                player2DeviceId: deviceId
+            }
+        ],
+        status: {
+            $in: [
+                'pending',
+                'active'
+            ]
+        }
+    });
+}
 async function getPlayerInfo(deviceIds) {
     const validIds = deviceIds.filter((id)=>id !== null);
     if (validIds.length === 0) return new Map();
@@ -511,6 +530,7 @@ const createBattleSchema = __TURBOPACK__imported__module__$5b$project$5d2f$node_
 async function GET(request) {
     try {
         await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$mongodb$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["connectToDatabase"])();
+        const auth = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$authMiddleware$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["authenticateDevice"])(request);
         const { searchParams } = new URL(request.url);
         const limitParam = searchParams.get('limit');
         const cursor = searchParams.get('cursor');
@@ -601,15 +621,25 @@ async function GET(request) {
         const nextCursor = hasMore && lastBattle ? Buffer.from(JSON.stringify({
             lastId: lastBattle._id.toString()
         })).toString('base64') : null;
+        const pagination = {
+            hasMore,
+            nextCursor,
+            total,
+            counts,
+            limits: {
+                maxTotal: MAX_ACTIVE_GAMES
+            }
+        };
+        if (auth) {
+            const userTotal = await getUserActiveGameCount(auth.deviceId);
+            pagination.userCounts = {
+                total: userTotal
+            };
+        }
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
             success: true,
             battles: battlesWithPlayerInfo,
-            pagination: {
-                hasMore,
-                nextCursor,
-                total,
-                counts
-            }
+            pagination
         });
     } catch (error) {
         console.error('Fetch battles error:', error);
@@ -640,6 +670,16 @@ async function POST(request) {
             });
         }
         const { mapData, isPrivate } = parsed.data;
+        const userActiveCount = await getUserActiveGameCount(auth.deviceId);
+        if (userActiveCount >= MAX_ACTIVE_GAMES) {
+            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                success: false,
+                error: 'limit_reached',
+                message: 'Maximum 9 active games allowed'
+            }, {
+                status: 403
+            });
+        }
         const battleId = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$auth$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["generateSecureToken"])().substring(0, 16);
         const displayName = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$battleNames$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["generateBattleName"])(battleId);
         const battle = new __TURBOPACK__imported__module__$5b$project$5d2f$models$2f$Battle$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Battle"]({

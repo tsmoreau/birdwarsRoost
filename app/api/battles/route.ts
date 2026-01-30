@@ -7,6 +7,18 @@ import { generateSecureToken } from '@/lib/auth';
 import { generateBattleName } from '@/lib/battleNames';
 import { z } from 'zod';
 
+const MAX_ACTIVE_GAMES = 9;
+
+async function getUserActiveGameCount(deviceId: string): Promise<number> {
+  return Battle.countDocuments({
+    $or: [
+      { player1DeviceId: deviceId },
+      { player2DeviceId: deviceId }
+    ],
+    status: { $in: ['pending', 'active'] }
+  });
+}
+
 interface PlayerInfo {
   displayName: string;
   avatar: string;
@@ -37,6 +49,8 @@ const createBattleSchema = z.object({
 export async function GET(request: NextRequest) {
   try {
     await connectToDatabase();
+
+    const auth = await authenticateDevice(request);
 
     const { searchParams } = new URL(request.url);
     const limitParam = searchParams.get('limit');
@@ -111,15 +125,23 @@ export async function GET(request: NextRequest) {
       ? Buffer.from(JSON.stringify({ lastId: lastBattle._id.toString() })).toString('base64')
       : null;
 
+    const pagination: Record<string, unknown> = {
+      hasMore,
+      nextCursor,
+      total,
+      counts,
+      limits: { maxTotal: MAX_ACTIVE_GAMES },
+    };
+
+    if (auth) {
+      const userTotal = await getUserActiveGameCount(auth.deviceId);
+      pagination.userCounts = { total: userTotal };
+    }
+
     return NextResponse.json({
       success: true,
       battles: battlesWithPlayerInfo,
-      pagination: {
-        hasMore,
-        nextCursor,
-        total,
-        counts,
-      },
+      pagination,
     });
   } catch (error) {
     console.error('Fetch battles error:', error);
@@ -152,6 +174,15 @@ export async function POST(request: NextRequest) {
     }
 
     const { mapData, isPrivate } = parsed.data;
+
+    const userActiveCount = await getUserActiveGameCount(auth.deviceId);
+    if (userActiveCount >= MAX_ACTIVE_GAMES) {
+      return NextResponse.json({
+        success: false,
+        error: 'limit_reached',
+        message: 'Maximum 9 active games allowed',
+      }, { status: 403 });
+    }
 
     const battleId = generateSecureToken().substring(0, 16);
     const displayName = generateBattleName(battleId);

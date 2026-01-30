@@ -4,6 +4,18 @@ import { Battle, IBattleDocument } from '@/models/Battle';
 import { Device } from '@/models/Device';
 import { authenticateDevice, unauthorizedResponse } from '@/lib/authMiddleware';
 
+const MAX_ACTIVE_GAMES = 9;
+
+async function getUserActiveGameCount(deviceId: string): Promise<number> {
+  return Battle.countDocuments({
+    $or: [
+      { player1DeviceId: deviceId },
+      { player2DeviceId: deviceId }
+    ],
+    status: { $in: ['pending', 'active'] }
+  });
+}
+
 interface PlayerInfo {
   displayName: string;
   avatar: string;
@@ -173,6 +185,8 @@ export async function GET(request: NextRequest) {
       ? Buffer.from(JSON.stringify({ lastId: lastBattle._id.toString() })).toString('base64')
       : null;
 
+    const userTotal = await getUserActiveGameCount(auth.deviceId);
+
     return NextResponse.json({
       success: true,
       battles: battlesWithPlayerInfo,
@@ -181,6 +195,8 @@ export async function GET(request: NextRequest) {
         nextCursor,
         total,
         counts,
+        userCounts: { total: userTotal },
+        limits: { maxTotal: MAX_ACTIVE_GAMES },
       },
     });
   } catch (error) {
