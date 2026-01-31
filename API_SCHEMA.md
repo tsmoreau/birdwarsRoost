@@ -64,21 +64,6 @@ These are automatic behaviors enforced by the server. Clients don't need to impl
 
 ---
 
-### Turn Submission Limits
-
-| Limit | Value |
-|-------|-------|
-| **Max actions per turn** | 100 |
-| **Max game state size** | 50,000 bytes (~50 KB) |
-| **Max action data size** | 1,000 bytes (~1 KB) per action |
-| **Max request body** | 100,000 bytes (checked via Content-Length header) |
-
-**Error:** `413` for oversized requests, `400` for schema violations with details.
-
-**Note:** Size limits are measured as JSON string length in bytes, not parsed object size.
-
----
-
 ### Pagination Limits
 
 | Endpoint | Default | Maximum |
@@ -743,11 +728,7 @@ All action fields except `type` are optional. The server validates the schema bu
 ```
 
 **Validation Rules:**
-- Request body must be under 100KB total
-- Actions array must contain 1-100 actions
 - Must include `end_turn` action
-- Game state must be under 50KB
-- Each action's data must be under 1KB
 
 **Success Response (201):**
 ```json
