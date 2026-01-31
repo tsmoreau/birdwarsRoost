@@ -80,7 +80,7 @@ const positionSchema = z.object({
 });
 
 const turnActionSchema = z.object({
-  type: z.enum(['move', 'attack', 'build', 'capture', 'wait', 'end_turn', 'take_off', 'land', 'supply']),
+  type: z.enum(['move', 'attack', 'build', 'capture', 'wait', 'end_turn', 'take_off', 'land', 'supply', 'load', 'unload']),
   unitId: z.string().max(50).optional(),
   from: positionSchema.optional(),
   to: positionSchema.optional(),
