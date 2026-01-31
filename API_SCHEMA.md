@@ -557,6 +557,7 @@ Poll for new turns in a battle. Returns basic battle metadata (status, current t
 | currentTurn | number | Current turn number |
 | currentPlayerIndex | number | Whose turn it is (0 or 1) |
 | status | string | Battle status: `pending`, `active`, `completed`, `abandoned` |
+| winnerId | string/null | (Optional) The device ID of the winner, only present if status is `completed` |
 | turns | array | Turns submitted after the `since` parameter |
 | turns[].turnNumber | number | The turn number |
 | turns[].deviceId | string | Device that submitted the turn |

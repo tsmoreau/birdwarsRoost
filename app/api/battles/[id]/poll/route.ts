@@ -41,6 +41,7 @@ export async function GET(
       currentTurn: battle.currentTurn,
       currentPlayerIndex: battle.currentPlayerIndex,
       status: battle.status,
+      winnerId: battle.status === 'completed' ? battle.winnerId : undefined,
       turns: formattedTurns,
     });
   } catch (error) {
