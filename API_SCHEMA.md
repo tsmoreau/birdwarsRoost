@@ -20,6 +20,95 @@ The `secret-token` is obtained during device registration and must be stored sec
 
 ---
 
+## Server Rules
+
+These are automatic behaviors enforced by the server. Clients don't need to implement these rules—they happen automatically on the server side.
+
+### Auto-Forfeit (Inactivity Timeout)
+
+| Rule | Value |
+|------|-------|
+| **Timeout** | 7 days |
+| **Trigger** | When `GET /api/mybattles` is called |
+| **Condition** | Active battle where current turn holder hasn't moved in 7+ days |
+| **Result** | Battle status → `completed`, endReason → `forfeit`, winner → waiting player |
+
+**How it works:** When a player fetches their battles, the server checks all their active games. If the opponent (whose turn it is) hasn't submitted a turn in 7 days, they automatically forfeit. This ensures players waiting on inactive opponents eventually win.
+
+**Important:** This check only runs when `GET /api/mybattles` is called—not on a background timer. If neither player checks their battles, no forfeit occurs.
+
+---
+
+### Active Game Limit
+
+| Rule | Value |
+|------|-------|
+| **Max Active Games** | 9 per player |
+| **Applies to** | `POST /api/battles` (create) and `PATCH /api/battles/[id]` (join) |
+| **Counts** | Battles with status `pending` or `active` |
+| **Error** | `403` with `error: "limit_reached"` |
+
+**How it works:** Players cannot have more than 9 battles in pending or active status at once. Completed and abandoned battles don't count. To start a new game, players must finish or forfeit existing ones.
+
+---
+
+### Registration Rate Limit
+
+| Rule | Value |
+|------|-------|
+| **Limit** | 10 new devices per minute (global) |
+| **Applies to** | `POST /api/register` without token (new registrations only) |
+| **Error** | `429` with `error: "Rate limit exceeded. Try again later."` |
+
+**Note:** This is a global rate limit, not per-IP. It prevents abuse but doesn't affect existing device verification (calling with a token).
+
+---
+
+### Turn Submission Limits
+
+| Limit | Value |
+|-------|-------|
+| **Max actions per turn** | 100 |
+| **Max game state size** | 50,000 bytes (~50 KB) |
+| **Max action data size** | 1,000 bytes (~1 KB) per action |
+| **Max request body** | 100,000 bytes (checked via Content-Length header) |
+
+**Error:** `413` for oversized requests, `400` for schema violations with details.
+
+**Note:** Size limits are measured as JSON string length in bytes, not parsed object size.
+
+---
+
+### Pagination Limits
+
+| Endpoint | Default | Maximum |
+|----------|---------|---------|
+| `GET /api/battles` | 9 | 50 |
+| `GET /api/mybattles` | 9 | 50 |
+| `GET /api/ping` | 50 | 100 |
+| `GET /api/turns` | 200 (fixed) | 200 |
+
+---
+
+### Battle Status Transitions
+
+```
+pending → active     (player 2 joins via PATCH /api/battles/[id] or POST /api/battles/[id]/join)
+pending → abandoned  (creator cancels via DELETE /api/battles/[id] or POST /api/battles/[id]/cancel)
+active  → completed  (winner declared via gameState.winner in turn submission)
+active  → completed  (forfeit via 7-day timeout, checked on GET /api/mybattles)
+```
+
+**Status definitions:**
+- `pending`: Waiting for player 2 to join
+- `active`: Game in progress, both players present
+- `completed`: Game ended with a result (victory, forfeit, or draw)
+- `abandoned`: Creator cancelled before anyone joined
+
+**Note:** Abandoned battles are excluded from list endpoints by default.
+
+---
+
 ## Endpoints
 
 ### 1. Device Registration

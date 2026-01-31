@@ -3,6 +3,18 @@ import { connectToDatabase } from '@/lib/mongodb';
 import { Battle, IUnit, IBlockedTile } from '@/models/Battle';
 import { authenticateDevice, unauthorizedResponse } from '@/lib/authMiddleware';
 
+const MAX_ACTIVE_GAMES = 9;
+
+async function getUserActiveGameCount(deviceId: string): Promise<number> {
+  return Battle.countDocuments({
+    $or: [
+      { player1DeviceId: deviceId },
+      { player2DeviceId: deviceId }
+    ],
+    status: { $in: ['pending', 'active'] }
+  });
+}
+
 function initializeCurrentStateFromMapData(
   mapData: Record<string, unknown>,
   player1DeviceId: string,
@@ -89,6 +101,15 @@ export async function POST(
         success: false,
         error: 'Cannot join your own battle',
       }, { status: 400 });
+    }
+
+    const userActiveCount = await getUserActiveGameCount(auth.deviceId);
+    if (userActiveCount >= MAX_ACTIVE_GAMES) {
+      return NextResponse.json({
+        success: false,
+        error: 'limit_reached',
+        message: 'Maximum 9 active games allowed',
+      }, { status: 403 });
     }
 
     battle.player2DeviceId = auth.deviceId;
