@@ -1,7 +1,7 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
 export interface ITurnAction {
-  type: 'move' | 'attack' | 'build' | 'capture' | 'wait' | 'end_turn' | 'take_off' | 'land' | 'supply';
+  type: 'move' | 'attack' | 'build' | 'capture' | 'wait' | 'end_turn' | 'take_off' | 'land' | 'supply' | 'load' | 'unload' | 'combine';
   unitId?: string;
   from?: { x: number; y: number };
   to?: { x: number; y: number };
@@ -26,7 +26,7 @@ export interface ITurnDocument extends ITurn, Document {}
 const TurnActionSchema = new Schema({
   type: { 
     type: String, 
-    enum: ['move', 'attack', 'build', 'capture', 'wait', 'end_turn', 'take_off', 'land', 'supply'],
+    enum: ['move', 'attack', 'build', 'capture', 'wait', 'end_turn', 'take_off', 'land', 'supply', 'load', 'unload', 'combine'],
     required: true 
   },
   unitId: String,

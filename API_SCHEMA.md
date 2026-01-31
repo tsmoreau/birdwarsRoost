@@ -718,6 +718,7 @@ All action fields except `type` are optional. The server validates the schema bu
 | `supply` | Replenish food for adjacent units | `unitId` |
 | `load` | Load unit into transport | `unitId`, `targetId` |
 | `unload` | Unload unit from transport | `unitId`, `to` |
+| `combine` | Merge two units of the same type | `unitId`, `targetId` |
 | `end_turn` | End the turn | none |
 
 **Note:** Only `type` is required by the server. All other fields are optional and should be validated client-side based on your game logic.
