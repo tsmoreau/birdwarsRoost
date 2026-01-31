@@ -262,6 +262,7 @@ Get battle details and turn history.
 {
   "success": true,
   "battle": {
+    "_id": "697e381a3290814be556f817",
     "battleId": "abc123def456",
     "displayName": "Molting-Siege-42",
     "player1DeviceId": "device1...",
@@ -273,11 +274,25 @@ Get battle details and turn history.
     "status": "active",
     "currentTurn": 5,
     "currentPlayerIndex": 1,
+    "winnerId": null,
+    "endReason": null,
+    "lastTurnAt": "2025-01-23T14:30:00.000Z",
     "createdAt": "2025-01-23T12:00:00.000Z",
     "updatedAt": "2025-01-23T14:30:00.000Z",
-    "winnerId": null,
-    "mapData": {},
-    "isPrivate": false
+    "isPrivate": false,
+    "mapData": {
+      "selection": "Bathroom Blitz",
+      "unitPlacement": [...],
+      "itemPlacement": [...]
+    },
+    "currentState": {
+      "units": [
+        { "unitId": "device1_u0", "type": "BIRD1", "x": 2, "y": 3, "hp": 10, "owner": "device1..." }
+      ],
+      "blockedTiles": [
+        { "x": 5, "y": 5, "itemType": "garbageCan" }
+      ]
+    }
   },
   "turns": [
     {
@@ -294,6 +309,32 @@ Get battle details and turn history.
   ]
 }
 ```
+
+**Response Fields:**
+| Field | Type | Description |
+|-------|------|-------------|
+| _id | string | MongoDB document ID |
+| battleId | string | Unique battle identifier |
+| displayName | string | Human-readable battle name |
+| player1DeviceId | string | Player 1's device ID |
+| player1DisplayName | string | Player 1's display name (resolved from Device) |
+| player1Avatar | string | Player 1's avatar (BIRD1-BIRD12) |
+| player2DeviceId | string/null | Player 2's device ID (null if pending) |
+| player2DisplayName | string/null | Player 2's display name |
+| player2Avatar | string/null | Player 2's avatar |
+| status | string | Battle status: `pending`, `active`, `completed`, `abandoned` |
+| currentTurn | number | Current turn number |
+| currentPlayerIndex | number | Whose turn it is (0 = player1, 1 = player2) |
+| winnerId | string/null | Device ID of winner (null if not completed) |
+| endReason | string/null | How game ended: `victory`, `forfeit`, `draw`, `cancelled` |
+| lastTurnAt | string/null | ISO timestamp of last turn |
+| createdAt | string | ISO timestamp when battle was created |
+| updatedAt | string | ISO timestamp of last update |
+| isPrivate | boolean | Whether battle is private |
+| mapData | object | Map configuration (see below) |
+| mapData.selection | string | **Map name** (e.g., "Bathroom Blitz", "Forest Arena") |
+| currentState | object | Current game state with units and blocked tiles |
+| turns | array | All turns sorted by turnNumber |
 
 **Error Responses:**
 - `404` - Battle not found
