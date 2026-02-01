@@ -374,7 +374,7 @@ const Turn = __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$ext
 "[project]/app/actions/players.ts [app-rsc] (ecmascript)", ((__turbopack_context__) => {
 "use strict";
 
-/* __next_internal_action_entry_do_not_use__ [{"4014d874184b63249e938f32008299bf9fb1bafd42":"getPlayerByDisplayName","60a5c2c9d61dd3d62b8c5254163c0c736ad66e64bd":"getPlayerBattles"},"",""] */ __turbopack_context__.s([
+/* __next_internal_action_entry_do_not_use__ [{"40970a89fb5dd2ce0d289e8f4ae42481679cd2087e":"getPlayerByDisplayName","60319715fad965e7de1d21d44c0b35de6e24c71b63":"getPlayerBattles"},"",""] */ __turbopack_context__.s([
     "getPlayerBattles",
     ()=>getPlayerBattles,
     "getPlayerByDisplayName",
@@ -487,6 +487,7 @@ async function getPlayerByDisplayName(displayName) {
         deviceId: deviceObj.deviceId,
         displayName: deviceObj.displayName || 'Unknown Player',
         avatar: deviceObj.avatar || 'BIRD1',
+        isSimulator: deviceObj.isSimulator || false,
         registeredAt: deviceObj.registeredAt.toISOString(),
         lastSeen: deviceObj.lastSeen.toISOString(),
         isActive: deviceObj.isActive,
@@ -554,8 +555,8 @@ async function getPlayerBattles(deviceId, limit = 10) {
     getPlayerByDisplayName,
     getPlayerBattles
 ]);
-(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getPlayerByDisplayName, "4014d874184b63249e938f32008299bf9fb1bafd42", null);
-(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getPlayerBattles, "60a5c2c9d61dd3d62b8c5254163c0c736ad66e64bd", null);
+(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getPlayerByDisplayName, "40970a89fb5dd2ce0d289e8f4ae42481679cd2087e", null);
+(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getPlayerBattles, "60319715fad965e7de1d21d44c0b35de6e24c71b63", null);
 }),
 "[project]/.next-internal/server/app/player/[text]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/players.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript) <locals>", ((__turbopack_context__) => {
 "use strict";
@@ -569,9 +570,9 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$app$2f$actions$2f$players$2e
 "use strict";
 
 __turbopack_context__.s([
-    "4014d874184b63249e938f32008299bf9fb1bafd42",
+    "40970a89fb5dd2ce0d289e8f4ae42481679cd2087e",
     ()=>__TURBOPACK__imported__module__$5b$project$5d2f$app$2f$actions$2f$players$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getPlayerByDisplayName"],
-    "60a5c2c9d61dd3d62b8c5254163c0c736ad66e64bd",
+    "60319715fad965e7de1d21d44c0b35de6e24c71b63",
     ()=>__TURBOPACK__imported__module__$5b$project$5d2f$app$2f$actions$2f$players$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getPlayerBattles"]
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f2e$next$2d$internal$2f$server$2f$app$2f$player$2f5b$text$5d2f$page$2f$actions$2e$js__$7b$__ACTIONS_MODULE0__$3d3e$__$225b$project$5d2f$app$2f$actions$2f$players$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$2922$__$7d$__$5b$app$2d$rsc$5d$__$28$server__actions__loader$2c$__ecmascript$29$__$3c$locals$3e$__ = __turbopack_context__.i('[project]/.next-internal/server/app/player/[text]/page/actions.js { ACTIONS_MODULE0 => "[project]/app/actions/players.ts [app-rsc] (ecmascript)" } [app-rsc] (server actions loader, ecmascript) <locals>');

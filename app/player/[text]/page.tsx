@@ -91,7 +91,9 @@ export default async function PlayerProfilePage({ params }: Props) {
           <Card className="lg:col-span-1 lg:sticky lg:top-24 h-fit">
             <CardHeader className="text-center">
               <PlayerAvatar avatar={player.avatar} />
-              <CardTitle className="text-2xl" data-testid="text-player-name">{player.displayName}</CardTitle>
+              <CardTitle className="text-2xl" data-testid="text-player-name">
+                {player.displayName}{player.isSimulator && ' •'}
+              </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex flex-wrap items-center justify-between gap-2 py-2 border-t border-border">

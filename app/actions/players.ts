@@ -9,6 +9,7 @@ export interface PlayerProfile {
   deviceId: string;
   displayName: string;
   avatar: string;
+  isSimulator: boolean;
   registeredAt: string;
   lastSeen: string;
   isActive: boolean;
@@ -125,6 +126,7 @@ export async function getPlayerByDisplayName(displayName: string): Promise<Playe
     deviceId: deviceObj.deviceId,
     displayName: deviceObj.displayName || 'Unknown Player',
     avatar: deviceObj.avatar || 'BIRD1',
+    isSimulator: deviceObj.isSimulator || false,
     registeredAt: deviceObj.registeredAt.toISOString(),
     lastSeen: deviceObj.lastSeen.toISOString(),
     isActive: deviceObj.isActive,

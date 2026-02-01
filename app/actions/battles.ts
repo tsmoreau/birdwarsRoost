@@ -8,6 +8,7 @@ import { Turn } from '@/models/Turn';
 interface PlayerInfo {
   displayName: string;
   avatar: string;
+  isSimulator: boolean;
 }
 
 export interface BattleWithDetails {
@@ -17,8 +18,10 @@ export interface BattleWithDetails {
   player2DeviceId: string | null;
   player1DisplayName: string;
   player1Avatar: string;
+  player1IsSimulator: boolean;
   player2DisplayName: string | null;
   player2Avatar: string | null;
+  player2IsSimulator: boolean | null;
   status: 'pending' | 'active' | 'completed' | 'abandoned';
   currentTurn: number;
   currentPlayerIndex: number;
@@ -40,7 +43,8 @@ async function getPlayerInfo(deviceIds: (string | null)[]): Promise<Map<string, 
   for (const device of devices) {
     map.set(device.deviceId, {
       displayName: device.displayName || 'Unknown Player',
-      avatar: device.avatar || 'BIRD1'
+      avatar: device.avatar || 'BIRD1',
+      isSimulator: device.isSimulator || false
     });
   }
   
@@ -72,8 +76,10 @@ export async function getBattles(options?: { includePrivate?: boolean; limit?: n
       player2DeviceId: battleObj.player2DeviceId,
       player1DisplayName: p1Info?.displayName || 'Unknown Player',
       player1Avatar: p1Info?.avatar || 'BIRD1',
+      player1IsSimulator: p1Info?.isSimulator || false,
       player2DisplayName: p2Info?.displayName || null,
       player2Avatar: p2Info?.avatar || null,
+      player2IsSimulator: p2Info?.isSimulator ?? null,
       status: battleObj.status,
       currentTurn: battleObj.currentTurn,
       currentPlayerIndex: battleObj.currentPlayerIndex,
@@ -93,9 +99,11 @@ export interface BattleProfile {
   player1DeviceId: string;
   player1DisplayName: string;
   player1Avatar: string;
+  player1IsSimulator: boolean;
   player2DeviceId: string | null;
   player2DisplayName: string | null;
   player2Avatar: string | null;
+  player2IsSimulator: boolean | null;
   status: 'pending' | 'active' | 'completed' | 'abandoned';
   currentTurn: number;
   currentPlayerIndex: number;
@@ -148,9 +156,11 @@ export async function getBattleByDisplayName(displayName: string): Promise<Battl
     player1DeviceId: battleObj.player1DeviceId,
     player1DisplayName: p1Info?.displayName || 'Unknown Player',
     player1Avatar: p1Info?.avatar || 'BIRD1',
+    player1IsSimulator: p1Info?.isSimulator || false,
     player2DeviceId: battleObj.player2DeviceId,
     player2DisplayName: p2Info?.displayName || null,
     player2Avatar: p2Info?.avatar || null,
+    player2IsSimulator: p2Info?.isSimulator ?? null,
     status: battleObj.status,
     currentTurn: battleObj.currentTurn,
     currentPlayerIndex: battleObj.currentPlayerIndex,
