@@ -12,7 +12,8 @@ import {
   ArrowLeft,
   User,
   Target,
-  TrendingUp
+  TrendingUp,
+  Bird
 } from 'lucide-react';
 import { formatRelativeTime, formatDate } from '@/lib/utils';
 import Nav from '@/components/Nav';
@@ -45,6 +46,16 @@ function getBattleStatusBadge(status: string, winnerId: string | null, deviceId:
   }
 }
 
+function PlayerAvatar({ avatar }: { avatar: string }) {
+  // Map BIRD1-BIRD12 to specific icons or styles if desired
+  // For now, we'll use the Bird icon from lucide-react with some character
+  return (
+    <div className="mx-auto w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center mb-4 border-2 border-primary/20">
+      <Bird className="w-12 h-12 text-primary" />
+    </div>
+  );
+}
+
 export default async function PlayerProfilePage({ params }: Props) {
   const { text } = await params;
   const displayName = decodeURIComponent(text);
@@ -74,11 +85,9 @@ export default async function PlayerProfilePage({ params }: Props) {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
           <Card className="lg:col-span-1 lg:sticky lg:top-24 h-fit">
             <CardHeader className="text-center">
-              <div className="mx-auto w-24 h-24 rounded-full bg-muted flex items-center justify-center mb-4">
-                <User className="w-12 h-12 text-muted-foreground" />
-              </div>
+              <PlayerAvatar avatar={player.avatar} />
               <CardTitle className="text-2xl" data-testid="text-player-name">{player.displayName}</CardTitle>
-              <CardDescription data-testid="text-player-avatar">Avatar: {player.avatar}</CardDescription>
+              <CardDescription data-testid="text-player-avatar">Level 1 Birb Scout</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex flex-wrap items-center justify-between gap-2 py-2 border-t border-border">
