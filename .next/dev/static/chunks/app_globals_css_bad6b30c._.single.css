@@ -938,10 +938,6 @@ h1, h2, h3 {
   border-color: hsl(var(--primary) / var(--tw-border-opacity, 1));
 }
 
-.border-primary\/20 {
-  border-color: hsl(var(--primary) / .2);
-}
-
 .border-secondary {
   --tw-border-opacity: 1;
   border-color: hsl(var(--secondary) / var(--tw-border-opacity, 1));
