@@ -112,7 +112,7 @@ export default function BattlesList({
                 <CardContent className="flex items-center justify-between gap-4 p-5 px-6">
                   <div className="flex items-center gap-4 min-w-0 w-full">
                     <div className="w-12 shrink-0 flex items-center justify-center">
-                      <div className="flex -space-x-5">
+                      <div className="flex -space-x-3">
                         <div className="w-9 h-9 overflow-hidden relative z-10">
                           <img 
                             src={`/birb${battle.player1Avatar?.replace('BIRD', '').padStart(3, '0') || '001'}.png`} 

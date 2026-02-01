@@ -839,10 +839,10 @@ h1, h2, h3 {
   margin-left: calc(-.5rem * calc(1 - var(--tw-space-x-reverse)));
 }
 
-.-space-x-5 > :not([hidden]) ~ :not([hidden]) {
+.-space-x-3 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-x-reverse: 0;
-  margin-right: calc(-1.25rem * var(--tw-space-x-reverse));
-  margin-left: calc(-1.25rem * calc(1 - var(--tw-space-x-reverse)));
+  margin-right: calc(-.75rem * var(--tw-space-x-reverse));
+  margin-left: calc(-.75rem * calc(1 - var(--tw-space-x-reverse)));
 }
 
 .space-x-4 > :not([hidden]) ~ :not([hidden]) {
@@ -1515,10 +1515,10 @@ h1, h2, h3 {
   --foreground: 0 0% 0%;
   --card: 0 0% 100%;
   --card-foreground: 0 0% 0%;
-  --card-border: 0 0% 0%;
+  --card-border: 0 0% 80%;
   --popover: 0 0% 100%;
   --popover-foreground: 0 0% 0%;
-  --popover-border: 0 0% 0%;
+  --popover-border: 0 0% 80%;
   --primary: 0 0% 0%;
   --primary-foreground: 0 0% 100%;
   --secondary: 0 0% 85%;
@@ -1529,13 +1529,13 @@ h1, h2, h3 {
   --accent-foreground: 0 0% 0%;
   --destructive: 0 0% 30%;
   --destructive-foreground: 0 0% 100%;
-  --border: 0 0% 0%;
+  --border: 0 0% 80%;
   --input: 0 0% 70%;
   --ring: 0 0% 0%;
   --radius: .5rem;
   --sidebar: 0 0% 95%;
   --sidebar-foreground: 0 0% 0%;
-  --sidebar-border: 0 0% 0%;
+  --sidebar-border: 0 0% 80%;
   --sidebar-primary: 0 0% 0%;
   --sidebar-primary-foreground: 0 0% 100%;
   --sidebar-accent: 0 0% 85%;
@@ -1553,10 +1553,10 @@ h1, h2, h3 {
   --foreground: 0 0% 100%;
   --card: 0 0% 12%;
   --card-foreground: 0 0% 100%;
-  --card-border: 0 0% 100%;
+  --card-border: 0 0% 30%;
   --popover: 0 0% 12%;
   --popover-foreground: 0 0% 100%;
-  --popover-border: 0 0% 100%;
+  --popover-border: 0 0% 30%;
   --primary: 0 0% 100%;
   --primary-foreground: 0 0% 0%;
   --secondary: 0 0% 20%;
@@ -1567,12 +1567,12 @@ h1, h2, h3 {
   --accent-foreground: 0 0% 100%;
   --destructive: 0 0% 70%;
   --destructive-foreground: 0 0% 0%;
-  --border: 0 0% 100%;
+  --border: 0 0% 30%;
   --input: 0 0% 30%;
   --ring: 0 0% 100%;
   --sidebar: 0 0% 10%;
   --sidebar-foreground: 0 0% 100%;
-  --sidebar-border: 0 0% 100%;
+  --sidebar-border: 0 0% 30%;
   --sidebar-primary: 0 0% 100%;
   --sidebar-primary-foreground: 0 0% 0%;
   --sidebar-accent: 0 0% 20%;
