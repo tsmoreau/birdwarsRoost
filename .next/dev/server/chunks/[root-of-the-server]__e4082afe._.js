@@ -116,7 +116,8 @@ const DeviceSchema = new __TURBOPACK__imported__module__$5b$externals$5d2f$mongo
     },
     tokenHash: {
         type: String,
-        required: true
+        required: true,
+        index: true
     },
     displayName: {
         type: String,
@@ -150,8 +151,13 @@ const DeviceSchema = new __TURBOPACK__imported__module__$5b$externals$5d2f$mongo
     },
     isActive: {
         type: Boolean,
-        default: true
+        default: true,
+        index: true
     }
+});
+DeviceSchema.index({
+    tokenHash: 1,
+    isActive: 1
 });
 const Device = __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$external$5d$__$28$mongoose$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f$mongoose$29$__["default"].models.Device || __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$external$5d$__$28$mongoose$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f$mongoose$29$__["default"].model('Device', DeviceSchema);
 }),
@@ -235,6 +241,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2
 ;
 ;
 ;
+const MIN_CLIENT_VERSION = process.env.MIN_CLIENT_VERSION || '0.0.1';
 const registerSchema = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["z"].object({
     displayName: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["z"].string().min(1).max(100).optional(),
     avatar: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["z"].enum(__TURBOPACK__imported__module__$5b$project$5d2f$models$2f$Device$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["VALID_AVATARS"]).optional()
@@ -317,6 +324,7 @@ async function POST(request) {
                 displayName: existingDevice.displayName,
                 avatar: existingDevice.avatar,
                 registeredAt: existingDevice.registeredAt,
+                minClientVersion: MIN_CLIENT_VERSION,
                 message: updated ? 'Device verified and profile updated.' : 'Device already registered.'
             }, {
                 status: 200
@@ -363,6 +371,7 @@ async function POST(request) {
             secretToken,
             displayName: device.displayName,
             avatar: device.avatar,
+            minClientVersion: MIN_CLIENT_VERSION,
             message: 'Device registered successfully. Store this token securely - it cannot be retrieved again.'
         }, {
             status: 201

@@ -1,6 +1,6 @@
 {
   "node": {
-    "4036d3b2ac2fd9c353af1afc3ab52dca79e269b4f4": {
+    "400f2d1d317b563dd51b539154d06d21b41c5006a1": {
       "workers": {
         "app/battles/page": {
           "moduleId": "[project]/.next-internal/server/app/battles/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/battles.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -13,6 +13,36 @@
         "app/battles/page": "rsc"
       },
       "exportedName": "getBattles",
+      "filename": "app/actions/battles.ts"
+    },
+    "404349d7058188f18a03bb8daee9f0375570864949": {
+      "workers": {
+        "app/battles/page": {
+          "moduleId": "[project]/.next-internal/server/app/battles/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/battles.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "getBattleByDisplayName",
+          "filename": "app/actions/battles.ts"
+        }
+      },
+      "layer": {
+        "app/battles/page": "rsc"
+      },
+      "exportedName": "getBattleByDisplayName",
+      "filename": "app/actions/battles.ts"
+    },
+    "40dff1d5ba9e907cca724504426e8cdb90efaaa73d": {
+      "workers": {
+        "app/battles/page": {
+          "moduleId": "[project]/.next-internal/server/app/battles/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/battles.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "getBattleTurns",
+          "filename": "app/actions/battles.ts"
+        }
+      },
+      "layer": {
+        "app/battles/page": "rsc"
+      },
+      "exportedName": "getBattleTurns",
       "filename": "app/actions/battles.ts"
     }
   },
