@@ -245,7 +245,8 @@ List all public battles (excludes private battles). Returns the 50 most recently
       "currentPlayerIndex": 0,
       "isPrivate": false,
       "lastTurnAt": "2025-01-23T14:30:00.000Z" | null,
-      "mapName": "Forest Arena"
+      "mapName": "Forest Arena",
+      "winner": 0 | 1 | null
     }
   ]
 }
@@ -265,7 +266,8 @@ List all public battles (excludes private battles). Returns the 50 most recently
 | currentPlayerIndex | number | Whose turn it is (0 or 1) |
 | isPrivate | boolean | Whether battle is private |
 | lastTurnAt | string/null | ISO timestamp of last turn |
-| mapName | string | Map name from mapData.selection (or "Unknown Map")
+| mapName | string | Map name from mapData.selection (or "Unknown Map") |
+| winner | number/null | Player index of winner (0 or 1) when status is "completed", null otherwise |
 
 ---
 

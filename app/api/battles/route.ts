@@ -104,6 +104,15 @@ export async function GET(request: NextRequest) {
       const p1Info = playerInfoMap.get(battle.player1DeviceId);
       const p2Info = battle.player2DeviceId ? playerInfoMap.get(battle.player2DeviceId) : null;
       
+      let winner: number | null = null;
+      if (battleObj.status === 'completed' && battleObj.winnerId) {
+        if (battleObj.winnerId === battleObj.player1DeviceId) {
+          winner = 0;
+        } else if (battleObj.winnerId === battleObj.player2DeviceId) {
+          winner = 1;
+        }
+      }
+      
       return {
         battleId: battleObj.battleId,
         displayName: battleObj.displayName,
@@ -119,6 +128,7 @@ export async function GET(request: NextRequest) {
         isPrivate: battleObj.isPrivate,
         lastTurnAt: battleObj.lastTurnAt,
         mapName: battleObj.mapData?.selection || 'Unknown Map',
+        winner,
       };
     });
 
