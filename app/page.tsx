@@ -174,6 +174,9 @@ export default async function HomePage() {
                               {device.displayName}
                             </p>
                             <p className="text-[10px] text-muted-foreground uppercase font-medium">
+                              {device.deviceId}
+                            </p>
+                            <p className="text-[10px] text-muted-foreground uppercase font-medium">
                               Last seen {formatRelativeTime(device.lastSeen)}
                             </p>
                           </div>
