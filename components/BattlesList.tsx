@@ -106,7 +106,7 @@ export default function BattlesList({
               className="block group"
             >
               <Card className="hover:border-primary/50 transition-all cursor-pointer active:scale-[0.99]">
-                <CardContent className="flex items-center justify-between gap-4 p-4 px-5">
+                <CardContent className="flex items-center justify-between gap-4 p-5 px-6">
                   <div className="flex items-center gap-4 min-w-0 relative w-full">
                     <div className="w-16 shrink-0 flex items-center justify-center">
                       <div className="flex -space-x-3">
@@ -138,7 +138,7 @@ export default function BattlesList({
                           {battle.displayName || generateBattleName(battle.battleId)}
                         </h3>
                       </div>
-                      <div className="absolute top-0 right-0">
+                      <div className="absolute -top-1 -right-1">
                         {getStatusBadge(battle.status)}
                       </div>
                       <p className="text-[12px] font-bold uppercase tracking-tight text-muted-foreground flex items-center gap-2">
