@@ -36,14 +36,14 @@ export default function Nav() {
                 </Link>
                 <Link
                   href="/battles"
-                  className="px-4 py-2 rounded-sm text-sm font-bold uppercase tracking-wide text-muted-foreground transition-colors"
+                  className="hidden px-4 py-2 rounded-sm text-sm font-bold uppercase tracking-wide text-muted-foreground transition-colors"
                   data-testid="link-battles"
                 >
                   Battles
                 </Link>
                 <Link
                   href="/devices"
-                  className="px-4 py-2 rounded-sm text-sm font-bold uppercase tracking-wide text-muted-foreground transition-colors"
+                  className="hidden px-4 py-2 rounded-sm text-sm font-bold uppercase tracking-wide text-muted-foreground transition-colors"
                   data-testid="link-devices"
                 >
                   Devices
