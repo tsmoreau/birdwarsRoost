@@ -176,7 +176,8 @@ export default async function HomePage() {
                             <p className="text-[10px] text-muted-foreground uppercase font-medium">
                               {device.deviceId}
                             </p>
-                            <p className="text-[10px] text-muted-foreground uppercase font-medium">
+                            <p className="text-[10px] text-muted-foreground uppercase font-medium flex items-center gap-1">
+                              <Clock className="w-3 h-3" />
                               Last seen {formatRelativeTime(device.lastSeen)}
                             </p>
                           </div>
