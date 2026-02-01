@@ -157,32 +157,31 @@ export default async function HomePage() {
                       href={`/player/${encodeURIComponent(device.displayName)}`}
                       className="block group"
                     >
-                      <div
-                        className="flex items-center justify-between p-3 rounded-lg border border-border transition-all active:scale-[0.98] hover:border-foreground/20 hover:bg-muted/50"
-                        data-testid={`device-row-${device.deviceId}`}
-                      >
-                        <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 overflow-hidden shrink-0">
-                            <img 
-                              src={`/birb${device.avatar.replace('BIRD', '').padStart(3, '0')}.png`} 
-                              alt={device.avatar}
-                              className="w-full h-full object-contain"
-                            />
+                      <Card className="hover:border-primary/50 transition-all cursor-pointer active:scale-[0.99]">
+                        <CardContent className="flex items-center justify-between p-3">
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 overflow-hidden shrink-0">
+                              <img 
+                                src={`/birb${device.avatar.replace('BIRD', '').padStart(3, '0')}.png`} 
+                                alt={device.avatar}
+                                className="w-full h-full object-contain"
+                              />
+                            </div>
+                            <div>
+                              <p className="font-bold text-sm uppercase tracking-tight">
+                                {device.displayName}
+                              </p>
+                              <p className="text-[10px] text-muted-foreground uppercase font-medium truncate max-w-[240px]">
+                                {device.deviceId}
+                              </p>
+                              <p className="text-[10px] text-muted-foreground uppercase font-medium flex items-center gap-1">
+                                <Clock className="w-3 h-3" />
+                                Last seen {formatRelativeTime(device.lastSeen)}
+                              </p>
+                            </div>
                           </div>
-                          <div>
-                            <p className="font-bold text-sm uppercase tracking-tight">
-                              {device.displayName}
-                            </p>
-                            <p className="text-[10px] text-muted-foreground uppercase font-medium truncate max-w-[240px]">
-                              {device.deviceId}
-                            </p>
-                            <p className="text-[10px] text-muted-foreground uppercase font-medium flex items-center gap-1">
-                              <Clock className="w-3 h-3" />
-                              Last seen {formatRelativeTime(device.lastSeen)}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
+                        </CardContent>
+                      </Card>
                     </Link>
                   ))}
                 </div>
