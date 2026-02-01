@@ -244,8 +244,12 @@ export default function PlayerManagement({ players }: PlayerManagementProps) {
               <CardContent className="p-4">
                 <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-lg bg-muted flex items-center justify-center border border-border shrink-0">
-                      <span className="text-xs font-bold uppercase">{player.avatar}</span>
+                    <div className="w-12 h-12 rounded-lg bg-muted flex items-center justify-center border border-border shrink-0 overflow-hidden">
+                      <img 
+                        src={`/birb${player.avatar.replace('BIRD', '').padStart(3, '0')}.png`} 
+                        alt={player.avatar}
+                        className="w-full h-full object-contain"
+                      />
                     </div>
                     <div className="min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
@@ -365,14 +369,21 @@ export default function PlayerManagement({ players }: PlayerManagementProps) {
               <button
                 key={avatar}
                 onClick={() => setNewAvatar(avatar)}
-                className={`p-3 rounded-lg border-2 transition-all ${
+                className={`p-1 rounded-lg border-2 transition-all flex flex-col items-center gap-1 ${
                   newAvatar === avatar
                     ? 'border-foreground bg-muted'
                     : 'border-border hover:border-foreground/50'
                 }`}
                 data-testid={`button-avatar-${avatar}`}
               >
-                <span className="text-xs font-bold uppercase">{avatar}</span>
+                <div className="w-10 h-10 overflow-hidden">
+                  <img 
+                    src={`/birb${avatar.replace('BIRD', '').padStart(3, '0')}.png`} 
+                    alt={avatar}
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+                <span className="text-[10px] font-bold uppercase">{avatar}</span>
               </button>
             ))}
           </div>

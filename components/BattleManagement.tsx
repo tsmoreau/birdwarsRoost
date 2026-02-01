@@ -181,7 +181,25 @@ export default function BattleManagement({ battles }: BattleManagementProps) {
               <CardContent className="p-4">
                 <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap mb-2">
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="flex -space-x-2">
+                        <div className="w-8 h-8 rounded border border-background bg-muted overflow-hidden">
+                          <img 
+                            src={`/birb${battle.player1Avatar.replace('BIRD', '').padStart(3, '0')}.png`} 
+                            alt={battle.player1Avatar}
+                            className="w-full h-full object-contain"
+                          />
+                        </div>
+                        {battle.player2Avatar && (
+                          <div className="w-8 h-8 rounded border border-background bg-muted overflow-hidden">
+                            <img 
+                              src={`/birb${battle.player2Avatar.replace('BIRD', '').padStart(3, '0')}.png`} 
+                              alt={battle.player2Avatar}
+                              className="w-full h-full object-contain"
+                            />
+                          </div>
+                        )}
+                      </div>
                       <h3 className="font-bold uppercase tracking-tight">{battle.displayName}</h3>
                       {getStatusBadge(battle.status)}
                       {battle.isPrivate && <Badge variant="outline">PRIVATE</Badge>}
