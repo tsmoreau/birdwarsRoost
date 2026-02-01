@@ -105,19 +105,30 @@ export default function BattlesList({
               data-testid={`battle-card-${battle.battleId}`}
               className="block group"
             >
-              <Card className="hover:border-primary/50 transition-all cursor-pointer active:scale-[0.99] relative overflow-hidden">
-                <div className="absolute top-0 right-0 z-20">
+              <Card className="hover:border-primary/50 transition-all cursor-pointer active:scale-[0.99] relative">
+                <div className="absolute top-2 right-2 z-10">
                   {getStatusBadge(battle.status)}
                 </div>
                 <CardContent className="flex items-center justify-between gap-4 p-5 px-6">
-                  <div className="flex items-center gap-4 min-w-0 relative w-full">
+                  <div className="flex items-center gap-4 min-w-0 w-full">
                     <div className="w-16 shrink-0 flex items-center justify-center">
-                      <div className="w-9 h-9 overflow-hidden">
-                        <img 
-                          src={`/birb${battle.player1Avatar?.replace('BIRD', '').padStart(3, '0') || '001'}.png`} 
-                          alt={battle.player1Avatar || 'BIRD1'}
-                          className="w-full h-full object-contain"
-                        />
+                      <div className="flex -space-x-3">
+                        <div className="w-9 h-9 overflow-hidden relative z-10">
+                          <img 
+                            src={`/birb${battle.player1Avatar?.replace('BIRD', '').padStart(3, '0') || '001'}.png`} 
+                            alt={battle.player1Avatar || 'BIRD1'}
+                            className="w-full h-full object-contain"
+                          />
+                        </div>
+                        {battle.player2Avatar && (
+                          <div className="w-9 h-9 overflow-hidden relative z-0">
+                            <img 
+                              src={`/birb${battle.player2Avatar.replace('BIRD', '').padStart(3, '0')}.png`} 
+                              alt={battle.player2Avatar}
+                              className="w-full h-full object-contain"
+                            />
+                          </div>
+                        )}
                       </div>
                     </div>
                     <div className="min-w-0 flex-1">
