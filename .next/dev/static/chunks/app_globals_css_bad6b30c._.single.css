@@ -325,10 +325,6 @@ h1, h2, h3 {
   left: 50%;
 }
 
-.right-0 {
-  right: 0;
-}
-
 .right-2 {
   right: .5rem;
 }
@@ -357,8 +353,12 @@ h1, h2, h3 {
   top: 50%;
 }
 
-.z-20 {
-  z-index: 20;
+.z-0 {
+  z-index: 0;
+}
+
+.z-10 {
+  z-index: 10;
 }
 
 .z-50 {
@@ -755,6 +755,12 @@ h1, h2, h3 {
   --tw-space-x-reverse: 0;
   margin-right: calc(-.5rem * var(--tw-space-x-reverse));
   margin-left: calc(-.5rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
+.-space-x-5 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 0;
+  margin-right: calc(-1.25rem * var(--tw-space-x-reverse));
+  margin-left: calc(-1.25rem * calc(1 - var(--tw-space-x-reverse)));
 }
 
 .space-x-4 > :not([hidden]) ~ :not([hidden]) {
