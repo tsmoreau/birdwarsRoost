@@ -106,10 +106,10 @@ export default function BattlesList({
               className="block group"
             >
               <Card className="hover:border-primary/50 transition-all cursor-pointer active:scale-[0.99]">
-                <CardContent className="flex items-center justify-between gap-4 p-3 px-4">
+                <CardContent className="flex items-center justify-between gap-4 p-4 px-5">
                   <div className="flex items-center gap-4 min-w-0">
                     <div className="flex -space-x-2 shrink-0">
-                      <div className="w-8 h-8 overflow-hidden">
+                      <div className="w-9 h-9 overflow-hidden">
                         <img 
                           src={`/birb${battle.player1Avatar?.replace('BIRD', '').padStart(3, '0') || '001'}.png`} 
                           alt={battle.player1Avatar || 'BIRD1'}
@@ -117,7 +117,7 @@ export default function BattlesList({
                         />
                       </div>
                       {battle.player2Avatar && (
-                        <div className="w-8 h-8 overflow-hidden">
+                        <div className="w-9 h-9 overflow-hidden">
                           <img 
                             src={`/birb${battle.player2Avatar.replace('BIRD', '').padStart(3, '0')}.png`} 
                             alt={battle.player2Avatar}
@@ -127,18 +127,18 @@ export default function BattlesList({
                       )}
                     </div>
                     <div className="min-w-0">
-                      <div className="flex items-center gap-2 mb-0.5">
-                        <h3 className="font-bold uppercase text-sm truncate" data-testid={`battle-name-${battle.battleId}`}>
+                      <div className="flex items-center gap-2 mb-1">
+                        <h3 className="font-bold uppercase text-base truncate" data-testid={`battle-name-${battle.battleId}`}>
                           {battle.displayName || generateBattleName(battle.battleId)}
                         </h3>
                         {getStatusBadge(battle.status)}
                       </div>
-                      <p className="text-[11px] font-bold uppercase tracking-tight text-muted-foreground flex items-center gap-1.5">
+                      <p className="text-[12px] font-bold uppercase tracking-tight text-muted-foreground flex items-center gap-2">
                         <span>{battle.player1DisplayName}</span>
-                        <span className="text-[9px] opacity-40">VS</span>
+                        <span className="text-[10px] opacity-40">VS</span>
                         <span>{battle.player2DisplayName || 'WAITING...'}</span>
                       </p>
-                      <div className="flex items-center gap-3 mt-1 text-[10px] text-muted-foreground uppercase font-medium">
+                      <div className="flex items-center gap-4 mt-2 text-[11px] text-muted-foreground uppercase font-medium">
                         <span className="flex items-center gap-1">
                           <Clock className="w-3 h-3" />
                           {formatRelativeTime(battle.updatedAt)}
@@ -150,8 +150,8 @@ export default function BattlesList({
                   </div>
                   {showCreatedDate && (
                     <div className="text-right shrink-0 hidden sm:block">
-                      <p className="text-[10px] text-muted-foreground uppercase">Created</p>
-                      <p className="text-[10px] font-bold uppercase">{formatDate(battle.createdAt)}</p>
+                      <p className="text-[11px] text-muted-foreground uppercase">Created</p>
+                      <p className="text-[11px] font-bold uppercase">{formatDate(battle.createdAt)}</p>
                     </div>
                   )}
                 </CardContent>

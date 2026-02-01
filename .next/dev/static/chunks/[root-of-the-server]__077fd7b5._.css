@@ -463,10 +463,6 @@ h1, h2, h3 {
   margin-bottom: .25rem;
 }
 
-.mb-0\.5 {
-  margin-bottom: .125rem;
-}
-
 .mb-1 {
   margin-bottom: .25rem;
 }
@@ -679,6 +675,10 @@ h1, h2, h3 {
   width: 2rem;
 }
 
+.w-9 {
+  width: 2.25rem;
+}
+
 .w-full {
   width: 100%;
 }
@@ -807,10 +807,6 @@ h1, h2, h3 {
 
 .gap-1 {
   gap: .25rem;
-}
-
-.gap-1\.5 {
-  gap: .375rem;
 }
 
 .gap-2 {
@@ -1131,6 +1127,11 @@ h1, h2, h3 {
   padding-right: 1rem;
 }
 
+.px-5 {
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+
 .px-8 {
   padding-left: 2rem;
   padding-right: 2rem;
@@ -1239,8 +1240,8 @@ h1, h2, h3 {
   font-size: 11px;
 }
 
-.text-\[9px\] {
-  font-size: 9px;
+.text-\[12px\] {
+  font-size: 12px;
 }
 
 .text-base {
