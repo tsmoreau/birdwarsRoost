@@ -137,12 +137,12 @@ export default function BattlesList({
                           {battle.displayName || generateBattleName(battle.battleId)}
                         </h3>
                       </div>
-                      <p className="text-[12px] font-bold uppercase tracking-tight text-muted-foreground flex items-center gap-2">
+                      <p className="text-[12px] font-bold uppercase tracking-tight text-muted-foreground flex items-center gap-2 mb-0.5">
                         <span>{battle.player1DisplayName}</span>
                         <span className="text-[10px] opacity-40">VS</span>
                         <span>{battle.player2DisplayName || 'WAITING...'}</span>
                       </p>
-                      <div className="flex items-center gap-4 mt-2 text-[11px] text-muted-foreground uppercase font-medium">
+                      <div className="flex items-center gap-4 text-[11px] text-muted-foreground uppercase font-medium">
                         <span className="flex items-center gap-1">
                           <Clock className="w-3 h-3" />
                           {formatRelativeTime(battle.updatedAt)}
