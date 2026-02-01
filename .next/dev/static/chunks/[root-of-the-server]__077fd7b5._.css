@@ -387,10 +387,6 @@ h1, h2, h3 {
   position: relative;
 }
 
-.sticky {
-  position: sticky;
-}
-
 .inset-0 {
   inset: 0;
 }
@@ -1316,6 +1312,10 @@ h1, h2, h3 {
 
 .leading-tight {
   line-height: 1.25;
+}
+
+.tracking-\[\.000001em\] {
+  letter-spacing: .000001em;
 }
 
 .tracking-tight {
