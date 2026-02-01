@@ -244,7 +244,7 @@ export default function PlayerManagement({ players }: PlayerManagementProps) {
               <CardContent className="p-4">
                 <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-lg bg-muted flex items-center justify-center border border-border shrink-0 overflow-hidden">
+                    <div className="w-12 h-12 shrink-0 overflow-hidden">
                       <img 
                         src={`/birb${player.avatar.replace('BIRD', '').padStart(3, '0')}.png`} 
                         alt={player.avatar}
@@ -372,7 +372,7 @@ export default function PlayerManagement({ players }: PlayerManagementProps) {
                 className={`p-1 rounded-lg border-2 transition-all flex flex-col items-center gap-1 ${
                   newAvatar === avatar
                     ? 'border-foreground bg-muted'
-                    : 'border-border hover:border-foreground/50'
+                    : 'border-transparent hover:border-foreground/20'
                 }`}
                 data-testid={`button-avatar-${avatar}`}
               >

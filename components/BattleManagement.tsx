@@ -183,7 +183,7 @@ export default function BattleManagement({ battles }: BattleManagementProps) {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-3 mb-2">
                       <div className="flex -space-x-2">
-                        <div className="w-8 h-8 rounded border border-background bg-muted overflow-hidden">
+                        <div className="w-8 h-8 overflow-hidden">
                           <img 
                             src={`/birb${battle.player1Avatar.replace('BIRD', '').padStart(3, '0')}.png`} 
                             alt={battle.player1Avatar}
@@ -191,7 +191,7 @@ export default function BattleManagement({ battles }: BattleManagementProps) {
                           />
                         </div>
                         {battle.player2Avatar && (
-                          <div className="w-8 h-8 rounded border border-background bg-muted overflow-hidden">
+                          <div className="w-8 h-8 overflow-hidden">
                             <img 
                               src={`/birb${battle.player2Avatar.replace('BIRD', '').padStart(3, '0')}.png`} 
                               alt={battle.player2Avatar}
