@@ -41,3 +41,5 @@ waitForPort = 5000
 [userenv]
 
 [userenv.shared]
+NEXTAUTH_SECRET = "nkYb8eVjxsZ0EJVgaZS6MiptfJDm52Pn4UrCEqW16QE="
+NEXTAUTH_URL = "http://localhost:5000"
