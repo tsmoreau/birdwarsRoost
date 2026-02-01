@@ -14,6 +14,7 @@ export interface AdminPlayerDetails {
   deviceId: string;
   displayName: string;
   avatar: string;
+  isSimulator: boolean;
   registeredAt: string;
   lastSeen: string;
   isActive: boolean;
@@ -118,6 +119,7 @@ export async function getAllPlayers(): Promise<AdminPlayerDetails[]> {
           deviceId: device.deviceId,
           displayName: device.displayName || 'Unnamed Device',
           avatar: device.avatar || 'BIRD1',
+          isSimulator: device.isSimulator || false,
           registeredAt: device.registeredAt.toISOString(),
           lastSeen: device.lastSeen.toISOString(),
           isActive: device.isActive,

@@ -253,7 +253,9 @@ export default function PlayerManagement({ players }: PlayerManagementProps) {
                     </div>
                     <div className="min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <h3 className="font-bold uppercase tracking-tight truncate">{player.displayName}</h3>
+                        <h3 className="font-bold uppercase tracking-tight truncate">
+                          {player.displayName}{player.isSimulator && ' •'}
+                        </h3>
                         {!player.isActive && (
                           <Badge variant="destructive">BANNED</Badge>
                         )}
