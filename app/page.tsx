@@ -158,7 +158,7 @@ export default async function HomePage() {
                       className="block group"
                     >
                       <div
-                        className="flex items-center justify-between p-3 rounded-lg border border-border transition-all active:scale-[0.98]"
+                        className="flex items-center justify-between p-3 rounded-lg border border-border transition-all active:scale-[0.98] hover:border-foreground/20 hover:bg-muted/50"
                         data-testid={`device-row-${device.deviceId}`}
                       >
                         <div className="flex items-center gap-3">
