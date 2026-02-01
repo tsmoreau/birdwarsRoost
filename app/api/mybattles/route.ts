@@ -161,6 +161,15 @@ export async function GET(request: NextRequest) {
       
       const myPlayerIndex = battle.player1DeviceId === auth.deviceId ? 0 : 1;
       const isMyTurn = battleObj.currentPlayerIndex === myPlayerIndex;
+
+      let winner: number | null = null;
+      if (battleObj.status === 'completed' && battleObj.winnerId) {
+        if (battleObj.winnerId === battleObj.player1DeviceId) {
+          winner = 0;
+        } else if (battleObj.winnerId === battleObj.player2DeviceId) {
+          winner = 1;
+        }
+      }
       
       return {
         battleId: battleObj.battleId,
@@ -179,6 +188,7 @@ export async function GET(request: NextRequest) {
         isPrivate: battleObj.isPrivate,
         lastTurnAt: battleObj.lastTurnAt,
         mapName: battleObj.mapData?.selection || 'Unknown Map',
+        winner,
       };
     });
 
