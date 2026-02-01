@@ -103,41 +103,55 @@ export default function BattlesList({
               key={battle.battleId}
               href={`/battle/${encodeURIComponent(battle.displayName)}`}
               data-testid={`battle-card-${battle.battleId}`}
+              className="block group"
             >
-              <Card className="hover:border-primary/50 transition-colors cursor-pointer">
-                <CardContent className="flex items-center justify-between gap-4 p-6">
+              <Card className="hover:border-primary/50 transition-all cursor-pointer active:scale-[0.99]">
+                <CardContent className="flex items-center justify-between gap-4 p-3 px-4">
                   <div className="flex items-center gap-4 min-w-0">
-                    <div className="w-12 h-12 rounded-xl bg-muted flex items-center justify-center shrink-0 border-none">
-                      {getStatusIcon(battle.status)}
+                    <div className="flex -space-x-2 shrink-0">
+                      <div className="w-8 h-8 overflow-hidden">
+                        <img 
+                          src={`/birb${battle.player1Avatar?.replace('BIRD', '').padStart(3, '0') || '001'}.png`} 
+                          alt={battle.player1Avatar || 'BIRD1'}
+                          className="w-full h-full object-contain"
+                        />
+                      </div>
+                      {battle.player2Avatar && (
+                        <div className="w-8 h-8 overflow-hidden">
+                          <img 
+                            src={`/birb${battle.player2Avatar.replace('BIRD', '').padStart(3, '0')}.png`} 
+                            alt={battle.player2Avatar}
+                            className="w-full h-full object-contain"
+                          />
+                        </div>
+                      )}
                     </div>
                     <div className="min-w-0">
-                      <div className="flex flex-col gap-1 mb-1">
-                        <h3 className="font-semibold truncate" data-testid={`battle-name-${battle.battleId}`}>
+                      <div className="flex items-center gap-2 mb-0.5">
+                        <h3 className="font-bold uppercase text-sm truncate" data-testid={`battle-name-${battle.battleId}`}>
                           {battle.displayName || generateBattleName(battle.battleId)}
                         </h3>
-                        <p className="text-sm text-muted-foreground font-medium">
-                          {battle.player1DisplayName} <span className="text-muted-foreground/60 font-normal mx-0.5 tracking-tighter">VS</span> {battle.player2DisplayName || 'OPEN SLOT'}
-                        </p>
+                        {getStatusBadge(battle.status)}
                       </div>
-                      <div className="flex flex-col gap-2 mt-2">
-                        <div className="flex items-center gap-4 text-sm text-muted-foreground flex-wrap">
-                          <span className="flex items-center gap-1">
-                            <Users className="w-4 h-4" />
-                            {battle.player2DeviceId ? '2 players' : '1 player (waiting)'}
-                          </span>
-                          <span>Turn {battle.currentTurn}</span>
-                          <span>Updated {formatRelativeTime(battle.updatedAt)}</span>
-                        </div>
-                        <div className="pt-1">
-                          {getStatusBadge(battle.status)}
-                        </div>
+                      <p className="text-[11px] font-bold uppercase tracking-tight text-muted-foreground flex items-center gap-1.5">
+                        <span>{battle.player1DisplayName}</span>
+                        <span className="text-[9px] opacity-40">VS</span>
+                        <span>{battle.player2DisplayName || 'WAITING...'}</span>
+                      </p>
+                      <div className="flex items-center gap-3 mt-1 text-[10px] text-muted-foreground uppercase font-medium">
+                        <span className="flex items-center gap-1">
+                          <Clock className="w-3 h-3" />
+                          {formatRelativeTime(battle.updatedAt)}
+                        </span>
+                        <span>TURN {battle.currentTurn}</span>
+                        <span>{battle.mapName || 'Standard'}</span>
                       </div>
                     </div>
                   </div>
                   {showCreatedDate && (
-                    <div className="text-right shrink-0">
-                      <p className="text-sm text-muted-foreground">Created</p>
-                      <p className="text-sm font-medium">{formatDate(battle.createdAt)}</p>
+                    <div className="text-right shrink-0 hidden sm:block">
+                      <p className="text-[10px] text-muted-foreground uppercase">Created</p>
+                      <p className="text-[10px] font-bold uppercase">{formatDate(battle.createdAt)}</p>
                     </div>
                   )}
                 </CardContent>
