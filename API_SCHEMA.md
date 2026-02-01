@@ -112,12 +112,16 @@ This is a dual-purpose endpoint:
 ```json
 {
   "displayName": "My Playdate",  // optional, max 100 chars
-  "avatar": "BIRD1"              // optional, BIRD1-BIRD12 (default: BIRD1)
+  "avatar": "BIRD1",             // optional, BIRD1-BIRD12 (default: BIRD1)
+  "isSimulator": false           // optional, boolean (default: false)
 }
 ```
 
 **Avatar Options:**
 BIRD1, BIRD2, BIRD3, BIRD4, BIRD5, BIRD6, BIRD7, BIRD8, BIRD9, BIRD10, BIRD11, BIRD12
+
+**Notes:**
+- `isSimulator` should be set to `true` when registering from the Playdate Simulator (use `playdate.isSimulator` from the SDK)
 
 ---
 
@@ -132,6 +136,7 @@ BIRD1, BIRD2, BIRD3, BIRD4, BIRD5, BIRD6, BIRD7, BIRD8, BIRD9, BIRD10, BIRD11, B
   "secretToken": "sk_live_xxxxxxxxxxxxxxxx",
   "displayName": "My Playdate",
   "avatar": "BIRD1",
+  "isSimulator": false,
   "message": "Device registered successfully. Store this token securely - it cannot be retrieved again."
 }
 ```
@@ -154,6 +159,7 @@ Authorization: Bearer <secret-token>
   "deviceId": "a1b2c3d4e5f6...",
   "displayName": "My Playdate",
   "avatar": "BIRD1",
+  "isSimulator": false,
   "registeredAt": "2025-01-23T12:00:00.000Z",
   "message": "Device already registered."
 }
@@ -167,7 +173,7 @@ Authorization: Bearer <secret-token>
 Authorization: Bearer <secret-token>
 Content-Type: application/json
 
-{ "displayName": "New Name", "avatar": "BIRD7" }
+{ "displayName": "New Name", "avatar": "BIRD7", "isSimulator": true }
 ```
 
 **Success Response (200):**
@@ -178,6 +184,7 @@ Content-Type: application/json
   "deviceId": "a1b2c3d4e5f6...",
   "displayName": "New Name",
   "avatar": "BIRD7",
+  "isSimulator": true,
   "registeredAt": "2025-01-23T12:00:00.000Z",
   "message": "Device verified and profile updated."
 }
@@ -972,6 +979,7 @@ GET /api/ping?deviceId=abc123...
   deviceId: string;        // Unique device identifier
   displayName: string;     // Human-readable name
   avatar: string;          // Bird avatar (BIRD1-BIRD12)
+  isSimulator: boolean;    // true if registered from Playdate Simulator
   registeredAt: Date;      // Registration timestamp
   lastSeen: Date;          // Last activity timestamp
   isActive: boolean;       // Whether device is active
