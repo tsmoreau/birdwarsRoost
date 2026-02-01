@@ -63,7 +63,11 @@ export default function Nav() {
                   </Button>
                 ) : (
                   <Link href="/login" data-testid="link-login">
-                    <Button variant="default" size="sm">
+                    <Button 
+                      variant="ghost" 
+                      size="sm"
+                      className="text-card hover:text-foreground transition-all duration-300 no-default-hover-elevate no-default-active-elevate"
+                    >
                       Login
                     </Button>
                   </Link>

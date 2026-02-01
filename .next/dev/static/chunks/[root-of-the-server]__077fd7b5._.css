@@ -1331,6 +1331,11 @@ h1, h2, h3 {
   color: hsl(var(--background) / var(--tw-text-opacity, 1));
 }
 
+.text-card {
+  --tw-text-opacity: 1;
+  color: hsl(var(--card) / var(--tw-text-opacity, 1));
+}
+
 .text-card-foreground {
   --tw-text-opacity: 1;
   color: hsl(var(--card-foreground) / var(--tw-text-opacity, 1));
@@ -1498,6 +1503,10 @@ h1, h2, h3 {
   transition-duration: .2s;
 }
 
+.duration-300 {
+  transition-duration: .3s;
+}
+
 @keyframes enter {
   from {
     opacity: var(--tw-enter-opacity, 1);
@@ -1514,6 +1523,10 @@ h1, h2, h3 {
 
 .duration-200 {
   animation-duration: .2s;
+}
+
+.duration-300 {
+  animation-duration: .3s;
 }
 
 :root {
