@@ -1659,6 +1659,10 @@ h1, h2, h3 {
   border-color: hsl(var(--primary) / .5);
 }
 
+.hover\:bg-muted\/50:hover {
+  background-color: hsl(var(--muted) / .5);
+}
+
 .hover\:bg-secondary:hover {
   --tw-bg-opacity: 1;
   background-color: hsl(var(--secondary) / var(--tw-bg-opacity, 1));

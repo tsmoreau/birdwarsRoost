@@ -105,11 +105,11 @@ export default function BattlesList({
               data-testid={`battle-card-${battle.battleId}`}
               className="block group"
             >
-              <Card className="hover:border-primary/50 transition-all cursor-pointer active:scale-[0.99] relative">
+              <div className="hover:border-foreground/20 hover:bg-muted/50 transition-all cursor-pointer active:scale-[0.99] relative border border-border rounded-lg">
                 <div className="absolute top-2 right-2 z-10">
                   {getStatusBadge(battle.status)}
                 </div>
-                <CardContent className="flex items-center justify-between gap-4 p-5 px-6">
+                <div className="flex items-center justify-between gap-4 p-5 px-6">
                   <div className="flex items-center gap-4 min-w-0 w-full">
                     <div className="w-12 shrink-0 flex items-center justify-center">
                       <div className="flex -space-x-3">
@@ -158,8 +158,8 @@ export default function BattlesList({
                       <p className="text-[11px] font-bold uppercase">{formatDate(battle.createdAt)}</p>
                     </div>
                   )}
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             </Link>
           ))}
         </div>
