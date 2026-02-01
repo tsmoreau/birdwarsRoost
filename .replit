@@ -47,4 +47,4 @@ NEXTAUTH_SECRET = "nkYb8eVjxsZ0EJVgaZS6MiptfJDm52Pn4UrCEqW16QE="
 NEXTAUTH_URL = "https://72f2c972-1a43-4125-acd4-78ff2541cb4c-00-1n8e4yxghi0q9.janeway.replit.dev"
 
 [userenv.production]
-NEXTAUTH_URL = "https://bird-wars-roost.replit.app"
+NEXTAUTH_URL = "https://birdwars.app"
