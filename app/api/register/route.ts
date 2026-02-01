@@ -9,6 +9,7 @@ const MIN_CLIENT_VERSION = process.env.MIN_CLIENT_VERSION || '0.0.1';
 const registerSchema = z.object({
   displayName: z.string().min(1).max(100).optional(),
   avatar: z.enum(VALID_AVATARS).optional(),
+  isSimulator: z.boolean().optional(),
 });
 
 async function getRateLimitData(ip: string): Promise<{ count: number; canProceed: boolean }> {
@@ -76,7 +77,7 @@ export async function POST(request: NextRequest) {
       }, { status: 400 });
     }
 
-    const { displayName, avatar } = parsed.data;
+    const { displayName, avatar, isSimulator } = parsed.data;
 
     const existingDevice = await findDeviceByToken(request);
     
@@ -93,6 +94,11 @@ export async function POST(request: NextRequest) {
         updated = true;
       }
       
+      if (isSimulator !== undefined && isSimulator !== existingDevice.isSimulator) {
+        existingDevice.isSimulator = isSimulator;
+        updated = true;
+      }
+      
       existingDevice.lastSeen = new Date();
       await existingDevice.save();
 
@@ -102,6 +108,7 @@ export async function POST(request: NextRequest) {
         deviceId: existingDevice.deviceId,
         displayName: existingDevice.displayName,
         avatar: existingDevice.avatar,
+        isSimulator: existingDevice.isSimulator,
         registeredAt: existingDevice.registeredAt,
         minClientVersion: MIN_CLIENT_VERSION,
         message: updated 
@@ -139,6 +146,7 @@ export async function POST(request: NextRequest) {
       tokenHash,
       displayName: displayName || 'Playdate Device',
       avatar: avatar || 'BIRD1',
+      isSimulator: isSimulator || false,
       registeredAt: new Date(),
       lastSeen: new Date(),
       isActive: true,
@@ -153,6 +161,7 @@ export async function POST(request: NextRequest) {
       secretToken,
       displayName: device.displayName,
       avatar: device.avatar,
+      isSimulator: device.isSimulator,
       minClientVersion: MIN_CLIENT_VERSION,
       message: 'Device registered successfully. Store this token securely - it cannot be retrieved again.',
     }, { status: 201 });

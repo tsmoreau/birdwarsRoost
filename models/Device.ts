@@ -12,6 +12,7 @@ export interface IDevice {
   tokenHash: string;
   displayName: string;
   avatar: BirdAvatar;
+  isSimulator: boolean;
   registeredAt: Date;
   lastSeen: Date;
   isActive: boolean;
@@ -39,6 +40,10 @@ const DeviceSchema = new Schema<IDeviceDocument>({
     type: String,
     enum: ['BIRD1', 'BIRD2', 'BIRD3', 'BIRD4', 'BIRD5', 'BIRD6', 'BIRD7', 'BIRD8', 'BIRD9', 'BIRD10', 'BIRD11', 'BIRD12'],
     default: 'BIRD1'
+  },
+  isSimulator: {
+    type: Boolean,
+    default: false
   },
   registeredAt: { 
     type: Date, 
