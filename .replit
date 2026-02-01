@@ -42,4 +42,4 @@ waitForPort = 5000
 
 [userenv.shared]
 NEXTAUTH_SECRET = "nkYb8eVjxsZ0EJVgaZS6MiptfJDm52Pn4UrCEqW16QE="
-NEXTAUTH_URL = "http://localhost:5000"
+NEXTAUTH_URL = "https://72f2c972-1a43-4125-acd4-78ff2541cb4c-00-1n8e4yxghi0q9.janeway.replit.dev"
