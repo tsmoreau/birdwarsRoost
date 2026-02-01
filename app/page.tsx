@@ -162,8 +162,12 @@ export default async function HomePage() {
                         data-testid={`device-row-${device.deviceId}`}
                       >
                         <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center transition-colors">
-                            <Gamepad2 className="w-5 h-5 text-muted-foreground" />
+                          <div className="w-10 h-10 overflow-hidden shrink-0">
+                            <img 
+                              src={`/birb${device.avatar.replace('BIRD', '').padStart(3, '0')}.png`} 
+                              alt={device.avatar}
+                              className="w-full h-full object-contain"
+                            />
                           </div>
                           <div>
                             <p className="font-bold text-sm uppercase tracking-tight">
