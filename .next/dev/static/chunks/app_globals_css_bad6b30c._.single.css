@@ -1573,10 +1573,6 @@ h1, h2, h3 {
   border-color: hsl(var(--foreground) / .2);
 }
 
-.hover\:border-primary\/50:hover {
-  border-color: hsl(var(--primary) / .5);
-}
-
 .hover\:bg-muted\/50:hover {
   background-color: hsl(var(--muted) / .5);
 }

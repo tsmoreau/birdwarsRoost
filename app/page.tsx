@@ -157,8 +157,8 @@ export default async function HomePage() {
                       href={`/player/${encodeURIComponent(device.displayName)}`}
                       className="block group"
                     >
-                      <Card className="hover:border-primary/50 transition-all cursor-pointer active:scale-[0.99]">
-                        <CardContent className="flex items-center justify-between p-3">
+                      <div className="hover:border-foreground/20 hover:bg-muted/50 transition-all cursor-pointer active:scale-[0.99] relative border border-border rounded-lg">
+                        <div className="flex items-center justify-between p-3">
                           <div className="flex items-center gap-3">
                             <div className="w-10 h-10 overflow-hidden shrink-0">
                               <img 
@@ -180,8 +180,8 @@ export default async function HomePage() {
                               </p>
                             </div>
                           </div>
-                        </CardContent>
-                      </Card>
+                        </div>
+                      </div>
                     </Link>
                   ))}
                 </div>
