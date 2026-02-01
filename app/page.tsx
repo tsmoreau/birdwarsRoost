@@ -173,7 +173,7 @@ export default async function HomePage() {
                             <p className="font-bold text-sm uppercase tracking-tight">
                               {device.displayName}
                             </p>
-                            <p className="text-[10px] text-muted-foreground uppercase font-medium truncate max-w-[120px]">
+                            <p className="text-[10px] text-muted-foreground uppercase font-medium truncate max-w-[240px]">
                               {device.deviceId}
                             </p>
                             <p className="text-[10px] text-muted-foreground uppercase font-medium flex items-center gap-1">
