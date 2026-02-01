@@ -32,11 +32,9 @@ export default async function DashboardPage() {
     redirect('/');
   }
 
-  const [stats, players, battles] = await Promise.all([
-    getAdminStats(),
-    getAllPlayers(),
-    getAllBattles()
-  ]);
+  const stats = await getAdminStats();
+  const players = await getAllPlayers();
+  const battles = await getAllBattles();
 
   const isAdminConfigured = ADMIN_EMAILS.length > 0;
 

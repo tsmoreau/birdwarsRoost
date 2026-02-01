@@ -1,6 +1,6 @@
 {
   "node": {
-    "4049155f5a279b9da451bfc92d54e8ac034e055387": {
+    "40506f5907cc9e6ff29c9f4574a9c992e93f50d4ff": {
       "workers": {
         "app/page": {
           "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/battles.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/devices.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -15,7 +15,7 @@
       "filename": "app/actions/battles.ts",
       "exportedName": "getBattles"
     },
-    "4078f6990a2c5b19d9de5c0b2ccaf4f8f1459733aa": {
+    "407f2a35e115112f41821c7b432668488a77b6063e": {
       "workers": {
         "app/page": {
           "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/battles.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/devices.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -30,7 +30,7 @@
       "filename": "app/actions/battles.ts",
       "exportedName": "getBattleByDisplayName"
     },
-    "4080d6703fc838ecbaa0f3330072f362c926437fa6": {
+    "40eb4c8264f718ce40a728ea3196c47f86cc9ff9f2": {
       "workers": {
         "app/page": {
           "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/battles.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/devices.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -45,7 +45,7 @@
       "filename": "app/actions/battles.ts",
       "exportedName": "getBattleTurns"
     },
-    "400df789c3098009944bb212e4bed793a3cd4be8d7": {
+    "40b647abb80dc0120e39eb413ec127bc9ab020d6a5": {
       "workers": {
         "app/page": {
           "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/battles.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/devices.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -60,22 +60,7 @@
       "filename": "app/actions/devices.ts",
       "exportedName": "getDevices"
     },
-    "0027d7e312ad9e08c7841e2e00e3d5e43155a2d2ab": {
-      "workers": {
-        "app/dashboard/page": {
-          "moduleId": "[project]/.next-internal/server/app/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/admin.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
-          "async": false,
-          "exportedName": "getAllPlayers",
-          "filename": "app/actions/admin.ts"
-        }
-      },
-      "layer": {
-        "app/dashboard/page": "rsc"
-      },
-      "filename": "app/actions/admin.ts",
-      "exportedName": "getAllPlayers"
-    },
-    "00dc8bc836fb54684e733b2851de5b2b043a59932a": {
+    "0077c69404bb2c78d9fca6656a9d41e38fc867e305": {
       "workers": {
         "app/dashboard/page": {
           "moduleId": "[project]/.next-internal/server/app/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/admin.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -90,27 +75,12 @@
       "filename": "app/actions/admin.ts",
       "exportedName": "getAdminStats"
     },
-    "400cbc597b0c058debb4cd2ff0030ead44a0e3ffc3": {
+    "008dd3aa5b554aef9aaca88d619c06fae1d17b5069": {
       "workers": {
         "app/dashboard/page": {
           "moduleId": "[project]/.next-internal/server/app/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/admin.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false,
-          "exportedName": "deleteBattle",
-          "filename": "app/actions/admin.ts"
-        }
-      },
-      "layer": {
-        "app/dashboard/page": "action-browser"
-      },
-      "filename": "app/actions/admin.ts",
-      "exportedName": "deleteBattle"
-    },
-    "402086af302807800f6e69233cb4bf766d3ebde801": {
-      "workers": {
-        "app/dashboard/page": {
-          "moduleId": "[project]/.next-internal/server/app/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/admin.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
-          "async": false,
-          "exportedName": "getAllBattles",
+          "exportedName": "getAllPlayers",
           "filename": "app/actions/admin.ts"
         }
       },
@@ -118,9 +88,9 @@
         "app/dashboard/page": "rsc"
       },
       "filename": "app/actions/admin.ts",
-      "exportedName": "getAllBattles"
+      "exportedName": "getAllPlayers"
     },
-    "402b968697da68d65f047040b6dd46956d57482c5f": {
+    "40084ab938528a2a9528aa7533dd8bd078c7260e22": {
       "workers": {
         "app/dashboard/page": {
           "moduleId": "[project]/.next-internal/server/app/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/admin.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -135,12 +105,12 @@
       "filename": "app/actions/admin.ts",
       "exportedName": "banPlayer"
     },
-    "403f96fdc303900ea6b75acb63a14967ce4887a89f": {
+    "4066c28c26e99f98b371c94ae5d2fd52d05fe9f289": {
       "workers": {
         "app/dashboard/page": {
           "moduleId": "[project]/.next-internal/server/app/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/admin.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false,
-          "exportedName": "deletePlayer",
+          "exportedName": "deleteBattle",
           "filename": "app/actions/admin.ts"
         }
       },
@@ -148,9 +118,9 @@
         "app/dashboard/page": "action-browser"
       },
       "filename": "app/actions/admin.ts",
-      "exportedName": "deletePlayer"
+      "exportedName": "deleteBattle"
     },
-    "40420a4c8b5bfbc30736a2a2e3a3537768cf2b0ac3": {
+    "40c29b76f6eca3323a9f1ef151d98206f90c87d7f7": {
       "workers": {
         "app/dashboard/page": {
           "moduleId": "[project]/.next-internal/server/app/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/admin.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -165,12 +135,12 @@
       "filename": "app/actions/admin.ts",
       "exportedName": "unbanPlayer"
     },
-    "6020b004d0228e644b6507aae70d55034de67f6a44": {
+    "40d5b6b8ffa07a903039f79eed5aee0e26148a1a6e": {
       "workers": {
         "app/dashboard/page": {
           "moduleId": "[project]/.next-internal/server/app/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/admin.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false,
-          "exportedName": "changeAvatar",
+          "exportedName": "deletePlayer",
           "filename": "app/actions/admin.ts"
         }
       },
@@ -178,9 +148,24 @@
         "app/dashboard/page": "action-browser"
       },
       "filename": "app/actions/admin.ts",
-      "exportedName": "changeAvatar"
+      "exportedName": "deletePlayer"
     },
-    "6061e93a979aebab9a4005e5cf2284377b46bd100c": {
+    "40df9f113e1374923112297aa54f8694721da7d855": {
+      "workers": {
+        "app/dashboard/page": {
+          "moduleId": "[project]/.next-internal/server/app/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/admin.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "getAllBattles",
+          "filename": "app/actions/admin.ts"
+        }
+      },
+      "layer": {
+        "app/dashboard/page": "rsc"
+      },
+      "filename": "app/actions/admin.ts",
+      "exportedName": "getAllBattles"
+    },
+    "6044c0ab291af4014afb26998acac49ee04d8cae27": {
       "workers": {
         "app/dashboard/page": {
           "moduleId": "[project]/.next-internal/server/app/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/admin.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -195,7 +180,7 @@
       "filename": "app/actions/admin.ts",
       "exportedName": "forfeitBattle"
     },
-    "606b1ea4032febb09f17a0d8ba7676682d993872df": {
+    "6079afb4214c3119b5141e768811c3337b9f2a8d57": {
       "workers": {
         "app/dashboard/page": {
           "moduleId": "[project]/.next-internal/server/app/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/admin.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -209,8 +194,23 @@
       },
       "filename": "app/actions/admin.ts",
       "exportedName": "forceNameChange"
+    },
+    "60e2d606ac00d03d768fb3ac0d7bfdf1608fa0a948": {
+      "workers": {
+        "app/dashboard/page": {
+          "moduleId": "[project]/.next-internal/server/app/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/admin.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "changeAvatar",
+          "filename": "app/actions/admin.ts"
+        }
+      },
+      "layer": {
+        "app/dashboard/page": "action-browser"
+      },
+      "filename": "app/actions/admin.ts",
+      "exportedName": "changeAvatar"
     }
   },
   "edge": {},
-  "encryptionKey": "NZaJ8mLHxY+7CU2+tGKO/I/IFNVu1VZoDkkse3svZ0E="
+  "encryptionKey": "9InO3w/+b4rcAvy71CsjvDeaZVldNMIlBFGl5rhVL0I="
 }
