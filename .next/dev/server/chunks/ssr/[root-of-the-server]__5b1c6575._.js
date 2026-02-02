@@ -407,7 +407,7 @@ function getActionDescription(action) {
         case "build":
             return `Build unit`;
         case "capture":
-            return `Capture building at (${action.to?.x}, ${action.to?.y})`;
+            return `Capture action at (${action.to?.x}, ${action.to?.y})`;
         case "wait":
             return `${action.unitId || "Unit"} waits`;
         case "take_off":
@@ -791,8 +791,11 @@ async function BattleDetailPage({ params }) {
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                                                     className: "font-medium",
                                                                                     "data-testid": "text-player1-name",
-                                                                                    children: battle.player1DisplayName
-                                                                                }, void 0, false, {
+                                                                                    children: [
+                                                                                        battle.player1DisplayName,
+                                                                                        battle.player1IsSimulator && ' •'
+                                                                                    ]
+                                                                                }, void 0, true, {
                                                                                     fileName: "[project]/app/battle/[text]/page.tsx",
                                                                                     lineNumber: 198,
                                                                                     columnNumber: 25
@@ -902,8 +905,11 @@ async function BattleDetailPage({ params }) {
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                                                     className: "font-medium",
                                                                                     "data-testid": "text-player2-name",
-                                                                                    children: battle.player2DisplayName
-                                                                                }, void 0, false, {
+                                                                                    children: [
+                                                                                        battle.player2DisplayName,
+                                                                                        battle.player2IsSimulator && ' •'
+                                                                                    ]
+                                                                                }, void 0, true, {
                                                                                     fileName: "[project]/app/battle/[text]/page.tsx",
                                                                                     lineNumber: 237,
                                                                                     columnNumber: 27

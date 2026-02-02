@@ -98,7 +98,7 @@ export default function TurnDetailPage() {
       case 'build':
         return `Build unit`;
       case 'capture':
-        return `Capture building at (${action.to?.x}, ${action.to?.y})`;
+        return `Capture action at (${action.to?.x}, ${action.to?.y})`;
       case 'wait':
         return `${action.unitId || 'Unit'} waits`;
       case 'take_off':
