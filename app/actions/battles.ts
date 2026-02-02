@@ -54,7 +54,9 @@ async function getPlayerInfo(deviceIds: (string | null)[]): Promise<Map<string, 
 export async function getBattles(options?: { includePrivate?: boolean; limit?: number }): Promise<BattleWithDetails[]> {
   await connectToDatabase();
   
-  const query = options?.includePrivate ? {} : { isPrivate: { $ne: true } };
+  const query = options?.includePrivate 
+    ? { status: { $ne: 'abandoned' } } 
+    : { isPrivate: { $ne: true }, status: { $ne: 'abandoned' } };
   const limit = options?.limit ?? 50;
 
   const battles = await Battle.find(query)
