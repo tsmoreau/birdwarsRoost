@@ -378,7 +378,7 @@ const Turn = __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$ext
 "[project]/app/actions/battles.ts [app-rsc] (ecmascript)", ((__turbopack_context__) => {
 "use strict";
 
-/* __next_internal_action_entry_do_not_use__ [{"401eb3b391a215cbd8de8e616d0ea4b8be58225040":"getBattles","40797ecbdcf47878f0c76d090f9f519bda1057cbf5":"getBattleByDisplayName","40c2499a3d31c1cb2a479b2d399a172cbd07af3552":"getBattleTurns"},"",""] */ __turbopack_context__.s([
+/* __next_internal_action_entry_do_not_use__ [{"403756ffab14ca2026b8a636a06211e19ad83e04ae":"getBattleTurns","40875d96b0364b0525d8561be58b131eea53774d41":"getBattleByDisplayName","40fbb6f6b5879889fd43185004a81e4a245b5ff8b3":"getBattles"},"",""] */ __turbopack_context__.s([
     "getBattleByDisplayName",
     ()=>getBattleByDisplayName,
     "getBattleTurns",
@@ -531,14 +531,14 @@ async function getBattleTurns(battleId) {
     getBattleByDisplayName,
     getBattleTurns
 ]);
-(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getBattles, "401eb3b391a215cbd8de8e616d0ea4b8be58225040", null);
-(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getBattleByDisplayName, "40797ecbdcf47878f0c76d090f9f519bda1057cbf5", null);
-(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getBattleTurns, "40c2499a3d31c1cb2a479b2d399a172cbd07af3552", null);
+(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getBattles, "40fbb6f6b5879889fd43185004a81e4a245b5ff8b3", null);
+(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getBattleByDisplayName, "40875d96b0364b0525d8561be58b131eea53774d41", null);
+(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getBattleTurns, "403756ffab14ca2026b8a636a06211e19ad83e04ae", null);
 }),
 "[project]/app/actions/devices.ts [app-rsc] (ecmascript)", ((__turbopack_context__) => {
 "use strict";
 
-/* __next_internal_action_entry_do_not_use__ [{"40b0cfaff94edd4bb24aaffa5aefea12ae5302252c":"getDevices"},"",""] */ __turbopack_context__.s([
+/* __next_internal_action_entry_do_not_use__ [{"405fc10aa4a234104e7cb74d7eb07a678ddc99b64a":"getDevices"},"",""] */ __turbopack_context__.s([
     "getDevices",
     ()=>getDevices
 ]);
@@ -573,7 +573,7 @@ async function getDevices(options) {
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$action$2d$validate$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["ensureServerEntryExports"])([
     getDevices
 ]);
-(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getDevices, "40b0cfaff94edd4bb24aaffa5aefea12ae5302252c", null);
+(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getDevices, "405fc10aa4a234104e7cb74d7eb07a678ddc99b64a", null);
 }),
 "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/battles.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/devices.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript) <locals>", ((__turbopack_context__) => {
 "use strict";
@@ -590,14 +590,14 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$app$2f$actions$2f$devices$2e
 "use strict";
 
 __turbopack_context__.s([
-    "401eb3b391a215cbd8de8e616d0ea4b8be58225040",
-    ()=>__TURBOPACK__imported__module__$5b$project$5d2f$app$2f$actions$2f$battles$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getBattles"],
-    "40797ecbdcf47878f0c76d090f9f519bda1057cbf5",
-    ()=>__TURBOPACK__imported__module__$5b$project$5d2f$app$2f$actions$2f$battles$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getBattleByDisplayName"],
-    "40b0cfaff94edd4bb24aaffa5aefea12ae5302252c",
+    "403756ffab14ca2026b8a636a06211e19ad83e04ae",
+    ()=>__TURBOPACK__imported__module__$5b$project$5d2f$app$2f$actions$2f$battles$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getBattleTurns"],
+    "405fc10aa4a234104e7cb74d7eb07a678ddc99b64a",
     ()=>__TURBOPACK__imported__module__$5b$project$5d2f$app$2f$actions$2f$devices$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getDevices"],
-    "40c2499a3d31c1cb2a479b2d399a172cbd07af3552",
-    ()=>__TURBOPACK__imported__module__$5b$project$5d2f$app$2f$actions$2f$battles$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getBattleTurns"]
+    "40875d96b0364b0525d8561be58b131eea53774d41",
+    ()=>__TURBOPACK__imported__module__$5b$project$5d2f$app$2f$actions$2f$battles$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getBattleByDisplayName"],
+    "40fbb6f6b5879889fd43185004a81e4a245b5ff8b3",
+    ()=>__TURBOPACK__imported__module__$5b$project$5d2f$app$2f$actions$2f$battles$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getBattles"]
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f2e$next$2d$internal$2f$server$2f$app$2f$page$2f$actions$2e$js__$7b$__ACTIONS_MODULE0__$3d3e$__$225b$project$5d2f$app$2f$actions$2f$battles$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE1__$3d3e$__$225b$project$5d2f$app$2f$actions$2f$devices$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$2922$__$7d$__$5b$app$2d$rsc$5d$__$28$server__actions__loader$2c$__ecmascript$29$__$3c$locals$3e$__ = __turbopack_context__.i('[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => "[project]/app/actions/battles.ts [app-rsc] (ecmascript)", ACTIONS_MODULE1 => "[project]/app/actions/devices.ts [app-rsc] (ecmascript)" } [app-rsc] (server actions loader, ecmascript) <locals>');
 var __TURBOPACK__imported__module__$5b$project$5d2f$app$2f$actions$2f$battles$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/app/actions/battles.ts [app-rsc] (ecmascript)");
