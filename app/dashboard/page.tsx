@@ -9,12 +9,14 @@ import {
   Clock, 
   Trophy,
   Users,
-  AlertTriangle
+  AlertTriangle,
+  Shield
 } from 'lucide-react';
 import Nav from '@/components/Nav';
 import PlayerManagement from '@/components/PlayerManagement';
 import BattleManagement from '@/components/BattleManagement';
-import { getAdminStats, getAllPlayers, getAllBattles } from '@/app/actions/admin';
+import AuditLogs from '@/components/AuditLogs';
+import { getAdminStats, getAllPlayers, getAllBattles, getAuditLogs } from '@/app/actions/admin';
 
 const ADMIN_EMAILS = (process.env.ADMIN_EMAILS || '').split(',').map(e => e.trim().toLowerCase()).filter(Boolean);
 
@@ -35,6 +37,7 @@ export default async function DashboardPage() {
   const stats = await getAdminStats();
   const players = await getAllPlayers();
   const battles = await getAllBattles();
+  const auditLogs = await getAuditLogs({ limit: 100 });
 
   const isAdminConfigured = ADMIN_EMAILS.length > 0;
 
@@ -77,6 +80,10 @@ export default async function DashboardPage() {
             <TabsTrigger value="battles" data-testid="tab-battles">
               <Swords className="w-4 h-4 mr-2" />
               BATTLES
+            </TabsTrigger>
+            <TabsTrigger value="audit" data-testid="tab-audit">
+              <Shield className="w-4 h-4 mr-2" />
+              AUDIT LOG
             </TabsTrigger>
           </TabsList>
 
@@ -192,6 +199,10 @@ export default async function DashboardPage() {
 
           <TabsContent value="battles">
             <BattleManagement battles={battles} />
+          </TabsContent>
+
+          <TabsContent value="audit">
+            <AuditLogs logs={auditLogs} />
           </TabsContent>
         </Tabs>
       </main>

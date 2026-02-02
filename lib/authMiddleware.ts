@@ -2,15 +2,32 @@ import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from './mongodb';
 import { Device } from '@/models/Device';
 import { hashToken, verifyToken } from './auth';
+import { logAuditEvent, getClientIp, getUserAgent } from './auditLogger';
 
 export interface AuthenticatedRequest extends NextRequest {
   deviceId?: string;
 }
 
-export async function authenticateDevice(request: NextRequest): Promise<{ deviceId: string } | null> {
+export async function authenticateDevice(
+  request: NextRequest,
+  options?: { endpoint?: string; method?: string; skipMissingAuthLog?: boolean }
+): Promise<{ deviceId: string } | null> {
   const authHeader = request.headers.get('authorization');
+  const ip = getClientIp(request.headers);
+  const userAgent = getUserAgent(request.headers);
   
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    if (!options?.skipMissingAuthLog) {
+      await logAuditEvent({
+        eventType: 'device_api_access',
+        ip,
+        userAgent,
+        endpoint: options?.endpoint,
+        method: options?.method,
+        success: false,
+        details: 'Missing or invalid authorization header',
+      });
+    }
     return null;
   }
 
@@ -30,11 +47,31 @@ export async function authenticateDevice(request: NextRequest): Promise<{ device
   });
 
   if (!device) {
+    await logAuditEvent({
+      eventType: 'device_api_access',
+      ip,
+      userAgent,
+      endpoint: options?.endpoint,
+      method: options?.method,
+      success: false,
+      details: 'Invalid or inactive token',
+    });
     return null;
   }
 
   device.lastSeen = new Date();
   await device.save();
+
+  await logAuditEvent({
+    eventType: 'device_api_access',
+    ip,
+    userAgent,
+    deviceId: device.deviceId,
+    serialNumber: device.serialNumber,
+    endpoint: options?.endpoint,
+    method: options?.method,
+    success: true,
+  });
 
   return { deviceId: device.deviceId };
 }

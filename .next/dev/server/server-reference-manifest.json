@@ -120,6 +120,21 @@
       "filename": "app/actions/admin.ts",
       "exportedName": "getAllBattles"
     },
+    "4055cb21eb2b63ebcad3b8d2279d27868a72fd7a59": {
+      "workers": {
+        "app/dashboard/page": {
+          "moduleId": "[project]/.next-internal/server/app/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/admin.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "getAuditLogs",
+          "filename": "app/actions/admin.ts"
+        }
+      },
+      "layer": {
+        "app/dashboard/page": "rsc"
+      },
+      "filename": "app/actions/admin.ts",
+      "exportedName": "getAuditLogs"
+    },
     "4077046850dee8cdbe0bb5aa490992934ee3312b13": {
       "workers": {
         "app/dashboard/page": {

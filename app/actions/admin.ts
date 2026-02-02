@@ -390,6 +390,70 @@ export async function deleteBattle(battleId: string): Promise<{ success: boolean
   }
 }
 
+export interface AuditLogEntry {
+  id: string;
+  eventType: string;
+  timestamp: string;
+  ip: string;
+  userAgent?: string;
+  userId?: string;
+  userEmail?: string;
+  deviceId?: string;
+  serialNumber?: string;
+  endpoint?: string;
+  method?: string;
+  success: boolean;
+  details?: string;
+}
+
+export async function getAuditLogs(options?: { 
+  limit?: number; 
+  eventType?: string;
+  ip?: string;
+}): Promise<AuditLogEntry[]> {
+  const auth = await requireAdminAuth();
+  if (!auth.success) {
+    throw new Error(auth.error);
+  }
+
+  try {
+    await connectToDatabase();
+    
+    const { AuditLog } = await import('@/models/AuditLog');
+    
+    const query: Record<string, unknown> = {};
+    if (options?.eventType && options.eventType !== 'all') {
+      query.eventType = options.eventType;
+    }
+    if (options?.ip) {
+      query.ip = { $regex: options.ip, $options: 'i' };
+    }
+    
+    const logs = await AuditLog.find(query)
+      .sort({ timestamp: -1 })
+      .limit(options?.limit || 100);
+    
+    return logs.map(log => ({
+      id: log._id.toString(),
+      eventType: log.eventType,
+      timestamp: log.timestamp.toISOString(),
+      ip: log.ip,
+      userAgent: log.userAgent || undefined,
+      userId: log.userId || undefined,
+      userEmail: log.userEmail || undefined,
+      deviceId: log.deviceId || undefined,
+      serialNumber: log.serialNumber || undefined,
+      endpoint: log.endpoint || undefined,
+      method: log.method || undefined,
+      success: log.success,
+      details: log.details || undefined,
+    }));
+  } catch (error) {
+    console.error('Error fetching audit logs:', error);
+    throw new Error('Failed to fetch audit logs');
+  }
+}
+
 export async function getAdminStats(): Promise<{
   totalPlayers: number;
   activePlayers: number;

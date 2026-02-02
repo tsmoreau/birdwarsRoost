@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
 import { Device, VALID_AVATARS } from '@/models/Device';
 import { generateDeterministicToken, generateSecureToken, hashToken } from '@/lib/auth';
+import { logAuditEvent, getClientIp, getUserAgent } from '@/lib/auditLogger';
 import { z } from 'zod';
 
 const MIN_CLIENT_VERSION = process.env.MIN_CLIENT_VERSION || '0.0.1';
@@ -25,17 +26,6 @@ async function getRateLimitData(ip: string): Promise<{ count: number; canProceed
     count: recentDevices,
     canProceed: recentDevices < 10
   };
-}
-
-function getClientIp(request: NextRequest): string {
-  const forwardedFor = request.headers.get('x-forwarded-for');
-  if (forwardedFor) {
-    const firstIp = forwardedFor.split(',')[0].trim();
-    if (/^[\d.:a-fA-F]+$/.test(firstIp)) {
-      return firstIp;
-    }
-  }
-  return 'unknown';
 }
 
 async function findDeviceByToken(request: NextRequest): Promise<typeof Device.prototype | null> {
@@ -66,6 +56,9 @@ async function findDeviceByToken(request: NextRequest): Promise<typeof Device.pr
 }
 
 export async function POST(request: NextRequest) {
+  const ip = getClientIp(request.headers);
+  const userAgent = getUserAgent(request.headers);
+  
   try {
     const body = await request.json().catch(() => ({}));
     
@@ -102,6 +95,18 @@ export async function POST(request: NextRequest) {
       
       existingDeviceByToken.lastSeen = new Date();
       await existingDeviceByToken.save();
+
+      await logAuditEvent({
+        eventType: 'device_api_access',
+        ip,
+        userAgent,
+        deviceId: existingDeviceByToken.deviceId,
+        serialNumber: existingDeviceByToken.serialNumber,
+        endpoint: '/api/register',
+        method: 'POST',
+        success: true,
+        details: updated ? 'Profile update via token' : 'Token verification',
+      });
 
       return NextResponse.json({
         success: true,
@@ -157,6 +162,18 @@ export async function POST(request: NextRequest) {
       existingDevice.lastSeen = new Date();
       await existingDevice.save();
 
+      await logAuditEvent({
+        eventType: 'device_recover',
+        ip,
+        userAgent,
+        deviceId: existingDevice.deviceId,
+        serialNumber: existingDevice.serialNumber,
+        endpoint: '/api/register',
+        method: 'POST',
+        success: true,
+        details: updated ? 'Account recovery with profile update' : 'Account recovery',
+      });
+
       return NextResponse.json({
         success: true,
         registered: true,
@@ -173,9 +190,19 @@ export async function POST(request: NextRequest) {
       }, { status: 200 });
     }
 
-    const ip = getClientIp(request);
     const rateLimitData = await getRateLimitData(ip);
     if (!rateLimitData.canProceed) {
+      await logAuditEvent({
+        eventType: 'device_register',
+        ip,
+        userAgent,
+        serialNumber,
+        endpoint: '/api/register',
+        method: 'POST',
+        success: false,
+        details: 'Rate limit exceeded',
+      });
+
       return NextResponse.json({
         success: false,
         error: 'Rate limit exceeded. Try again later.',
@@ -204,6 +231,18 @@ export async function POST(request: NextRequest) {
 
     await device.save();
 
+    await logAuditEvent({
+      eventType: 'device_register',
+      ip,
+      userAgent,
+      deviceId,
+      serialNumber,
+      endpoint: '/api/register',
+      method: 'POST',
+      success: true,
+      details: `New device registered: ${effectiveDisplayName}`,
+    });
+
     return NextResponse.json({
       success: true,
       registered: false,
@@ -218,6 +257,17 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error('Registration error:', error);
+
+    await logAuditEvent({
+      eventType: 'device_register',
+      ip,
+      userAgent,
+      endpoint: '/api/register',
+      method: 'POST',
+      success: false,
+      details: `Error: ${error instanceof Error ? error.message : 'Unknown error'}`,
+    });
+
     return NextResponse.json({
       success: false,
       error: 'Failed to register device',
