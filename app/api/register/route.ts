@@ -7,8 +7,17 @@ import { z } from 'zod';
 
 const MIN_CLIENT_VERSION = process.env.MIN_CLIENT_VERSION || '0.0.1';
 
-const registerSchema = z.object({
+// Schema for new registrations - serialNumber required
+const newRegistrationSchema = z.object({
   serialNumber: z.string().min(1).max(100),
+  displayName: z.string().min(1).max(100).optional(),
+  avatar: z.enum(VALID_AVATARS).optional(),
+  isSimulator: z.boolean().optional(),
+});
+
+// Schema for authenticated users - serialNumber optional (they already have one)
+const authenticatedUpdateSchema = z.object({
+  serialNumber: z.string().min(1).max(100).optional(),
   displayName: z.string().min(1).max(100).optional(),
   avatar: z.enum(VALID_AVATARS).optional(),
   isSimulator: z.boolean().optional(),
@@ -62,7 +71,13 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json().catch(() => ({}));
     
-    const parsed = registerSchema.safeParse(body);
+    // Check for authentication FIRST before validating schema
+    const existingDeviceByToken = await findDeviceByToken(request);
+    
+    // Use different schema based on whether user is authenticated
+    const schema = existingDeviceByToken ? authenticatedUpdateSchema : newRegistrationSchema;
+    const parsed = schema.safeParse(body);
+    
     if (!parsed.success) {
       return NextResponse.json({
         success: false,
@@ -72,8 +87,6 @@ export async function POST(request: NextRequest) {
     }
 
     const { serialNumber, displayName, avatar, isSimulator } = parsed.data;
-
-    const existingDeviceByToken = await findDeviceByToken(request);
     
     if (existingDeviceByToken) {
       let updated = false;
