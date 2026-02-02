@@ -45,8 +45,12 @@ async function authenticateAndGetDevice(request: NextRequest) {
     });
     
     if (device) {
-      device.lastSeen = new Date();
-      await device.save();
+      // Use updateOne to avoid triggering full document validation
+      // (handles legacy devices that may be missing newer required fields)
+      await Device.updateOne(
+        { _id: device._id },
+        { $set: { lastSeen: new Date() } }
+      );
     }
     
     return device;

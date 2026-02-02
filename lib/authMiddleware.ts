@@ -59,8 +59,12 @@ export async function authenticateDevice(
     return null;
   }
 
-  device.lastSeen = new Date();
-  await device.save();
+  // Use updateOne to avoid triggering full document validation
+  // (handles legacy devices that may be missing newer required fields)
+  await Device.updateOne(
+    { _id: device._id },
+    { $set: { lastSeen: new Date() } }
+  );
 
   await logAuditEvent({
     eventType: 'device_api_access',

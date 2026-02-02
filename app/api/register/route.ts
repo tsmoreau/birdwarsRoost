@@ -89,25 +89,31 @@ export async function POST(request: NextRequest) {
     const { serialNumber, displayName, avatar, isSimulator } = parsed.data;
     
     if (existingDeviceByToken) {
+      // Build update object for changed fields
+      const updateFields: Record<string, unknown> = { lastSeen: new Date() };
       let updated = false;
       
       if (displayName && displayName !== existingDeviceByToken.displayName) {
-        existingDeviceByToken.displayName = displayName;
+        updateFields.displayName = displayName;
         updated = true;
       }
       
       if (avatar && avatar !== existingDeviceByToken.avatar) {
-        existingDeviceByToken.avatar = avatar;
+        updateFields.avatar = avatar;
         updated = true;
       }
       
       if (isSimulator !== undefined && isSimulator !== existingDeviceByToken.isSimulator) {
-        existingDeviceByToken.isSimulator = isSimulator;
+        updateFields.isSimulator = isSimulator;
         updated = true;
       }
       
-      existingDeviceByToken.lastSeen = new Date();
-      await existingDeviceByToken.save();
+      // Use updateOne to avoid triggering full document validation
+      // (handles legacy devices that may be missing newer required fields)
+      await Device.updateOne(
+        { _id: existingDeviceByToken._id },
+        { $set: updateFields }
+      );
 
       await logAuditEvent({
         eventType: 'device_api_access',
@@ -121,13 +127,16 @@ export async function POST(request: NextRequest) {
         details: updated ? 'Profile update via token' : 'Token verification',
       });
 
+      // Return the updated values (from updateFields if changed, otherwise from original document)
       return NextResponse.json({
         success: true,
         registered: true,
         deviceId: existingDeviceByToken.deviceId,
-        displayName: existingDeviceByToken.displayName,
-        avatar: existingDeviceByToken.avatar,
-        isSimulator: existingDeviceByToken.isSimulator,
+        displayName: (updateFields.displayName as string) || existingDeviceByToken.displayName,
+        avatar: (updateFields.avatar as string) || existingDeviceByToken.avatar,
+        isSimulator: updateFields.isSimulator !== undefined 
+          ? updateFields.isSimulator 
+          : existingDeviceByToken.isSimulator,
         registeredAt: existingDeviceByToken.registeredAt,
         minClientVersion: MIN_CLIENT_VERSION,
         message: updated 
