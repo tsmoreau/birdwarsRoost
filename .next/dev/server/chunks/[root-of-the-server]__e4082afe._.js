@@ -114,6 +114,12 @@ const DeviceSchema = new __TURBOPACK__imported__module__$5b$externals$5d2f$mongo
         unique: true,
         index: true
     },
+    serialNumber: {
+        type: String,
+        required: true,
+        unique: true,
+        index: true
+    },
     tokenHash: {
         type: String,
         required: true,
@@ -141,6 +147,10 @@ const DeviceSchema = new __TURBOPACK__imported__module__$5b$externals$5d2f$mongo
         ],
         default: 'BIRD1'
     },
+    isSimulator: {
+        type: Boolean,
+        default: false
+    },
     registeredAt: {
         type: Date,
         default: Date.now
@@ -153,6 +163,10 @@ const DeviceSchema = new __TURBOPACK__imported__module__$5b$externals$5d2f$mongo
         type: Boolean,
         default: true,
         index: true
+    },
+    registrationIp: {
+        type: String,
+        default: null
     }
 });
 DeviceSchema.index({
@@ -171,6 +185,8 @@ module.exports = mod;
 "use strict";
 
 __turbopack_context__.s([
+    "generateDeterministicToken",
+    ()=>generateDeterministicToken,
     "generateDeviceSecret",
     ()=>generateDeviceSecret,
     "generateSecureToken",
@@ -198,6 +214,9 @@ function generateSecureToken() {
 }
 function generateDeviceSecret() {
     return (0, __TURBOPACK__imported__module__$5b$externals$5d2f$crypto__$5b$external$5d$__$28$crypto$2c$__cjs$29$__["randomBytes"])(48).toString('base64url');
+}
+function generateDeterministicToken(serialNumber) {
+    return (0, __TURBOPACK__imported__module__$5b$externals$5d2f$crypto__$5b$external$5d$__$28$crypto$2c$__cjs$29$__["createHmac"])('sha256', getSecretKey()).update(serialNumber).digest('base64url');
 }
 function hashToken(token) {
     return (0, __TURBOPACK__imported__module__$5b$externals$5d2f$crypto__$5b$external$5d$__$28$crypto$2c$__cjs$29$__["createHmac"])('sha256', getSecretKey()).update(token).digest('hex');
@@ -243,8 +262,10 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2
 ;
 const MIN_CLIENT_VERSION = process.env.MIN_CLIENT_VERSION || '0.0.1';
 const registerSchema = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["z"].object({
+    serialNumber: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["z"].string().min(1).max(100),
     displayName: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["z"].string().min(1).max(100).optional(),
-    avatar: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["z"].enum(__TURBOPACK__imported__module__$5b$project$5d2f$models$2f$Device$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["VALID_AVATARS"]).optional()
+    avatar: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["z"].enum(__TURBOPACK__imported__module__$5b$project$5d2f$models$2f$Device$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["VALID_AVATARS"]).optional(),
+    isSimulator: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["z"].boolean().optional()
 });
 async function getRateLimitData(ip) {
     await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$mongodb$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["connectToDatabase"])();
@@ -303,8 +324,55 @@ async function POST(request) {
                 status: 400
             });
         }
-        const { displayName, avatar } = parsed.data;
-        const existingDevice = await findDeviceByToken(request);
+        const { serialNumber, displayName, avatar, isSimulator } = parsed.data;
+        const existingDeviceByToken = await findDeviceByToken(request);
+        if (existingDeviceByToken) {
+            let updated = false;
+            if (displayName && displayName !== existingDeviceByToken.displayName) {
+                existingDeviceByToken.displayName = displayName;
+                updated = true;
+            }
+            if (avatar && avatar !== existingDeviceByToken.avatar) {
+                existingDeviceByToken.avatar = avatar;
+                updated = true;
+            }
+            if (isSimulator !== undefined && isSimulator !== existingDeviceByToken.isSimulator) {
+                existingDeviceByToken.isSimulator = isSimulator;
+                updated = true;
+            }
+            existingDeviceByToken.lastSeen = new Date();
+            await existingDeviceByToken.save();
+            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                success: true,
+                registered: true,
+                deviceId: existingDeviceByToken.deviceId,
+                displayName: existingDeviceByToken.displayName,
+                avatar: existingDeviceByToken.avatar,
+                isSimulator: existingDeviceByToken.isSimulator,
+                registeredAt: existingDeviceByToken.registeredAt,
+                minClientVersion: MIN_CLIENT_VERSION,
+                message: updated ? 'Device verified and profile updated.' : 'Device already registered.'
+            }, {
+                status: 200
+            });
+        }
+        await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$mongodb$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["connectToDatabase"])();
+        const existingDevice = await __TURBOPACK__imported__module__$5b$project$5d2f$models$2f$Device$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Device"].findOne({
+            serialNumber: serialNumber,
+            isActive: true
+        });
+        let secretToken;
+        try {
+            secretToken = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$auth$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["generateDeterministicToken"])(serialNumber);
+        } catch (error) {
+            console.error('Token generation failed - SESSION_SECRET not configured:', error);
+            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                success: false,
+                error: 'Server configuration error'
+            }, {
+                status: 500
+            });
+        }
         if (existingDevice) {
             let updated = false;
             if (displayName && displayName !== existingDevice.displayName) {
@@ -315,17 +383,23 @@ async function POST(request) {
                 existingDevice.avatar = avatar;
                 updated = true;
             }
+            if (isSimulator !== undefined && isSimulator !== existingDevice.isSimulator) {
+                existingDevice.isSimulator = isSimulator;
+                updated = true;
+            }
             existingDevice.lastSeen = new Date();
             await existingDevice.save();
             return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
                 success: true,
                 registered: true,
                 deviceId: existingDevice.deviceId,
+                secretToken,
                 displayName: existingDevice.displayName,
                 avatar: existingDevice.avatar,
+                isSimulator: existingDevice.isSimulator,
                 registeredAt: existingDevice.registeredAt,
                 minClientVersion: MIN_CLIENT_VERSION,
-                message: updated ? 'Device verified and profile updated.' : 'Device already registered.'
+                message: updated ? 'Device recovered and profile updated.' : 'Device recovered successfully.'
             }, {
                 status: 200
             });
@@ -341,27 +415,21 @@ async function POST(request) {
             });
         }
         const deviceId = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$auth$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["generateSecureToken"])();
-        const secretToken = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$auth$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["generateDeviceSecret"])();
-        let tokenHash;
-        try {
-            tokenHash = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$auth$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["hashToken"])(secretToken);
-        } catch (error) {
-            console.error('Token hashing failed - SESSION_SECRET not configured:', error);
-            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
-                success: false,
-                error: 'Server configuration error'
-            }, {
-                status: 500
-            });
-        }
+        const tokenHash = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$auth$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["hashToken"])(secretToken);
+        const effectiveDisplayName = displayName || 'Playdate Device';
+        const effectiveAvatar = avatar || 'BIRD1';
+        const effectiveIsSimulator = isSimulator || false;
         const device = new __TURBOPACK__imported__module__$5b$project$5d2f$models$2f$Device$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Device"]({
             deviceId,
+            serialNumber,
             tokenHash,
-            displayName: displayName || 'Playdate Device',
-            avatar: avatar || 'BIRD1',
+            displayName: effectiveDisplayName,
+            avatar: effectiveAvatar,
+            isSimulator: effectiveIsSimulator,
             registeredAt: new Date(),
             lastSeen: new Date(),
-            isActive: true
+            isActive: true,
+            registrationIp: ip
         });
         await device.save();
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
@@ -369,10 +437,11 @@ async function POST(request) {
             registered: false,
             deviceId,
             secretToken,
-            displayName: device.displayName,
-            avatar: device.avatar,
+            displayName: effectiveDisplayName,
+            avatar: effectiveAvatar,
+            isSimulator: effectiveIsSimulator,
             minClientVersion: MIN_CLIENT_VERSION,
-            message: 'Device registered successfully. Store this token securely - it cannot be retrieved again.'
+            message: 'Device registered successfully.'
         }, {
             status: 201
         });

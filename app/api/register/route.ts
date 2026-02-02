@@ -1,49 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
 import { Device, VALID_AVATARS } from '@/models/Device';
-import { generateDeviceSecret, generateSecureToken, hashToken } from '@/lib/auth';
+import { generateDeterministicToken, generateSecureToken, hashToken } from '@/lib/auth';
 import { z } from 'zod';
 
 const MIN_CLIENT_VERSION = process.env.MIN_CLIENT_VERSION || '0.0.1';
 
-const IDEMPOTENCY_WINDOW_MS = 30000;
-
-interface CachedRegistration {
-  deviceId: string;
-  secretToken: string;
-  displayName: string;
-  avatar: string;
-  isSimulator: boolean;
-  expiresAt: number;
-}
-
-const registrationCache = new Map<string, CachedRegistration>();
-
-function getCacheKey(ip: string, displayName: string): string {
-  return `${ip}:${displayName || 'Playdate Device'}`;
-}
-
-function cacheRegistration(key: string, data: Omit<CachedRegistration, 'expiresAt'>): void {
-  registrationCache.set(key, {
-    ...data,
-    expiresAt: Date.now() + IDEMPOTENCY_WINDOW_MS
-  });
-  
-  setTimeout(() => {
-    registrationCache.delete(key);
-  }, IDEMPOTENCY_WINDOW_MS);
-}
-
-function getCachedRegistration(key: string): CachedRegistration | null {
-  const cached = registrationCache.get(key);
-  if (cached && cached.expiresAt > Date.now()) {
-    return cached;
-  }
-  registrationCache.delete(key);
-  return null;
-}
-
 const registerSchema = z.object({
+  serialNumber: z.string().min(1).max(100),
   displayName: z.string().min(1).max(100).optional(),
   avatar: z.enum(VALID_AVATARS).optional(),
   isSimulator: z.boolean().optional(),
@@ -114,10 +78,64 @@ export async function POST(request: NextRequest) {
       }, { status: 400 });
     }
 
-    const { displayName, avatar, isSimulator } = parsed.data;
+    const { serialNumber, displayName, avatar, isSimulator } = parsed.data;
 
-    const existingDevice = await findDeviceByToken(request);
+    const existingDeviceByToken = await findDeviceByToken(request);
     
+    if (existingDeviceByToken) {
+      let updated = false;
+      
+      if (displayName && displayName !== existingDeviceByToken.displayName) {
+        existingDeviceByToken.displayName = displayName;
+        updated = true;
+      }
+      
+      if (avatar && avatar !== existingDeviceByToken.avatar) {
+        existingDeviceByToken.avatar = avatar;
+        updated = true;
+      }
+      
+      if (isSimulator !== undefined && isSimulator !== existingDeviceByToken.isSimulator) {
+        existingDeviceByToken.isSimulator = isSimulator;
+        updated = true;
+      }
+      
+      existingDeviceByToken.lastSeen = new Date();
+      await existingDeviceByToken.save();
+
+      return NextResponse.json({
+        success: true,
+        registered: true,
+        deviceId: existingDeviceByToken.deviceId,
+        displayName: existingDeviceByToken.displayName,
+        avatar: existingDeviceByToken.avatar,
+        isSimulator: existingDeviceByToken.isSimulator,
+        registeredAt: existingDeviceByToken.registeredAt,
+        minClientVersion: MIN_CLIENT_VERSION,
+        message: updated 
+          ? 'Device verified and profile updated.' 
+          : 'Device already registered.',
+      }, { status: 200 });
+    }
+
+    await connectToDatabase();
+    
+    const existingDevice = await Device.findOne({ 
+      serialNumber: serialNumber,
+      isActive: true 
+    });
+
+    let secretToken: string;
+    try {
+      secretToken = generateDeterministicToken(serialNumber);
+    } catch (error) {
+      console.error('Token generation failed - SESSION_SECRET not configured:', error);
+      return NextResponse.json({
+        success: false,
+        error: 'Server configuration error',
+      }, { status: 500 });
+    }
+
     if (existingDevice) {
       let updated = false;
       
@@ -143,35 +161,19 @@ export async function POST(request: NextRequest) {
         success: true,
         registered: true,
         deviceId: existingDevice.deviceId,
+        secretToken,
         displayName: existingDevice.displayName,
         avatar: existingDevice.avatar,
         isSimulator: existingDevice.isSimulator,
         registeredAt: existingDevice.registeredAt,
         minClientVersion: MIN_CLIENT_VERSION,
         message: updated 
-          ? 'Device verified and profile updated.' 
-          : 'Device already registered.',
+          ? 'Device recovered and profile updated.' 
+          : 'Device recovered successfully.',
       }, { status: 200 });
     }
 
     const ip = getClientIp(request);
-    const cacheKey = getCacheKey(ip, displayName || '');
-    
-    const cached = getCachedRegistration(cacheKey);
-    if (cached) {
-      return NextResponse.json({
-        success: true,
-        registered: false,
-        deviceId: cached.deviceId,
-        secretToken: cached.secretToken,
-        displayName: cached.displayName,
-        avatar: cached.avatar,
-        isSimulator: cached.isSimulator,
-        minClientVersion: MIN_CLIENT_VERSION,
-        message: 'Device registered successfully.',
-      }, { status: 201 });
-    }
-    
     const rateLimitData = await getRateLimitData(ip);
     if (!rateLimitData.canProceed) {
       return NextResponse.json({
@@ -181,18 +183,7 @@ export async function POST(request: NextRequest) {
     }
 
     const deviceId = generateSecureToken();
-    const secretToken = generateDeviceSecret();
-    
-    let tokenHash: string;
-    try {
-      tokenHash = hashToken(secretToken);
-    } catch (error) {
-      console.error('Token hashing failed - SESSION_SECRET not configured:', error);
-      return NextResponse.json({
-        success: false,
-        error: 'Server configuration error',
-      }, { status: 500 });
-    }
+    const tokenHash = hashToken(secretToken);
 
     const effectiveDisplayName = displayName || 'Playdate Device';
     const effectiveAvatar = avatar || 'BIRD1';
@@ -200,6 +191,7 @@ export async function POST(request: NextRequest) {
     
     const device = new Device({
       deviceId,
+      serialNumber,
       tokenHash,
       displayName: effectiveDisplayName,
       avatar: effectiveAvatar,
@@ -211,14 +203,6 @@ export async function POST(request: NextRequest) {
     });
 
     await device.save();
-    
-    cacheRegistration(cacheKey, {
-      deviceId,
-      secretToken,
-      displayName: effectiveDisplayName,
-      avatar: effectiveAvatar,
-      isSimulator: effectiveIsSimulator,
-    });
 
     return NextResponse.json({
       success: true,
@@ -229,7 +213,7 @@ export async function POST(request: NextRequest) {
       avatar: effectiveAvatar,
       isSimulator: effectiveIsSimulator,
       minClientVersion: MIN_CLIENT_VERSION,
-      message: 'Device registered successfully. Store this token securely - it cannot be retrieved again.',
+      message: 'Device registered successfully.',
     }, { status: 201 });
 
   } catch (error) {

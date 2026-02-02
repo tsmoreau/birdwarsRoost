@@ -329,10 +329,23 @@ All mutating endpoints (except new registration) require:
 Authorization: Bearer <secret-token>
 ```
 
-Tokens are:
-- Server-issued (secure random, not UUIDs)
-- Hashed with HMAC-SHA256 before storage
-- Cannot be retrieved after initial registration
+### Deterministic Token System
+
+Tokens are generated deterministically from the device serial number:
+- `secretToken = HMAC-SHA256(serialNumber, SESSION_SECRET)`
+- Same serial number always produces the same token
+- Enables automatic account recovery if local data is deleted
+
+**How it works:**
+1. Device sends `serialNumber` in registration request
+2. Server checks if device with that serial exists
+3. If exists: recalculates token, returns existing account + token (recovery)
+4. If not exists: creates new device, calculates token, returns new account
+
+**Security:**
+- Token is hashed again before storage: `tokenHash = HMAC-SHA256(secretToken, SESSION_SECRET)`
+- Only the hash is stored in the database
+- Serial number is stored as a plain identifier (not secret)
 
 ---
 

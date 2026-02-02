@@ -100,20 +100,19 @@ active  → completed  (forfeit via 7-day timeout, checked on GET /api/mybattles
 
 #### POST /api/register
 
-Register a new device, verify an existing registration, or update profile.
+Register a new device, recover an existing account, verify registration, or update profile.
 
-This is a dual-purpose endpoint:
-- **Without token:** Register a new device
-- **With token:** Verify registration and optionally update displayName/avatar
+This endpoint uses **deterministic tokens** based on the device serial number. The same serial number always produces the same token, enabling automatic account recovery if local data is deleted.
 
 **Authentication:** Optional (Bearer token)
 
 **Request Body:**
 ```json
 {
-  "displayName": "My Playdate",  // optional, max 100 chars
-  "avatar": "BIRD1",             // optional, BIRD1-BIRD12 (default: BIRD1)
-  "isSimulator": false           // optional, boolean (default: false)
+  "serialNumber": "PDU1-Y123456",  // required, device serial number
+  "displayName": "My Playdate",   // optional, max 100 chars
+  "avatar": "BIRD1",              // optional, BIRD1-BIRD12 (default: BIRD1)
+  "isSimulator": false            // optional, boolean (default: false)
 }
 ```
 
@@ -121,11 +120,13 @@ This is a dual-purpose endpoint:
 BIRD1, BIRD2, BIRD3, BIRD4, BIRD5, BIRD6, BIRD7, BIRD8, BIRD9, BIRD10, BIRD11, BIRD12
 
 **Notes:**
+- `serialNumber` is the Playdate device serial (use `playdate.serialNumber` from the SDK)
 - `isSimulator` should be set to `true` when registering from the Playdate Simulator (use `playdate.isSimulator` from the SDK)
+- For simulators, generate a unique identifier and use it consistently as the serialNumber
 
 ---
 
-**Scenario 1: New Registration (no Authorization header)**
+**Scenario 1: New Registration (serial number not in database)**
 
 **Success Response (201):**
 ```json
@@ -133,19 +134,40 @@ BIRD1, BIRD2, BIRD3, BIRD4, BIRD5, BIRD6, BIRD7, BIRD8, BIRD9, BIRD10, BIRD11, B
   "success": true,
   "registered": false,
   "deviceId": "a1b2c3d4e5f6...",
-  "secretToken": "sk_live_xxxxxxxxxxxxxxxx",
+  "secretToken": "abc123xyz...",
   "displayName": "My Playdate",
   "avatar": "BIRD1",
   "isSimulator": false,
-  "message": "Device registered successfully. Store this token securely - it cannot be retrieved again."
+  "message": "Device registered successfully."
 }
 ```
 
-**Important:** Store the `secretToken` immediately. It is only returned once and cannot be recovered.
+---
+
+**Scenario 2: Account Recovery (serial number exists in database)**
+
+When a device registers with a serial number that already exists, the account is automatically recovered.
+
+**Success Response (200):**
+```json
+{
+  "success": true,
+  "registered": true,
+  "deviceId": "a1b2c3d4e5f6...",
+  "secretToken": "abc123xyz...",
+  "displayName": "My Playdate",
+  "avatar": "BIRD1",
+  "isSimulator": false,
+  "registeredAt": "2025-01-23T12:00:00.000Z",
+  "message": "Device recovered successfully."
+}
+```
+
+**Key difference from new registration:** The token is recalculated deterministically from the serial number and returned, allowing the device to resume using its existing account.
 
 ---
 
-**Scenario 2: Verify Existing Registration (with valid Authorization header)**
+**Scenario 3: Verify Existing Registration (with valid Authorization header)**
 
 ```
 Authorization: Bearer <secret-token>
@@ -167,13 +189,13 @@ Authorization: Bearer <secret-token>
 
 ---
 
-**Scenario 3: Update Profile (with valid token + displayName/avatar in body)**
+**Scenario 4: Update Profile (with valid token + displayName/avatar in body)**
 
 ```
 Authorization: Bearer <secret-token>
 Content-Type: application/json
 
-{ "displayName": "New Name", "avatar": "BIRD7", "isSimulator": true }
+{ "serialNumber": "PDU1-Y123456", "displayName": "New Name", "avatar": "BIRD7", "isSimulator": true }
 ```
 
 **Success Response (200):**
@@ -198,9 +220,10 @@ Content-Type: application/json
 - `500` - Server error
 
 **Client Flow:**
-1. On first launch, call `POST /api/register` without token → store returned `secretToken`
+1. On first launch, call `POST /api/register` with `serialNumber` → store returned `secretToken`
 2. On subsequent launches, call `POST /api/register` with stored token in Authorization header → verify registration
-3. To change name, call with token + new `displayName` in body
+3. If local data is lost, call `POST /api/register` with `serialNumber` again → account is automatically recovered with same token
+4. To change name, call with token + `serialNumber` + new `displayName` in body
 
 ---
 
