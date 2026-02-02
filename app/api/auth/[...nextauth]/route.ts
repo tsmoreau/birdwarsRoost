@@ -3,11 +3,16 @@ import NextAuth from "next-auth";
 import { authOptions, setAuditContext, logFailedSignIn } from "@/lib/auth-options";
 import { getClientIp, getUserAgent } from "@/lib/auditLogger";
 
-async function handler(req: NextRequest) {
+const handler = NextAuth(authOptions);
+
+async function wrappedGET(req: NextRequest, context: { params: Promise<{ nextauth: string[] }> }) {
   const ip = getClientIp(req.headers);
   const userAgent = getUserAgent(req.headers);
   
-  await setAuditContext(ip, userAgent);
+  try {
+    await setAuditContext(ip, userAgent);
+  } catch {
+  }
   
   const url = new URL(req.url);
   const error = url.searchParams.get('error');
@@ -17,15 +22,19 @@ async function handler(req: NextRequest) {
     await logFailedSignIn(errorEmail, ip, userAgent, `OAuth error: ${error}`);
   }
   
-  const nextAuthHandler = NextAuth(authOptions);
-  
-  try {
-    const response = await nextAuthHandler(req as any);
-    return response;
-  } catch (authError) {
-    await logFailedSignIn(undefined, ip, userAgent, `Auth error: ${authError instanceof Error ? authError.message : 'Unknown'}`);
-    throw authError;
-  }
+  return handler(req as any, context as any);
 }
 
-export { handler as GET, handler as POST };
+async function wrappedPOST(req: NextRequest, context: { params: Promise<{ nextauth: string[] }> }) {
+  const ip = getClientIp(req.headers);
+  const userAgent = getUserAgent(req.headers);
+  
+  try {
+    await setAuditContext(ip, userAgent);
+  } catch {
+  }
+  
+  return handler(req as any, context as any);
+}
+
+export { wrappedGET as GET, wrappedPOST as POST };

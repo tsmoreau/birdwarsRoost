@@ -31,7 +31,8 @@ A Next.js application with MongoDB backend for async multiplayer turn-based tact
 /lib                   # Utilities and database connection
   /mongodb.ts          # MongoDB connection singleton
   /auth.ts             # Token generation and HMAC utilities
-  /authMiddleware.ts   # Device authentication middleware
+  /authMiddleware.ts   # Device authentication middleware (with IP logging)
+  /auditLogger.ts      # Audit logging utilities
   /battleNames.ts      # Deterministic battle name generator
   /utils.ts            # Helper functions
 /models                # Mongoose models
@@ -39,6 +40,7 @@ A Next.js application with MongoDB backend for async multiplayer turn-based tact
   /Battle.ts           # Battle schema
   /Turn.ts             # Turn schema
   /Ping.ts             # Ping schema
+  /AuditLog.ts         # Audit log schema (security monitoring)
 /public
   /birb001.png         # App icon (used in Nav)
 
