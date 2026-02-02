@@ -17,6 +17,8 @@ export interface IDevice {
   lastSeen: Date;
   isActive: boolean;
   registrationIp?: string;
+  tempToken?: string;
+  tempTokenExpiresAt?: Date;
 }
 
 export interface IDeviceDocument extends IDevice, Document {}
@@ -61,6 +63,14 @@ const DeviceSchema = new Schema<IDeviceDocument>({
   },
   registrationIp: {
     type: String,
+    default: null
+  },
+  tempToken: {
+    type: String,
+    default: null
+  },
+  tempTokenExpiresAt: {
+    type: Date,
     default: null
   }
 });

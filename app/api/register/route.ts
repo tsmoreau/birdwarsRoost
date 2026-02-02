@@ -6,6 +6,8 @@ import { z } from 'zod';
 
 const MIN_CLIENT_VERSION = process.env.MIN_CLIENT_VERSION || '0.0.1';
 
+const IDEMPOTENCY_WINDOW_MS = 30000;
+
 const registerSchema = z.object({
   displayName: z.string().min(1).max(100).optional(),
   avatar: z.enum(VALID_AVATARS).optional(),
@@ -36,8 +38,6 @@ function getClientIp(request: NextRequest): string {
   }
   return 'unknown';
 }
-
-const IDEMPOTENCY_WINDOW_MS = 30000;
 
 async function findRecentDuplicateRegistration(
   ip: string, 
@@ -150,6 +150,16 @@ export async function POST(request: NextRequest) {
 
     const ip = getClientIp(request);
     
+    await Device.updateMany(
+      { 
+        tempToken: { $ne: null },
+        tempTokenExpiresAt: { $lt: new Date() }
+      },
+      { 
+        $set: { tempToken: null, tempTokenExpiresAt: null }
+      }
+    );
+    
     const recentDuplicate = await findRecentDuplicateRegistration(
       ip, 
       displayName || '', 
@@ -158,17 +168,43 @@ export async function POST(request: NextRequest) {
     );
     
     if (recentDuplicate) {
+      const now = new Date();
+      const hasValidTempToken = recentDuplicate.tempToken && 
+        recentDuplicate.tempTokenExpiresAt && 
+        recentDuplicate.tempTokenExpiresAt > now;
+      
+      if (!hasValidTempToken) {
+        if (recentDuplicate.tempToken) {
+          recentDuplicate.tempToken = null;
+          recentDuplicate.tempTokenExpiresAt = null;
+          await recentDuplicate.save();
+        }
+        
+        return NextResponse.json({
+          success: false,
+          error: 'token_expired',
+          deviceId: recentDuplicate.deviceId,
+          message: 'Device was registered but token retrieval window has expired. Please contact support or re-register with a different name.',
+        }, { status: 410 });
+      }
+      
+      const secretToken = recentDuplicate.tempToken;
+      
+      recentDuplicate.tempToken = null;
+      recentDuplicate.tempTokenExpiresAt = null;
+      await recentDuplicate.save();
+      
       return NextResponse.json({
         success: true,
-        registered: true,
+        registered: false,
         deviceId: recentDuplicate.deviceId,
+        secretToken,
         displayName: recentDuplicate.displayName,
         avatar: recentDuplicate.avatar,
         isSimulator: recentDuplicate.isSimulator,
-        registeredAt: recentDuplicate.registeredAt,
         minClientVersion: MIN_CLIENT_VERSION,
-        message: 'Device already registered (duplicate request detected).',
-      }, { status: 200 });
+        message: 'Device registered successfully (retry detected).',
+      }, { status: 201 });
     }
     
     const rateLimitData = await getRateLimitData(ip);
@@ -193,6 +229,8 @@ export async function POST(request: NextRequest) {
       }, { status: 500 });
     }
 
+    const tempTokenExpiresAt = new Date(Date.now() + IDEMPOTENCY_WINDOW_MS);
+    
     const device = new Device({
       deviceId,
       tokenHash,
@@ -203,6 +241,8 @@ export async function POST(request: NextRequest) {
       lastSeen: new Date(),
       isActive: true,
       registrationIp: ip,
+      tempToken: secretToken,
+      tempTokenExpiresAt,
     });
 
     await device.save();
