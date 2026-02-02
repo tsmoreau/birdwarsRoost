@@ -1,6 +1,6 @@
 {
   "node": {
-    "40013b324e9f9430b23e11d0619908f0aed7fbea0d": {
+    "40109af123627ed1c1f6cf7cf38fe046fff779a9e9": {
       "workers": {
         "app/page": {
           "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/battles.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/devices.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -15,7 +15,7 @@
       "exportedName": "getBattleTurns",
       "filename": "app/actions/battles.ts"
     },
-    "4047d184557c05d11e5cae73cfd7e5d6dad80193f7": {
+    "4033f83d62d240c6738e9910d6638a4b5b6ef342dc": {
       "workers": {
         "app/page": {
           "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/battles.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/devices.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -30,7 +30,7 @@
       "exportedName": "getBattles",
       "filename": "app/actions/battles.ts"
     },
-    "40be8ec9a1002650aae73c3d6efb6b8aa2f63b5b66": {
+    "40b0617da000d853a3d0cb74d8fe8614d1008a05b8": {
       "workers": {
         "app/page": {
           "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/battles.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/devices.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -45,7 +45,7 @@
       "exportedName": "getBattleByDisplayName",
       "filename": "app/actions/battles.ts"
     },
-    "405bb54a92cd304620f396e514a66a2d3791785d93": {
+    "40b13fbc3276a2b4fd5db29143728bfed285502fad": {
       "workers": {
         "app/page": {
           "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/battles.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/devices.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",

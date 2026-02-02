@@ -8,6 +8,41 @@ const MIN_CLIENT_VERSION = process.env.MIN_CLIENT_VERSION || '0.0.1';
 
 const IDEMPOTENCY_WINDOW_MS = 30000;
 
+interface CachedRegistration {
+  deviceId: string;
+  secretToken: string;
+  displayName: string;
+  avatar: string;
+  isSimulator: boolean;
+  expiresAt: number;
+}
+
+const registrationCache = new Map<string, CachedRegistration>();
+
+function getCacheKey(ip: string, displayName: string): string {
+  return `${ip}:${displayName || 'Playdate Device'}`;
+}
+
+function cacheRegistration(key: string, data: Omit<CachedRegistration, 'expiresAt'>): void {
+  registrationCache.set(key, {
+    ...data,
+    expiresAt: Date.now() + IDEMPOTENCY_WINDOW_MS
+  });
+  
+  setTimeout(() => {
+    registrationCache.delete(key);
+  }, IDEMPOTENCY_WINDOW_MS);
+}
+
+function getCachedRegistration(key: string): CachedRegistration | null {
+  const cached = registrationCache.get(key);
+  if (cached && cached.expiresAt > Date.now()) {
+    return cached;
+  }
+  registrationCache.delete(key);
+  return null;
+}
+
 const registerSchema = z.object({
   displayName: z.string().min(1).max(100).optional(),
   avatar: z.enum(VALID_AVATARS).optional(),
@@ -37,35 +72,6 @@ function getClientIp(request: NextRequest): string {
     }
   }
   return 'unknown';
-}
-
-async function findRecentDuplicateRegistration(
-  ip: string, 
-  displayName: string,
-  avatar: string,
-  isSimulator: boolean
-): Promise<typeof Device.prototype | null> {
-  if (ip === 'unknown') {
-    return null;
-  }
-  
-  await connectToDatabase();
-  
-  const windowStart = new Date(Date.now() - IDEMPOTENCY_WINDOW_MS);
-  const effectiveDisplayName = displayName || 'Playdate Device';
-  const effectiveAvatar = avatar || 'BIRD1';
-  const effectiveIsSimulator = isSimulator || false;
-  
-  const recentDevice = await Device.findOne({
-    registrationIp: ip,
-    displayName: effectiveDisplayName,
-    avatar: effectiveAvatar,
-    isSimulator: effectiveIsSimulator,
-    registeredAt: { $gte: windowStart },
-    isActive: true
-  }).sort({ registeredAt: -1 });
-  
-  return recentDevice;
 }
 
 async function findDeviceByToken(request: NextRequest): Promise<typeof Device.prototype | null> {
@@ -149,61 +155,20 @@ export async function POST(request: NextRequest) {
     }
 
     const ip = getClientIp(request);
+    const cacheKey = getCacheKey(ip, displayName || '');
     
-    await Device.updateMany(
-      { 
-        tempToken: { $ne: null },
-        tempTokenExpiresAt: { $lt: new Date() }
-      },
-      { 
-        $set: { tempToken: null, tempTokenExpiresAt: null }
-      }
-    );
-    
-    const recentDuplicate = await findRecentDuplicateRegistration(
-      ip, 
-      displayName || '', 
-      avatar || '', 
-      isSimulator || false
-    );
-    
-    if (recentDuplicate) {
-      const now = new Date();
-      const hasValidTempToken = recentDuplicate.tempToken && 
-        recentDuplicate.tempTokenExpiresAt && 
-        recentDuplicate.tempTokenExpiresAt > now;
-      
-      if (!hasValidTempToken) {
-        if (recentDuplicate.tempToken) {
-          recentDuplicate.tempToken = null;
-          recentDuplicate.tempTokenExpiresAt = null;
-          await recentDuplicate.save();
-        }
-        
-        return NextResponse.json({
-          success: false,
-          error: 'token_expired',
-          deviceId: recentDuplicate.deviceId,
-          message: 'Device was registered but token retrieval window has expired. Please contact support or re-register with a different name.',
-        }, { status: 410 });
-      }
-      
-      const secretToken = recentDuplicate.tempToken;
-      
-      recentDuplicate.tempToken = null;
-      recentDuplicate.tempTokenExpiresAt = null;
-      await recentDuplicate.save();
-      
+    const cached = getCachedRegistration(cacheKey);
+    if (cached) {
       return NextResponse.json({
         success: true,
         registered: false,
-        deviceId: recentDuplicate.deviceId,
-        secretToken,
-        displayName: recentDuplicate.displayName,
-        avatar: recentDuplicate.avatar,
-        isSimulator: recentDuplicate.isSimulator,
+        deviceId: cached.deviceId,
+        secretToken: cached.secretToken,
+        displayName: cached.displayName,
+        avatar: cached.avatar,
+        isSimulator: cached.isSimulator,
         minClientVersion: MIN_CLIENT_VERSION,
-        message: 'Device registered successfully (retry detected).',
+        message: 'Device registered successfully.',
       }, { status: 201 });
     }
     
@@ -229,32 +194,40 @@ export async function POST(request: NextRequest) {
       }, { status: 500 });
     }
 
-    const tempTokenExpiresAt = new Date(Date.now() + IDEMPOTENCY_WINDOW_MS);
+    const effectiveDisplayName = displayName || 'Playdate Device';
+    const effectiveAvatar = avatar || 'BIRD1';
+    const effectiveIsSimulator = isSimulator || false;
     
     const device = new Device({
       deviceId,
       tokenHash,
-      displayName: displayName || 'Playdate Device',
-      avatar: avatar || 'BIRD1',
-      isSimulator: isSimulator || false,
+      displayName: effectiveDisplayName,
+      avatar: effectiveAvatar,
+      isSimulator: effectiveIsSimulator,
       registeredAt: new Date(),
       lastSeen: new Date(),
       isActive: true,
       registrationIp: ip,
-      tempToken: secretToken,
-      tempTokenExpiresAt,
     });
 
     await device.save();
+    
+    cacheRegistration(cacheKey, {
+      deviceId,
+      secretToken,
+      displayName: effectiveDisplayName,
+      avatar: effectiveAvatar,
+      isSimulator: effectiveIsSimulator,
+    });
 
     return NextResponse.json({
       success: true,
       registered: false,
       deviceId,
       secretToken,
-      displayName: device.displayName,
-      avatar: device.avatar,
-      isSimulator: device.isSimulator,
+      displayName: effectiveDisplayName,
+      avatar: effectiveAvatar,
+      isSimulator: effectiveIsSimulator,
       minClientVersion: MIN_CLIENT_VERSION,
       message: 'Device registered successfully. Store this token securely - it cannot be retrieved again.',
     }, { status: 201 });
