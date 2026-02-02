@@ -37,6 +37,37 @@ function getClientIp(request: NextRequest): string {
   return 'unknown';
 }
 
+const IDEMPOTENCY_WINDOW_MS = 30000;
+
+async function findRecentDuplicateRegistration(
+  ip: string, 
+  displayName: string,
+  avatar: string,
+  isSimulator: boolean
+): Promise<typeof Device.prototype | null> {
+  if (ip === 'unknown') {
+    return null;
+  }
+  
+  await connectToDatabase();
+  
+  const windowStart = new Date(Date.now() - IDEMPOTENCY_WINDOW_MS);
+  const effectiveDisplayName = displayName || 'Playdate Device';
+  const effectiveAvatar = avatar || 'BIRD1';
+  const effectiveIsSimulator = isSimulator || false;
+  
+  const recentDevice = await Device.findOne({
+    registrationIp: ip,
+    displayName: effectiveDisplayName,
+    avatar: effectiveAvatar,
+    isSimulator: effectiveIsSimulator,
+    registeredAt: { $gte: windowStart },
+    isActive: true
+  }).sort({ registeredAt: -1 });
+  
+  return recentDevice;
+}
+
 async function findDeviceByToken(request: NextRequest): Promise<typeof Device.prototype | null> {
   const authHeader = request.headers.get('authorization');
   
@@ -119,6 +150,27 @@ export async function POST(request: NextRequest) {
 
     const ip = getClientIp(request);
     
+    const recentDuplicate = await findRecentDuplicateRegistration(
+      ip, 
+      displayName || '', 
+      avatar || '', 
+      isSimulator || false
+    );
+    
+    if (recentDuplicate) {
+      return NextResponse.json({
+        success: true,
+        registered: true,
+        deviceId: recentDuplicate.deviceId,
+        displayName: recentDuplicate.displayName,
+        avatar: recentDuplicate.avatar,
+        isSimulator: recentDuplicate.isSimulator,
+        registeredAt: recentDuplicate.registeredAt,
+        minClientVersion: MIN_CLIENT_VERSION,
+        message: 'Device already registered (duplicate request detected).',
+      }, { status: 200 });
+    }
+    
     const rateLimitData = await getRateLimitData(ip);
     if (!rateLimitData.canProceed) {
       return NextResponse.json({
@@ -150,6 +202,7 @@ export async function POST(request: NextRequest) {
       registeredAt: new Date(),
       lastSeen: new Date(),
       isActive: true,
+      registrationIp: ip,
     });
 
     await device.save();

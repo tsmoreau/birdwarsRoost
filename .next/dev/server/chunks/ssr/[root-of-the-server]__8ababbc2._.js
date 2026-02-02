@@ -275,6 +275,10 @@ const DeviceSchema = new __TURBOPACK__imported__module__$5b$externals$5d2f$mongo
         type: Boolean,
         default: true,
         index: true
+    },
+    registrationIp: {
+        type: String,
+        default: null
     }
 });
 DeviceSchema.index({
