@@ -17,6 +17,7 @@ import PlayerManagement from '@/components/PlayerManagement';
 import BattleManagement from '@/components/BattleManagement';
 import AuditLogs from '@/components/AuditLogs';
 import { getAdminStats, getAllPlayers, getAllBattles, getAuditLogs } from '@/app/actions/admin';
+import { RefreshButton } from '@/components/RefreshButton';
 
 const ADMIN_EMAILS = (process.env.ADMIN_EMAILS || '').split(',').map(e => e.trim().toLowerCase()).filter(Boolean);
 
@@ -46,9 +47,12 @@ export default async function DashboardPage() {
       <Nav />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold uppercase tracking-tight mb-2">ADMIN DASHBOARD</h1>
-          <p className="text-muted-foreground">Manage Bird Wars players and battles</p>
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h1 className="text-3xl font-bold uppercase tracking-tight mb-2">ADMIN DASHBOARD</h1>
+            <p className="text-muted-foreground">Manage Bird Wars players and battles</p>
+          </div>
+          <RefreshButton />
         </div>
 
         {!isAdminConfigured && (

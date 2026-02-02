@@ -200,7 +200,9 @@ export default function BattleManagement({ battles }: BattleManagementProps) {
                           </div>
                         )}
                       </div>
-                      <h3 className="font-bold uppercase tracking-tight">{battle.displayName}</h3>
+                      <Link href={`/battle/${battle.displayName}`}>
+                        <h3 className="font-bold uppercase tracking-tight hover:underline cursor-pointer">{battle.displayName}</h3>
+                      </Link>
                       {getStatusBadge(battle.status)}
                       {battle.isPrivate && <Badge variant="outline">PRIVATE</Badge>}
                     </div>

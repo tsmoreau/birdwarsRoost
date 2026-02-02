@@ -253,9 +253,11 @@ export default function PlayerManagement({ players }: PlayerManagementProps) {
                     </div>
                     <div className="min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <h3 className="font-bold uppercase tracking-tight truncate">
-                          {player.displayName}{player.isSimulator && ' •'}
-                        </h3>
+                        <Link href={`/api/ping?deviceId=${player.deviceId}`}>
+                          <h3 className="font-bold uppercase tracking-tight truncate hover:underline cursor-pointer">
+                            {player.displayName}{player.isSimulator && ' •'}
+                          </h3>
+                        </Link>
                         {!player.isActive && (
                           <Badge variant="destructive">BANNED</Badge>
                         )}
