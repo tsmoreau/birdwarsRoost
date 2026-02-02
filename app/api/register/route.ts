@@ -138,6 +138,16 @@ export async function POST(request: NextRequest) {
 
     await connectToDatabase();
     
+    // At this point, serialNumber is guaranteed to exist because:
+    // - If user was authenticated, we already returned above
+    // - If not authenticated, newRegistrationSchema requires serialNumber
+    if (!serialNumber) {
+      return NextResponse.json({
+        success: false,
+        error: 'Serial number is required for new registrations',
+      }, { status: 400 });
+    }
+    
     const existingDevice = await Device.findOne({ 
       serialNumber: serialNumber,
       isActive: true 
