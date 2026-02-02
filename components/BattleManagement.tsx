@@ -207,12 +207,12 @@ export default function BattleManagement({ battles }: BattleManagementProps) {
                     
                     <div className="flex items-center gap-2 text-sm mb-2">
                       <span className="font-bold uppercase">
-                        {battle.currentPlayerIndex === 0 && battle.status === 'active' && <span className="text-foreground mr-1">▶</span>}
+                        {battle.currentPlayerIndex === 0 && battle.status === 'active' && <span className="text-muted-foreground mr-1">▶</span>}
                         {battle.player1DisplayName}
                       </span>
                       <span className="text-muted-foreground">vs</span>
                       <span className="font-bold uppercase">
-                        {battle.currentPlayerIndex === 1 && battle.status === 'active' && <span className="text-foreground mr-1">▶</span>}
+                        {battle.currentPlayerIndex === 1 && battle.status === 'active' && <span className="text-muted-foreground mr-1">▶</span>}
                         {battle.player2DisplayName || 'WAITING...'}
                       </span>
                     </div>
