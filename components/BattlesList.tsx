@@ -140,9 +140,9 @@ export default function BattlesList({
                       <p className="text-[12px] font-bold uppercase tracking-tight text-muted-foreground flex items-center gap-2 mb-0.5">
                         <span>{battle.player1DisplayName}</span>
                         <span className="flex items-center gap-1">
-                          {battle.currentPlayerIndex === 0 && battle.status === 'active' && <span className="opacity-40 -translate-y-[1px]">◀</span>}
+                          {battle.currentPlayerIndex === 0 && battle.status === 'active' && <span className="opacity-20 -translate-y-[1px]">◀</span>}
                           <span className="text-[10px] opacity-40">VS</span>
-                          {battle.currentPlayerIndex === 1 && battle.status === 'active' && <span className="opacity-40 -translate-y-[1px]">▶</span>}
+                          {battle.currentPlayerIndex === 1 && battle.status === 'active' && <span className="opacity-20 -translate-y-[1px]">▶</span>}
                         </span>
                         <span>{battle.player2DisplayName ? `${battle.player2DisplayName}` : 'WAITING...'}</span>
                       </p>

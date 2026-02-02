@@ -559,10 +559,6 @@ h1, h2, h3 {
   display: block;
 }
 
-.inline-block {
-  display: inline-block;
-}
-
 .inline {
   display: inline;
 }
@@ -1477,6 +1473,10 @@ h1, h2, h3 {
   color: hsl(var(--muted-foreground) / var(--tw-text-opacity, 1));
 }
 
+.text-muted-foreground\/30 {
+  color: hsl(var(--muted-foreground) / .3);
+}
+
 .text-muted-foreground\/50 {
   color: hsl(var(--muted-foreground) / .5);
 }
@@ -1526,6 +1526,10 @@ h1, h2, h3 {
 
 .opacity-0 {
   opacity: 0;
+}
+
+.opacity-20 {
+  opacity: .2;
 }
 
 .opacity-40 {
