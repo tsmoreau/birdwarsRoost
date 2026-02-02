@@ -1,27 +1,27 @@
 const ADJECTIVES = [
-  "Molting",
-  "Brooding",
-  "Plucked",
-  "Flightless",
-  "Migratory",
-  "Territorial",
-  "Peckish",
-  "Hollow",
-  "Grounded",
-  "Soaring"
+  "molting",
+  "brooding",
+  "plucked",
+  "flightless",
+  "migratory",
+  "territorial",
+  "peckish",
+  "hollow",
+  "grounded",
+  "soaring"
 ];
 
 const NOUNS = [
-  "Skirmish",
-  "Siege",
-  "Sortie",
-  "Standoff",
-  "Offensive",
-  "Ambush",
-  "Retreat",
-  "Stalemate",
-  "Incursion",
-  "Blitz"
+  "skirmish",
+  "siege",
+  "sortie",
+  "standoff",
+  "offensive",
+  "ambush",
+  "retreat",
+  "stalemate",
+  "incursion",
+  "blitz"
 ];
 
 export function generateBattleName(battleId: string): string {
