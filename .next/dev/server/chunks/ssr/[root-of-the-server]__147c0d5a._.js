@@ -72,6 +72,12 @@ const DeviceSchema = new __TURBOPACK__imported__module__$5b$externals$5d2f$mongo
         unique: true,
         index: true
     },
+    serialNumber: {
+        type: String,
+        required: true,
+        unique: true,
+        index: true
+    },
     tokenHash: {
         type: String,
         required: true,
@@ -115,6 +121,10 @@ const DeviceSchema = new __TURBOPACK__imported__module__$5b$externals$5d2f$mongo
         type: Boolean,
         default: true,
         index: true
+    },
+    registrationIp: {
+        type: String,
+        default: null
     }
 });
 DeviceSchema.index({
@@ -374,7 +384,7 @@ const Turn = __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$ext
 "[project]/app/actions/players.ts [app-rsc] (ecmascript)", ((__turbopack_context__) => {
 "use strict";
 
-/* __next_internal_action_entry_do_not_use__ [{"40f79fc3ea745f4a309cc8f965e09fdfafeb2a0418":"getPlayerByDisplayName","60328efbd244b039271dfdf9f64a8adaeff57f26d1":"getPlayerBattles"},"",""] */ __turbopack_context__.s([
+/* __next_internal_action_entry_do_not_use__ [{"406668b0cbdaee13151a9c855f35a8ef06231389e3":"getPlayerByDisplayName","605d854ae49d46b556780ffbc3770af918dda55152":"getPlayerBattles"},"",""] */ __turbopack_context__.s([
     "getPlayerBattles",
     ()=>getPlayerBattles,
     "getPlayerByDisplayName",
@@ -555,8 +565,8 @@ async function getPlayerBattles(deviceId, limit = 10) {
     getPlayerByDisplayName,
     getPlayerBattles
 ]);
-(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getPlayerByDisplayName, "40f79fc3ea745f4a309cc8f965e09fdfafeb2a0418", null);
-(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getPlayerBattles, "60328efbd244b039271dfdf9f64a8adaeff57f26d1", null);
+(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getPlayerByDisplayName, "406668b0cbdaee13151a9c855f35a8ef06231389e3", null);
+(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getPlayerBattles, "605d854ae49d46b556780ffbc3770af918dda55152", null);
 }),
 "[project]/.next-internal/server/app/player/[text]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/players.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript) <locals>", ((__turbopack_context__) => {
 "use strict";
@@ -570,9 +580,9 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$app$2f$actions$2f$players$2e
 "use strict";
 
 __turbopack_context__.s([
-    "40f79fc3ea745f4a309cc8f965e09fdfafeb2a0418",
+    "406668b0cbdaee13151a9c855f35a8ef06231389e3",
     ()=>__TURBOPACK__imported__module__$5b$project$5d2f$app$2f$actions$2f$players$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getPlayerByDisplayName"],
-    "60328efbd244b039271dfdf9f64a8adaeff57f26d1",
+    "605d854ae49d46b556780ffbc3770af918dda55152",
     ()=>__TURBOPACK__imported__module__$5b$project$5d2f$app$2f$actions$2f$players$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getPlayerBattles"]
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f2e$next$2d$internal$2f$server$2f$app$2f$player$2f5b$text$5d2f$page$2f$actions$2e$js__$7b$__ACTIONS_MODULE0__$3d3e$__$225b$project$5d2f$app$2f$actions$2f$players$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$2922$__$7d$__$5b$app$2d$rsc$5d$__$28$server__actions__loader$2c$__ecmascript$29$__$3c$locals$3e$__ = __turbopack_context__.i('[project]/.next-internal/server/app/player/[text]/page/actions.js { ACTIONS_MODULE0 => "[project]/app/actions/players.ts [app-rsc] (ecmascript)" } [app-rsc] (server actions loader, ecmascript) <locals>');
