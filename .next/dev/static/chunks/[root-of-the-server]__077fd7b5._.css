@@ -1511,6 +1511,11 @@ h1, h2, h3 {
   color: hsl(var(--secondary-foreground) / var(--tw-text-opacity, 1));
 }
 
+.text-yellow-500 {
+  --tw-text-opacity: 1;
+  color: rgb(234 179 8 / var(--tw-text-opacity, 1));
+}
+
 .no-underline {
   text-decoration-line: none;
 }

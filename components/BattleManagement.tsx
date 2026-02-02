@@ -207,16 +207,22 @@ export default function BattleManagement({ battles }: BattleManagementProps) {
                       {battle.isPrivate && <Badge variant="outline">PRIVATE</Badge>}
                     </div>
                     
-                    <div className="flex items-center gap-2 text-sm mb-2">
-                      <span className="font-bold uppercase">{battle.player1DisplayName}</span>
+                    <div className="flex items-center gap-2 text-sm mb-2 text-muted-foreground">
+                      <div className="flex items-center gap-1">
+                        {battle.winnerId === battle.player1DeviceId && <Trophy className="w-3.5 h-3.5 text-yellow-500" />}
+                        <span className="font-bold uppercase">{battle.player1DisplayName}</span>
+                      </div>
                       <div className="flex items-center gap-1">
                         {battle.currentPlayerIndex === 0 && battle.status === 'active' && <span className="text-muted-foreground/30 -translate-y-[1px]">◀</span>}
-                        <span className="text-muted-foreground text-xs">vs</span>
+                        <span className="text-muted-foreground text-xs opacity-50">vs</span>
                         {battle.currentPlayerIndex === 1 && battle.status === 'active' && <span className="text-muted-foreground/30 -translate-y-[1px]">▶</span>}
                       </div>
-                      <span className="font-bold uppercase">
-                        {battle.player2DisplayName || 'WAITING...'}
-                      </span>
+                      <div className="flex items-center gap-1">
+                        {battle.winnerId === battle.player2DeviceId && <Trophy className="w-3.5 h-3.5 text-yellow-500" />}
+                        <span className="font-bold uppercase">
+                          {battle.player2DisplayName || 'WAITING...'}
+                        </span>
+                      </div>
                     </div>
 
                     <div className="flex items-center gap-4 text-xs text-muted-foreground">
@@ -226,14 +232,6 @@ export default function BattleManagement({ battles }: BattleManagementProps) {
                       </span>
                       <span>MAP: {battle.mapName}</span>
                       <span>TURN: {battle.currentTurn}</span>
-                      {battle.winnerId && (
-                        <span className="flex items-center gap-1">
-                          <Trophy className="w-3 h-3" />
-                          {battle.winnerId === battle.player1DeviceId
-                            ? battle.player1DisplayName
-                            : battle.player2DisplayName}
-                        </span>
-                      )}
                     </div>
                   </div>
 
