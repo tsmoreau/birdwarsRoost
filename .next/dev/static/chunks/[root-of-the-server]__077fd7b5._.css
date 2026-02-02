@@ -1481,6 +1481,10 @@ h1, h2, h3 {
   color: hsl(var(--muted-foreground) / .5);
 }
 
+.text-muted-foreground\/60 {
+  color: hsl(var(--muted-foreground) / .6);
+}
+
 .text-popover-foreground {
   --tw-text-opacity: 1;
   color: hsl(var(--popover-foreground) / var(--tw-text-opacity, 1));
