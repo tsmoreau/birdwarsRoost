@@ -86,7 +86,8 @@ export async function POST(request: NextRequest) {
       }, { status: 400 });
     }
 
-    const { serialNumber, displayName, avatar, isSimulator } = parsed.data;
+    const { serialNumber: rawSerialNumber, displayName, avatar, isSimulator } = parsed.data;
+    let serialNumber = rawSerialNumber;
     
     if (existingDeviceByToken) {
       // Build update object for changed fields
@@ -220,6 +221,24 @@ export async function POST(request: NextRequest) {
           ? 'Device recovered and profile updated.' 
           : 'Device recovered successfully.',
       }, { status: 200 });
+    }
+
+    // Generate unique serial for NEW simulator registrations
+    // This prevents all simulators from sharing one account
+    // Only applies when no existing device was found with the original serial
+    if (serialNumber === 'SIMULATOR' || (serialNumber.startsWith('SIMULATOR') && !serialNumber.includes('-'))) {
+      const randomSuffix = generateSecureToken().substring(0, 8);
+      serialNumber = `SIMULATOR-${randomSuffix}`;
+      // Regenerate token with new unique serial
+      try {
+        secretToken = generateDeterministicToken(serialNumber);
+      } catch (error) {
+        console.error('Token generation failed for simulator:', error);
+        return NextResponse.json({
+          success: false,
+          error: 'Server configuration error',
+        }, { status: 500 });
+      }
     }
 
     const rateLimitData = await getRateLimitData(ip);
