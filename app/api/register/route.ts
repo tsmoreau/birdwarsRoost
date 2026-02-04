@@ -13,6 +13,7 @@ const newRegistrationSchema = z.object({
   displayName: z.string().min(1).max(100).optional(),
   avatar: z.enum(VALID_AVATARS).optional(),
   isSimulator: z.boolean().optional(),
+  deviceId: z.string().min(1).max(100).optional(),
 });
 
 // Schema for authenticated users - serialNumber optional (they already have one)
@@ -21,6 +22,7 @@ const authenticatedUpdateSchema = z.object({
   displayName: z.string().min(1).max(100).optional(),
   avatar: z.enum(VALID_AVATARS).optional(),
   isSimulator: z.boolean().optional(),
+  deviceId: z.string().min(1).max(100).optional(),
 });
 
 async function getRateLimitData(ip: string): Promise<{ count: number; canProceed: boolean }> {
@@ -86,7 +88,7 @@ export async function POST(request: NextRequest) {
       }, { status: 400 });
     }
 
-    const { serialNumber, displayName, avatar, isSimulator } = parsed.data;
+    const { serialNumber, displayName, avatar, isSimulator, deviceId } = parsed.data;
     
     if (existingDeviceByToken) {
       // Build update object for changed fields
@@ -157,23 +159,35 @@ export async function POST(request: NextRequest) {
       }, { status: 400 });
     }
     
-    const existingDevice = await Device.findOne({ 
-      serialNumber: serialNumber,
-      isActive: true 
-    });
-
-    let secretToken: string;
-    try {
-      secretToken = generateDeterministicToken(serialNumber);
-    } catch (error) {
-      console.error('Token generation failed - SESSION_SECRET not configured:', error);
-      return NextResponse.json({
-        success: false,
-        error: 'Server configuration error',
-      }, { status: 500 });
+    // Step 1: Check deviceId first (if provided)
+    let existingDevice = null;
+    if (deviceId) {
+      existingDevice = await Device.findOne({ 
+        deviceId: deviceId,
+        isActive: true 
+      });
+    }
+    
+    // Step 2: Fall back to serialNumber lookup
+    if (!existingDevice) {
+      existingDevice = await Device.findOne({ 
+        serialNumber: serialNumber,
+        isActive: true 
+      });
     }
 
     if (existingDevice) {
+      // Generate token from existing device's stored serial
+      let secretToken: string;
+      try {
+        secretToken = generateDeterministicToken(existingDevice.serialNumber);
+      } catch (error) {
+        console.error('Token generation failed - SESSION_SECRET not configured:', error);
+        return NextResponse.json({
+          success: false,
+          error: 'Server configuration error',
+        }, { status: 500 });
+      }
       let updated = false;
       
       if (displayName && displayName !== existingDevice.displayName) {
@@ -241,16 +255,34 @@ export async function POST(request: NextRequest) {
       }, { status: 429 });
     }
 
-    const deviceId = generateSecureToken();
-    const tokenHash = hashToken(secretToken);
+    const newDeviceId = generateSecureToken();
+    
+    // For simulators, generate unique serial to prevent account sharing
+    const effectiveSerialNumber = isSimulator 
+      ? `SIMULATOR-${generateSecureToken().substring(0, 8)}`
+      : serialNumber;
+    
+    // Generate token based on effective serial
+    let newSecretToken: string;
+    try {
+      newSecretToken = generateDeterministicToken(effectiveSerialNumber);
+    } catch (error) {
+      console.error('Token generation failed - SESSION_SECRET not configured:', error);
+      return NextResponse.json({
+        success: false,
+        error: 'Server configuration error',
+      }, { status: 500 });
+    }
+    
+    const tokenHash = hashToken(newSecretToken);
 
     const effectiveDisplayName = displayName || 'Playdate Device';
     const effectiveAvatar = avatar || 'BIRD1';
     const effectiveIsSimulator = isSimulator || false;
     
     const device = new Device({
-      deviceId,
-      serialNumber,
+      deviceId: newDeviceId,
+      serialNumber: effectiveSerialNumber,
       tokenHash,
       displayName: effectiveDisplayName,
       avatar: effectiveAvatar,
@@ -267,8 +299,8 @@ export async function POST(request: NextRequest) {
       eventType: 'device_register',
       ip,
       userAgent,
-      deviceId,
-      serialNumber,
+      deviceId: newDeviceId,
+      serialNumber: effectiveSerialNumber,
       endpoint: '/api/register',
       method: 'POST',
       success: true,
@@ -278,8 +310,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       registered: false,
-      deviceId,
-      secretToken,
+      deviceId: newDeviceId,
+      secretToken: newSecretToken,
       displayName: effectiveDisplayName,
       avatar: effectiveAvatar,
       isSimulator: effectiveIsSimulator,
