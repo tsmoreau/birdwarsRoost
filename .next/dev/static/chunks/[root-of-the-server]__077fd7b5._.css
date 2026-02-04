@@ -655,6 +655,10 @@ h1, h2, h3 {
   max-height: 100vh;
 }
 
+.min-h-\[80px\] {
+  min-height: 80px;
+}
+
 .min-h-screen {
   min-height: 100vh;
 }
@@ -1038,6 +1042,10 @@ h1, h2, h3 {
   border-color: hsl(var(--foreground) / var(--tw-border-opacity, 1));
 }
 
+.border-green-500\/20 {
+  border-color: #22c55e33;
+}
+
 .border-input {
   --tw-border-opacity: 1;
   border-color: hsl(var(--input) / var(--tw-border-opacity, 1));
@@ -1053,6 +1061,10 @@ h1, h2, h3 {
   border-color: hsl(var(--primary) / var(--tw-border-opacity, 1));
 }
 
+.border-red-500\/20 {
+  border-color: #ef444433;
+}
+
 .border-secondary {
   --tw-border-opacity: 1;
   border-color: hsl(var(--secondary) / var(--tw-border-opacity, 1));
@@ -1060,14 +1072,6 @@ h1, h2, h3 {
 
 .border-transparent {
   border-color: #0000;
-}
-
-.border-green-500\/20 {
-  border-color: #22c55e33;
-}
-
-.border-red-500\/20 {
-  border-color: #ef444433;
 }
 
 .border-yellow-500\/20 {
@@ -1125,6 +1129,10 @@ h1, h2, h3 {
   background-color: rgb(34 197 94 / var(--tw-bg-opacity, 1));
 }
 
+.bg-green-500\/10 {
+  background-color: #22c55e1a;
+}
+
 .bg-muted {
   --tw-bg-opacity: 1;
   background-color: hsl(var(--muted) / var(--tw-bg-opacity, 1));
@@ -1158,6 +1166,10 @@ h1, h2, h3 {
   background-color: rgb(239 68 68 / var(--tw-bg-opacity, 1));
 }
 
+.bg-red-500\/10 {
+  background-color: #ef44441a;
+}
+
 .bg-secondary {
   --tw-bg-opacity: 1;
   background-color: hsl(var(--secondary) / var(--tw-bg-opacity, 1));
@@ -1170,14 +1182,6 @@ h1, h2, h3 {
 .bg-yellow-500 {
   --tw-bg-opacity: 1;
   background-color: rgb(234 179 8 / var(--tw-bg-opacity, 1));
-}
-
-.bg-green-500\/10 {
-  background-color: #22c55e1a;
-}
-
-.bg-red-500\/10 {
-  background-color: #ef44441a;
 }
 
 .bg-yellow-500\/10 {
@@ -1776,6 +1780,10 @@ h1, h2, h3 {
   border-color: hsl(var(--foreground) / .2);
 }
 
+.hover\:bg-destructive\/90:hover {
+  background-color: hsl(var(--destructive) / .9);
+}
+
 .hover\:bg-muted\/50:hover {
   background-color: hsl(var(--muted) / .5);
 }
@@ -1783,10 +1791,6 @@ h1, h2, h3 {
 .hover\:bg-secondary:hover {
   --tw-bg-opacity: 1;
   background-color: hsl(var(--secondary) / var(--tw-bg-opacity, 1));
-}
-
-.hover\:bg-destructive\/90:hover {
-  background-color: hsl(var(--destructive) / .9);
 }
 
 .hover\:text-foreground:hover {
@@ -1924,6 +1928,14 @@ h1, h2, h3 {
 
 .group.destructive .group-\[\.destructive\]\:focus\:ring-offset-red-600:focus {
   --tw-ring-offset-color: #dc2626;
+}
+
+.peer:disabled ~ .peer-disabled\:cursor-not-allowed {
+  cursor: not-allowed;
+}
+
+.peer:disabled ~ .peer-disabled\:opacity-70 {
+  opacity: .7;
 }
 
 .data-\[disabled\]\:pointer-events-none[data-disabled] {
