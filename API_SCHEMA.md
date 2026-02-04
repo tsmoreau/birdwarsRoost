@@ -100,19 +100,18 @@ active  → completed  (forfeit via 7-day timeout, checked on GET /api/mybattles
 
 #### POST /api/register
 
-Register a new device, recover an existing account, verify registration, or update profile.
-
-This endpoint uses **deterministic tokens** based on the device serial number. The same serial number always produces the same token, enabling automatic account recovery if local data is deleted.
+Register a new device, verify registration, or update profile.
 
 **Authentication:** Optional (Bearer token)
 
 **Request Body:**
 ```json
 {
-  "serialNumber": "PDU1-Y123456",  // required, device serial number
+  "serialNumber": "PDU1-Y123456",  // optional, device serial number (kept for future use)
   "displayName": "My Playdate",   // optional, max 100 chars
   "avatar": "BIRD1",              // optional, BIRD1-BIRD12 (default: BIRD1)
-  "isSimulator": false            // optional, boolean (default: false)
+  "isSimulator": false,           // optional, boolean (default: false)
+  "deviceId": "abc123..."         // optional, for device recovery via stored deviceId
 }
 ```
 
@@ -120,13 +119,13 @@ This endpoint uses **deterministic tokens** based on the device serial number. T
 BIRD1, BIRD2, BIRD3, BIRD4, BIRD5, BIRD6, BIRD7, BIRD8, BIRD9, BIRD10, BIRD11, BIRD12
 
 **Notes:**
-- `serialNumber` is the Playdate device serial (use `playdate.serialNumber` from the SDK)
-- `isSimulator` should be set to `true` when registering from the Playdate Simulator (use `playdate.isSimulator` from the SDK)
-- For simulators, generate a unique identifier and use it consistently as the serialNumber
+- `serialNumber` is optional and kept for future use
+- `isSimulator` should be set to `true` when registering from the Playdate Simulator
+- `deviceId` can be passed to recover an existing account if the client has stored it
 
 ---
 
-**Scenario 1: New Registration (serial number not in database)**
+**Scenario 1: New Registration**
 
 **Success Response (201):**
 ```json
@@ -138,32 +137,38 @@ BIRD1, BIRD2, BIRD3, BIRD4, BIRD5, BIRD6, BIRD7, BIRD8, BIRD9, BIRD10, BIRD11, B
   "displayName": "My Playdate",
   "avatar": "BIRD1",
   "isSimulator": false,
+  "minClientVersion": "0.0.1",
   "message": "Device registered successfully."
 }
 ```
 
 ---
 
-**Scenario 2: Account Recovery (serial number exists in database)**
+**Scenario 2: Account Recovery Pending (admin created recovery link)**
 
-When a device registers with a serial number that already exists, the account is automatically recovered.
+When an admin has created a recovery link for this device, the response includes recovery information:
 
-**Success Response (200):**
+**Success Response (200/201):**
 ```json
 {
   "success": true,
   "registered": true,
-  "deviceId": "a1b2c3d4e5f6...",
-  "secretToken": "abc123xyz...",
+  "deviceId": "new-device-id...",
   "displayName": "My Playdate",
   "avatar": "BIRD1",
   "isSimulator": false,
-  "registeredAt": "2025-01-23T12:00:00.000Z",
-  "message": "Device recovered successfully."
+  "minClientVersion": "0.0.1",
+  "message": "Account recovery is pending.",
+  "recoveryPending": true,
+  "targetDeviceId": "old-device-id-to-recover..."
 }
 ```
 
-**Key difference from new registration:** The token is recalculated deterministically from the serial number and returned, allowing the device to resume using its existing account.
+**Important:** When `recoveryPending: true` is present, the client should:
+1. Block normal gameplay
+2. Show a recovery screen to the user
+3. Call `POST /api/recover` with `newDeviceId` and `targetDeviceId`
+4. Replace local deviceId with the `targetDeviceId` and clear cached battle data
 
 ---
 
@@ -220,10 +225,65 @@ Content-Type: application/json
 - `500` - Server error
 
 **Client Flow:**
-1. On first launch, call `POST /api/register` with `serialNumber` → store returned `secretToken`
+1. On first launch, call `POST /api/register` → store returned `deviceId` and `secretToken`
 2. On subsequent launches, call `POST /api/register` with stored token in Authorization header → verify registration
-3. If local data is lost, call `POST /api/register` with `serialNumber` again → account is automatically recovered with same token
-4. To change name, call with token + `serialNumber` + new `displayName` in body
+3. Check for `recoveryPending: true` in response - if present, show recovery screen and call `/api/recover`
+4. To change name, call with token + new `displayName` in body
+
+**Account Recovery Flow (via admin):**
+1. User loses device data but has QR code backup of their deviceId
+2. User contacts admin with QR code
+3. Admin creates recovery link in dashboard (old deviceId → new deviceId)
+4. User's next login returns `recoveryPending: true` with `targetDeviceId`
+5. Client shows recovery screen and calls `POST /api/recover`
+6. Client replaces local deviceId with `targetDeviceId` and clears cached data
+
+---
+
+#### POST /api/recover
+
+Complete an account recovery that was initiated by an admin.
+
+**Authentication:** Required (Bearer token from the NEW device)
+
+```
+Authorization: Bearer <new-device-secret-token>
+```
+
+**Request Body:**
+```json
+{
+  "targetDeviceId": "old-device-id-to-recover..."
+}
+```
+
+**Success Response (200):**
+```json
+{
+  "success": true,
+  "message": "Account recovery completed successfully",
+  "deviceId": "old-device-id...",
+  "secretToken": "new-token-for-recovered-account...",
+  "displayName": "Recovered Player Name",
+  "avatar": "BIRD1"
+}
+```
+
+**Security:** 
+- The Bearer token must belong to the new device that was linked by the admin
+- On successful recovery, the new device is deactivated and a new token is issued for the recovered device
+
+**Error Responses:**
+- `400` - Missing required fields
+- `401` - Authentication required (no/invalid token)
+- `404` - No pending recovery found for this device combination
+- `500` - Server error
+
+**Client Implementation:**
+After receiving a successful response, the client should:
+1. Store the returned `deviceId` as the new local deviceId
+2. Store the returned `secretToken` as the new authentication token
+3. Clear any cached battle data from the abandoned new profile
 
 ---
 

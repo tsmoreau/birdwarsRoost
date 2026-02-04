@@ -6,6 +6,7 @@ import { connectToDatabase } from '@/lib/mongodb';
 import { Device, VALID_AVATARS, BirdAvatar } from '@/models/Device';
 import { Battle } from '@/models/Battle';
 import { Turn } from '@/models/Turn';
+import { DeviceRecovery } from '@/models/DeviceRecovery';
 import { revalidatePath } from 'next/cache';
 
 const ADMIN_EMAILS = (process.env.ADMIN_EMAILS || '').split(',').map(e => e.trim().toLowerCase()).filter(Boolean);
@@ -505,5 +506,140 @@ export async function getAdminStats(): Promise<{
   } catch (error) {
     console.error('Error fetching admin stats:', error);
     throw new Error('Failed to fetch admin stats');
+  }
+}
+
+export interface AdminRecoveryDetails {
+  id: string;
+  oldDeviceId: string;
+  oldDisplayName: string;
+  newDeviceId: string;
+  newDisplayName: string;
+  status: 'pending' | 'completed' | 'cancelled';
+  createdAt: string;
+  completedAt: string | null;
+  adminNotes: string | null;
+}
+
+export async function getAllRecoveries(): Promise<AdminRecoveryDetails[]> {
+  const auth = await requireAdminAuth();
+  if (!auth.success) {
+    throw new Error(auth.error);
+  }
+
+  try {
+    await connectToDatabase();
+
+    const recoveries = await DeviceRecovery.find({}).sort({ createdAt: -1 });
+    
+    const deviceIds = new Set<string>();
+    recoveries.forEach(r => {
+      deviceIds.add(r.oldDeviceId);
+      deviceIds.add(r.newDeviceId);
+    });
+    
+    const devices = await Device.find({ deviceId: { $in: Array.from(deviceIds) } });
+    const deviceMap = new Map(devices.map(d => [d.deviceId, d.displayName]));
+
+    return recoveries.map(r => ({
+      id: r._id.toString(),
+      oldDeviceId: r.oldDeviceId,
+      oldDisplayName: deviceMap.get(r.oldDeviceId) || 'Unknown',
+      newDeviceId: r.newDeviceId,
+      newDisplayName: deviceMap.get(r.newDeviceId) || 'Unknown',
+      status: r.status,
+      createdAt: r.createdAt.toISOString(),
+      completedAt: r.completedAt?.toISOString() || null,
+      adminNotes: r.adminNotes || null,
+    }));
+  } catch (error) {
+    console.error('Error fetching recoveries:', error);
+    throw new Error('Failed to fetch recoveries');
+  }
+}
+
+export async function createRecoveryLink(
+  oldDeviceId: string,
+  newDeviceId: string,
+  adminNotes?: string
+): Promise<{ success: boolean; error?: string }> {
+  const auth = await requireAdminAuth();
+  if (!auth.success) {
+    return { success: false, error: auth.error };
+  }
+
+  try {
+    await connectToDatabase();
+
+    const [oldDevice, newDevice] = await Promise.all([
+      Device.findOne({ deviceId: oldDeviceId }),
+      Device.findOne({ deviceId: newDeviceId }),
+    ]);
+
+    if (!oldDevice) {
+      return { success: false, error: 'Original device ID not found' };
+    }
+
+    if (!newDevice) {
+      return { success: false, error: 'New device ID not found' };
+    }
+
+    if (oldDeviceId === newDeviceId) {
+      return { success: false, error: 'Cannot create recovery link to the same device' };
+    }
+
+    const existingRecovery = await DeviceRecovery.findOne({
+      newDeviceId,
+      status: 'pending',
+    });
+
+    if (existingRecovery) {
+      return { success: false, error: 'A pending recovery already exists for the new device' };
+    }
+
+    await DeviceRecovery.create({
+      oldDeviceId,
+      newDeviceId,
+      status: 'pending',
+      adminNotes: adminNotes || undefined,
+    });
+
+    revalidatePath('/dashboard');
+    return { success: true };
+  } catch (error) {
+    console.error('Error creating recovery link:', error);
+    return { success: false, error: 'Failed to create recovery link' };
+  }
+}
+
+export async function cancelRecovery(
+  recoveryId: string
+): Promise<{ success: boolean; error?: string }> {
+  const auth = await requireAdminAuth();
+  if (!auth.success) {
+    return { success: false, error: auth.error };
+  }
+
+  try {
+    await connectToDatabase();
+
+    const recovery = await DeviceRecovery.findById(recoveryId);
+
+    if (!recovery) {
+      return { success: false, error: 'Recovery not found' };
+    }
+
+    if (recovery.status !== 'pending') {
+      return { success: false, error: 'Recovery is not in pending state' };
+    }
+
+    recovery.status = 'cancelled';
+    await recovery.save();
+
+    revalidatePath('/dashboard');
+    return { success: true };
+  } catch (error) {
+    console.error('Error cancelling recovery:', error);
+    return { success: false, error: 'Failed to cancel recovery' };
   }
 }

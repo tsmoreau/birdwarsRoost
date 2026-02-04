@@ -234,8 +234,8 @@ const DeviceSchema = new __TURBOPACK__imported__module__$5b$externals$5d2f$mongo
     },
     serialNumber: {
         type: String,
-        required: true,
-        unique: true,
+        required: false,
+        sparse: true,
         index: true
     },
     tokenHash: {

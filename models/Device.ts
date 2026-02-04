@@ -9,7 +9,7 @@ export type BirdAvatar = typeof VALID_AVATARS[number];
 
 export interface IDevice {
   deviceId: string;
-  serialNumber: string;
+  serialNumber?: string;
   tokenHash: string;
   displayName: string;
   avatar: BirdAvatar;
@@ -31,8 +31,8 @@ const DeviceSchema = new Schema<IDeviceDocument>({
   },
   serialNumber: {
     type: String,
-    required: true,
-    unique: true,
+    required: false,
+    sparse: true,
     index: true
   },
   tokenHash: { 

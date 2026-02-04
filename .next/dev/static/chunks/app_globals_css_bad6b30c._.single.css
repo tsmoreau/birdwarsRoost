@@ -980,6 +980,18 @@ h1, h2, h3 {
   border-color: #0000;
 }
 
+.border-green-500\/20 {
+  border-color: #22c55e33;
+}
+
+.border-red-500\/20 {
+  border-color: #ef444433;
+}
+
+.border-yellow-500\/20 {
+  border-color: #eab30833;
+}
+
 .bg-background {
   --tw-bg-opacity: 1;
   background-color: hsl(var(--background) / var(--tw-bg-opacity, 1));
@@ -1076,6 +1088,18 @@ h1, h2, h3 {
 .bg-yellow-500 {
   --tw-bg-opacity: 1;
   background-color: rgb(234 179 8 / var(--tw-bg-opacity, 1));
+}
+
+.bg-green-500\/10 {
+  background-color: #22c55e1a;
+}
+
+.bg-red-500\/10 {
+  background-color: #ef44441a;
+}
+
+.bg-yellow-500\/10 {
+  background-color: #eab3081a;
 }
 
 .object-contain {
@@ -1438,6 +1462,11 @@ h1, h2, h3 {
   color: rgb(234 179 8 / var(--tw-text-opacity, 1));
 }
 
+.text-yellow-600 {
+  --tw-text-opacity: 1;
+  color: rgb(202 138 4 / var(--tw-text-opacity, 1));
+}
+
 .no-underline {
   text-decoration-line: none;
 }
@@ -1672,6 +1701,10 @@ h1, h2, h3 {
 .hover\:bg-secondary:hover {
   --tw-bg-opacity: 1;
   background-color: hsl(var(--secondary) / var(--tw-bg-opacity, 1));
+}
+
+.hover\:bg-destructive\/90:hover {
+  background-color: hsl(var(--destructive) / .9);
 }
 
 .hover\:text-foreground:hover {

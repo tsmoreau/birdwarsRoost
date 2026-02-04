@@ -1,15 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
 import { Device, VALID_AVATARS } from '@/models/Device';
-import { generateDeterministicToken, generateSecureToken, hashToken } from '@/lib/auth';
+import { DeviceRecovery } from '@/models/DeviceRecovery';
+import { generateSecureToken, hashToken } from '@/lib/auth';
 import { logAuditEvent, getClientIp, getUserAgent } from '@/lib/auditLogger';
 import { z } from 'zod';
 
 const MIN_CLIENT_VERSION = process.env.MIN_CLIENT_VERSION || '0.0.1';
 
-// Schema for new registrations - serialNumber required
+// Schema for new registrations - serialNumber now optional (kept for future use)
 const newRegistrationSchema = z.object({
-  serialNumber: z.string().min(1).max(100),
+  serialNumber: z.string().min(1).max(100).optional(),
   displayName: z.string().min(1).max(100).optional(),
   avatar: z.enum(VALID_AVATARS).optional(),
   isSimulator: z.boolean().optional(),
@@ -129,7 +130,29 @@ export async function POST(request: NextRequest) {
         details: updated ? 'Profile update via token' : 'Token verification',
       });
 
-      // Return the updated values (from updateFields if changed, otherwise from original document)
+      const pendingRecovery = await DeviceRecovery.findOne({
+        newDeviceId: existingDeviceByToken.deviceId,
+        status: 'pending',
+      });
+
+      if (pendingRecovery) {
+        return NextResponse.json({
+          success: true,
+          registered: true,
+          deviceId: existingDeviceByToken.deviceId,
+          displayName: (updateFields.displayName as string) || existingDeviceByToken.displayName,
+          avatar: (updateFields.avatar as string) || existingDeviceByToken.avatar,
+          isSimulator: updateFields.isSimulator !== undefined 
+            ? updateFields.isSimulator 
+            : existingDeviceByToken.isSimulator,
+          registeredAt: existingDeviceByToken.registeredAt,
+          minClientVersion: MIN_CLIENT_VERSION,
+          message: 'Account recovery is pending.',
+          recoveryPending: true,
+          targetDeviceId: pendingRecovery.oldDeviceId,
+        }, { status: 200 });
+      }
+
       return NextResponse.json({
         success: true,
         registered: true,
@@ -149,17 +172,7 @@ export async function POST(request: NextRequest) {
 
     await connectToDatabase();
     
-    // At this point, serialNumber is guaranteed to exist because:
-    // - If user was authenticated, we already returned above
-    // - If not authenticated, newRegistrationSchema requires serialNumber
-    if (!serialNumber) {
-      return NextResponse.json({
-        success: false,
-        error: 'Serial number is required for new registrations',
-      }, { status: 400 });
-    }
-    
-    // Step 1: Check deviceId first (if provided)
+    // Check for existing device by deviceId only (serialNumber recovery deprecated)
     let existingDevice = null;
     if (deviceId) {
       existingDevice = await Device.findOne({ 
@@ -167,27 +180,8 @@ export async function POST(request: NextRequest) {
         isActive: true 
       });
     }
-    
-    // Step 2: Fall back to serialNumber lookup
-    if (!existingDevice) {
-      existingDevice = await Device.findOne({ 
-        serialNumber: serialNumber,
-        isActive: true 
-      });
-    }
 
     if (existingDevice) {
-      // Generate token from existing device's stored serial
-      let secretToken: string;
-      try {
-        secretToken = generateDeterministicToken(existingDevice.serialNumber);
-      } catch (error) {
-        console.error('Token generation failed - SESSION_SECRET not configured:', error);
-        return NextResponse.json({
-          success: false,
-          error: 'Server configuration error',
-        }, { status: 500 });
-      }
       let updated = false;
       
       if (displayName && displayName !== existingDevice.displayName) {
@@ -213,18 +207,16 @@ export async function POST(request: NextRequest) {
         ip,
         userAgent,
         deviceId: existingDevice.deviceId,
-        serialNumber: existingDevice.serialNumber,
         endpoint: '/api/register',
         method: 'POST',
         success: true,
-        details: updated ? 'Account recovery with profile update' : 'Account recovery',
+        details: updated ? 'Account recovery with profile update' : 'Account recovery via deviceId',
       });
 
       return NextResponse.json({
         success: true,
         registered: true,
         deviceId: existingDevice.deviceId,
-        secretToken,
         displayName: existingDevice.displayName,
         avatar: existingDevice.avatar,
         isSimulator: existingDevice.isSimulator,
@@ -242,7 +234,6 @@ export async function POST(request: NextRequest) {
         eventType: 'device_register',
         ip,
         userAgent,
-        serialNumber,
         endpoint: '/api/register',
         method: 'POST',
         success: false,
@@ -257,23 +248,8 @@ export async function POST(request: NextRequest) {
 
     const newDeviceId = generateSecureToken();
     
-    // For simulators, generate unique serial to prevent account sharing
-    const effectiveSerialNumber = isSimulator 
-      ? `SIMULATOR-${generateSecureToken().substring(0, 8)}`
-      : serialNumber;
-    
-    // Generate token based on effective serial
-    let newSecretToken: string;
-    try {
-      newSecretToken = generateDeterministicToken(effectiveSerialNumber);
-    } catch (error) {
-      console.error('Token generation failed - SESSION_SECRET not configured:', error);
-      return NextResponse.json({
-        success: false,
-        error: 'Server configuration error',
-      }, { status: 500 });
-    }
-    
+    // Generate random token (no longer deterministic from serial)
+    const newSecretToken = generateSecureToken();
     const tokenHash = hashToken(newSecretToken);
 
     const effectiveDisplayName = displayName || 'Playdate Device';
@@ -282,7 +258,7 @@ export async function POST(request: NextRequest) {
     
     const device = new Device({
       deviceId: newDeviceId,
-      serialNumber: effectiveSerialNumber,
+      serialNumber: serialNumber || undefined,
       tokenHash,
       displayName: effectiveDisplayName,
       avatar: effectiveAvatar,
@@ -300,12 +276,32 @@ export async function POST(request: NextRequest) {
       ip,
       userAgent,
       deviceId: newDeviceId,
-      serialNumber: effectiveSerialNumber,
       endpoint: '/api/register',
       method: 'POST',
       success: true,
       details: `New device registered: ${effectiveDisplayName}`,
     });
+
+    const pendingRecovery = await DeviceRecovery.findOne({
+      newDeviceId: newDeviceId,
+      status: 'pending',
+    });
+
+    if (pendingRecovery) {
+      return NextResponse.json({
+        success: true,
+        registered: false,
+        deviceId: newDeviceId,
+        secretToken: newSecretToken,
+        displayName: effectiveDisplayName,
+        avatar: effectiveAvatar,
+        isSimulator: effectiveIsSimulator,
+        minClientVersion: MIN_CLIENT_VERSION,
+        message: 'Device registered successfully.',
+        recoveryPending: true,
+        targetDeviceId: pendingRecovery.oldDeviceId,
+      }, { status: 201 });
+    }
 
     return NextResponse.json({
       success: true,

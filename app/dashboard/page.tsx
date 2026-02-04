@@ -10,13 +10,15 @@ import {
   Trophy,
   Users,
   AlertTriangle,
-  Shield
+  Shield,
+  RefreshCw
 } from 'lucide-react';
 import Nav from '@/components/Nav';
 import PlayerManagement from '@/components/PlayerManagement';
 import BattleManagement from '@/components/BattleManagement';
 import AuditLogs from '@/components/AuditLogs';
-import { getAdminStats, getAllPlayers, getAllBattles, getAuditLogs } from '@/app/actions/admin';
+import RecoveryManagement from '@/components/RecoveryManagement';
+import { getAdminStats, getAllPlayers, getAllBattles, getAuditLogs, getAllRecoveries } from '@/app/actions/admin';
 import { RefreshButton } from '@/components/RefreshButton';
 
 const ADMIN_EMAILS = (process.env.ADMIN_EMAILS || '').split(',').map(e => e.trim().toLowerCase()).filter(Boolean);
@@ -39,6 +41,7 @@ export default async function DashboardPage() {
   const players = await getAllPlayers();
   const battles = await getAllBattles();
   const auditLogs = await getAuditLogs({ limit: 100 });
+  const recoveries = await getAllRecoveries();
 
   const isAdminConfigured = ADMIN_EMAILS.length > 0;
 
@@ -88,6 +91,10 @@ export default async function DashboardPage() {
             <TabsTrigger value="audit" data-testid="tab-audit">
               <Shield className="w-4 h-4 mr-2" />
               AUDIT LOG
+            </TabsTrigger>
+            <TabsTrigger value="recovery" data-testid="tab-recovery">
+              <RefreshCw className="w-4 h-4 mr-2" />
+              RECOVERY
             </TabsTrigger>
           </TabsList>
 
@@ -207,6 +214,10 @@ export default async function DashboardPage() {
 
           <TabsContent value="audit">
             <AuditLogs logs={auditLogs} />
+          </TabsContent>
+
+          <TabsContent value="recovery">
+            <RecoveryManagement recoveries={recoveries} />
           </TabsContent>
         </Tabs>
       </main>
