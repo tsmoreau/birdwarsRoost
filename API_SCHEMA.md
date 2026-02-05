@@ -763,9 +763,13 @@ Get a lightweight list of battles where it's the authenticated device's turn. Us
 
 #### POST /api/turns
 
-Submit a turn for an active battle.
+Submit a turn for a battle. Player 1 can submit turns while the battle is still `pending` (before player 2 joins). Once player 2 joins and the battle becomes `active`, normal turn-based play continues.
 
 **Authentication:** Required
+
+**Status Requirements:**
+- `pending`: Only player 1 (currentPlayerIndex === 0) can submit turns
+- `active`: The current player (based on currentPlayerIndex) can submit turns
 
 **Request Body:**
 ```json

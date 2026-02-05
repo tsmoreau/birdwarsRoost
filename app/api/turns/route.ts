@@ -140,10 +140,17 @@ export async function POST(request: NextRequest) {
       }, { status: 404 });
     }
 
-    if (battle.status !== 'active') {
+    if (!['pending', 'active'].includes(battle.status)) {
       return NextResponse.json({
         success: false,
         error: `Battle is not active. Current status: ${battle.status}`,
+      }, { status: 400 });
+    }
+
+    if (battle.status === 'pending' && battle.currentPlayerIndex !== 0) {
+      return NextResponse.json({
+        success: false,
+        error: 'Invalid game state: pending battle must be on player 1 turn',
       }, { status: 400 });
     }
 
